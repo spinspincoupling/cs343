@@ -74,6 +74,7 @@ int main( int argc, char * argv[] ) {
             rc += 1;
             break;
         } //switch
+        status = 0;
     } // for
     cout << "normal result " << rv << " exception results " << ev1 << ' ' << ev2 << ' ' << ev3 << endl;
     cout << "calls "  << rc << " exceptions " << ec1 << ' ' << ec2 << ' ' << ec3 << endl;
