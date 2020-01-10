@@ -8,15 +8,24 @@ int eperiod = 10000;                                    // error period
 int status = 0;
 
 double rtn1( double i ) {
-    if ( rand() % eperiod == 0 ) status = 1;
+    if ( rand() % eperiod == 0 ) {
+        status = 1;
+        return i;
+    }
     return i;
 }
 double rtn2( double i  ) {
-    if ( rand() % eperiod == 0 ) status = 2;
+    if ( rand() % eperiod == 0 ) {
+        status = 2;
+        return i;
+    }
     return rtn1( i ) + i;
 }
 double rtn3( double i  ) {
-    if ( rand() % eperiod == 0 ) status = 3;
+    if ( rand() % eperiod == 0 ) {
+        status = 3;
+        return i;
+    }
     return rtn2( i ) + i;
 }
 int main( int argc, char * argv[] ) {
