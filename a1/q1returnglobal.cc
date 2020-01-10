@@ -4,25 +4,19 @@
 using namespace std;
 #include <unistd.h>                                     // access: getpid
 
-struct Er1 { short int code; };
-struct Er2 { int code; };
-struct Er3 { long int code; };
-
 int eperiod = 10000;                                    // error period
 int status = 0;
 
 double rtn1( double i ) {
-    if ( rand() % eperiod == 0 ){
-        status = 1;
-    }
+    if ( rand() % eperiod == 0 ) status = 1;
     return i;
 }
 double rtn2( double i  ) {
-    if ( rand() % eperiod == 0 ) throw Er2{ rand() };
+    if ( rand() % eperiod == 0 ) status = 2;
     return rtn1( i ) + i;
 }
 double rtn3( double i  ) {
-    if ( rand() % eperiod == 0 ) throw Er3{ rand() };
+    if ( rand() % eperiod == 0 ) status = 3;
     return rtn2( i ) + i;
 }
 int main( int argc, char * argv[] ) {
@@ -52,12 +46,25 @@ int main( int argc, char * argv[] ) {
     int rc = 0, ec1 = 0, ec2 = 0, ec3 = 0;
 
     for ( int i = 0; i < times; i += 1 ) {
-        int result = 
-        try { rv += rtn3( i ); rc += 1; }
-        // analyse error
-        catch( Er1 ev ) { ev1 += ev.code; ec1 += 1; }
-        catch( Er2 ev ) { ev2 += ev.code; ec2 += 1; }
-        catch( Er3 ev ) { ev3 += ev.code; ec3 += 1; }
+        double result = rtn3( i );
+        switch ( status ) {
+        case 1 :
+            ev1 += (short int)rand(); 
+            ec1 += 1; 
+            break;
+        case 2 :
+            ev2 += rand(); 
+            ec2 += 1;
+            break;
+        case 3 :
+            ev3 += (long int)rand(); 
+            ec3 += 1;
+            break;
+        default:
+            rv += result;
+            rc += 1;
+            break;
+        } //switch
     } // for
     cout << "normal result " << rv << " exception results " << ev1 << ' ' << ev2 << ' ' << ev3 << endl;
     cout << "calls "  << rc << " exceptions " << ec1 << ' ' << ec2 << ' ' << ec3 << endl;
