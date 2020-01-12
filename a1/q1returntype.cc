@@ -3,6 +3,7 @@
 #include <cstring>                                      // access: strcmp
 using namespace std;
 #include <unistd.h>                                     // access: getpid
+#include <variant>
 
 struct Er1 { short int code; };
 struct Er2 { int code; };
@@ -10,17 +11,22 @@ struct Er3 { long int code; };
 
 int eperiod = 10000;                                    // error period
 
-double rtn1( double i ) {
-    if ( rand() % eperiod == 0 ) throw Er1{ (short int)rand() };
+variant<double, Er1> rtn1( double i ) {
+    if ( rand() % eperiod == 0 ) return Er1{ (short int)rand() };
     return i;
 }
-double rtn2( double i  ) {
-    if ( rand() % eperiod == 0 ) throw Er2{ rand() };
-    return rtn1( i ) + i;
+variant<double, Er1, Er2> rtn2( double i  ) {
+    if ( rand() % eperiod == 0 ) return Er2{ rand() };
+    variant<double, Er1> rtn1_result = rtn1( i );
+    if(holds_alternative<Er1>(rtn1_result)) return get<Er1>(rtn1_result);
+    return get<double>(rtn1_result) + i;
 }
-double rtn3( double i  ) {
-    if ( rand() % eperiod == 0 ) throw Er3{ rand() };
-    return rtn2( i ) + i;
+variant<double, Er1, Er2, Er3> rtn3( double i  ) {
+    if ( rand() % eperiod == 0 ) return Er3{ rand() };
+    variant<double, Er1, Er2> rtn2_result = rtn2( i );
+    if(holds_alternative<Er1>(rtn2_result)) return get<Er1>(rtn2_result);
+    if(holds_alternative<Er2>(rtn2_result)) return get<Er2>(rtn2_result);
+    return get<double>(rtn2_result) + i;
 }
 int main( int argc, char * argv[] ) {
     int times = 100000000, seed = getpid();             // default values
@@ -49,11 +55,21 @@ int main( int argc, char * argv[] ) {
     int rc = 0, ec1 = 0, ec2 = 0, ec3 = 0;
 
     for ( int i = 0; i < times; i += 1 ) {
-        try { rv += rtn3( i ); rc += 1; }
+        variant<double, Er1, Er2, Er3> result = rtn3( i );
         // analyse error
-        catch( Er1 ev ) { ev1 += ev.code; ec1 += 1; }
-        catch( Er2 ev ) { ev2 += ev.code; ec2 += 1; }
-        catch( Er3 ev ) { ev3 += ev.code; ec3 += 1; }
+        if(holds_alternative<Er1>(result)){
+            ev1 += get<Er1>(result).code;
+            ec1 += 1;
+        } else if(holds_alternative<Er2>(result)){
+            ev2 += get<Er2>(result).code;
+            ec2 += 1;
+        } else if(holds_alternative<Er3>(result)){
+            ev3 += get<Er3>(result).code;
+            ec3 += 1;
+        } else{
+            rv += get<double>(result);
+            rc += 1;
+        }
     } // for
     cout << "normal result " << rv << " exception results " << ev1 << ' ' << ev2 << ' ' << ev3 << endl;
     cout << "calls "  << rc << " exceptions " << ec1 << ' ' << ec2 << ' ' << ec3 << endl;
