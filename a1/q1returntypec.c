@@ -119,7 +119,7 @@ int main( int argc, char * argv[] ) {
             break;
         }
     } // for
-    printf("normal result %d exception results %d %d %d\n", rv, ev1, ev2, ev3);
+    printf("normal result %.10e exception results %d %d %d\n", rv, ev1, ev2, ev3);
     printf("calls %d exceptions %d %d %d\n", rc, ec1, ec2, ec3);
     // cout << "normal result " << rv << " exception results " << ev1 << ' ' << ev2 << ' ' << ev3 << endl;
     // cout << "calls "  << rc << " exceptions " << ec1 << ' ' << ec2 << ' ' << ec3 << endl;
