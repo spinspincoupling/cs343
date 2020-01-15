@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>                                      // access: rand, srand
 #include <string.h>                                      // access: strcmp
-//using namespace std;
 #include <unistd.h>                                     // access: getpid
 
 struct Er1 { short int code; };
@@ -25,7 +24,6 @@ int eperiod = 10000;                                    // error period
 struct return_code rtn1( double i ) {
     struct return_code returnValue;
     if ( rand() % eperiod == 0 ) {
-        //struct Er1 er1 = Er1 { .code = (short int)rand() };
         returnValue.dtype = d_Er1;
         returnValue.data.er1.code =  (short int)rand() ;
     }
@@ -67,23 +65,18 @@ int main( int argc, char * argv[] ) {
     // try {
         switch ( argc ) {
           case 4: if ( strcmp( argv[3], "d" ) != 0 ) {  // default ?
-                seed = atoi( argv[3] ); if ( seed <= 0 ) goto L;
+                seed = atoi( argv[3] ); if ( seed <= 0 ) goto EX;
             } // if
           case 3: if ( strcmp( argv[2], "d" ) != 0 ) {  // default ?
-                eperiod = atoi( argv[2] ); if ( eperiod <= 0 ) goto L;
+                eperiod = atoi( argv[2] ); if ( eperiod <= 0 ) goto EX;
             } // if
           case 2: if ( strcmp( argv[1], "d" ) != 0 ) {  // default ?
-                times = atoi( argv[1] ); if ( times <= 0 ) goto L;
+                times = atoi( argv[1] ); if ( times <= 0 ) goto EX;
             } // if
           case 1: break;                                // use all defaults
-          L: default: fprintf(stderr, "Usage: %s [ times > 0 | d [ eperiod > 0 | d [ seed > 0 ] ] ]\n", argv[0]);
+          EX: default: fprintf(stderr, "Usage: %s [ times > 0 | d [ eperiod > 0 | d [ seed > 0 ] ] ]\n", argv[0]);
                 exit( EXIT_FAILURE );
         } // switch
-    // } catch( ... ) {
-        // fprintf(stderr, "Usage: %c [ times > 0 | d [ eperiod > 0 | d [ seed > 0 ] ] ]\n", argv[0]);
-        // cerr << "Usage: " << argv[0] << " [ times > 0 | d [ eperiod > 0 | d [ seed > 0 ] ] ]" << endl;
-        // exit( EXIT_FAILURE );
-    // } // try
     srand( seed );
 
     double rv = 0.0;
@@ -121,6 +114,4 @@ int main( int argc, char * argv[] ) {
     } // for
     printf("normal result %.5e exception results %d %d %d\n", rv, ev1, ev2, ev3);
     printf("calls %d exceptions %d %d %d\n", rc, ec1, ec2, ec3);
-    // cout << "normal result " << rv << " exception results " << ev1 << ' ' << ev2 << ' ' << ev3 << endl;
-    // cout << "calls "  << rc << " exceptions " << ec1 << ' ' << ec2 << ' ' << ec3 << endl;
 }
