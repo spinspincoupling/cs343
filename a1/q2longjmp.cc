@@ -15,60 +15,43 @@ using namespace std;
 struct E {};                                            // exception type
 PRT( struct T { ~T() { cout << "~"; } }; )
 long int eperiod = 100, excepts = 0, calls = 0;        // exception period
-jmp_buf jumpE1,jumpE2,jumpE3;
-vector<int> stack;
-
-void throwException(){
-    if(stack.size() > 0){
-        if(stack.back() == 1){
-            for (auto n : stack){
-                cout << n << " ";
-            }
-            longjmp(jumpE1, 1);
-        } else {
-            longjmp(jumpE2, 1);
-        }  
-    } else {
-        longjmp(jumpE3, 1);
-    }  
-}
+jmp_buf jumpTo;
 
 long int Ackermann( long int m, long int n ) {
-    //for(;;){
-        calls += 1;
+    calls += 1;
+    jmp_buf jumpToPreviousStack;
+    memcpy(jumpToPreviousStack, jumpTo, sizeof(jmp_buf));
     if ( m == 0 ) {
         if ( rand() % eperiod == 0 ) { 
             PRT( T t; ) excepts += 1; 
-            throwException(); 
+            memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
+            longjmp(jumpTo, 1);
         }
         return n + 1;
     } else if ( n == 0 ) {
-            if(setjmp(jumpE1) == 0) {
-                stack.emplace_back(1);
+            if(setjmp(jumpTo) == 0) {
                 return Ackermann( m - 1, 1 );
             } else {
-                stack.pop_back();
                 PRT( cout << "E1 " << m << " " << n << endl );
                 if ( rand() % eperiod == 0 ) { 
                     PRT( T t; ) excepts += 1; 
-                    throwException();
+                    memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
+                    longjmp(jumpTo, 1);
                 }
             }
     } else {
-            if(setjmp(jumpE2) == 0){
-                stack.emplace_back(2);
+            if(setjmp(jumpTo) == 0){
                 return Ackermann( m - 1, Ackermann( m, n - 1 ) );
             } else {
-                stack.pop_back();
                 PRT( cout << "E2 " << m << " " << n << endl );
                 if ( rand() % eperiod == 0 ) { 
                     PRT( T t; ) excepts += 1; 
-                    throwException();
+                    memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
+                    longjmp(jumpTo, 1);
                 }
             }
     } // if
-    return 0; 
-    //}                                          // recover by returning 0
+    return 0;                                          // recover by returning 0
 }
 int main( int argc, char * argv[] ) {
     long int m = 4, n = 6, seed = getpid();             // default values
@@ -95,7 +78,7 @@ int main( int argc, char * argv[] ) {
         exit( EXIT_FAILURE );
     } // try
     srand( seed );                                      // seed random number
-    if (setjmp(jumpE3) == 0){                                              // begin program
+    if (setjmp(jumpTo) == 0){                                              // begin program
         PRT( cout << m << " " << n << " " << seed << " " << eperiod << endl );
         long int val = Ackermann( m, n );
         PRT( cout << val << endl );
