@@ -23,9 +23,9 @@ EXEC4 = longjmp				# 4th executable name
 OBJECTS5 = q3floatconstant.o q3main.o	# 5th executable object files
 EXEC5 = floatconstant			# 5th executable name
 
-OBJECTS = ${OBJECTS1} ${OBJECTS2} ${OBJECTS3} ${OBJECTS4} ${OBJECTS5}
+OBJECTS = ${OBJECTS1} ${OBJECTS2} ${OBJECTS3} ${OBJECTS4} ${OBJECTS5} ${OBJECTS02}
 DEPENDS = ${OBJECTS:.o=.d}
-EXECS = ${EXEC1} ${EXEC2} ${EXEC3} ${EXEC4} ${EXEC5}
+EXECS = ${EXEC1} ${EXEC2} ${EXEC3} ${EXEC4} ${EXEC5} ${EXEC02}
 
 #############################################################
 
@@ -48,14 +48,14 @@ ${EXEC2} : ${OBJECTS2}			# compile and link 2nd executable
 q1%.o : q1%.c				# change compiler 2nd executable
 	gcc ${CXXFLAGS} -c $< -o $@
 
-${EXEC02} : ${OBJECTS02}		# optional build of given program
-	g++ ${CXXFLAGS} $^ -o $@
-
 ${EXEC3} : ${OBJECTS3}			# compile and link 3rd executable
 	g++ ${CXXFLAGS} $^ -o $@
 
 q2%.o : q2%.cc				# change compiler 4th executable, ADJUST SUFFIX (for .C/.cpp)
 	g++ ${CXXFLAGS} -c $< -o $@
+
+${EXEC02} : ${OBJECTS02}		# optional build of given program
+	g++ ${CXXFLAGS} $^ -o $@
 
 ${EXEC4} : ${OBJECTS4}			# compile and link 4th executable
 	g++ ${CXXFLAGS} $^ -o $@
