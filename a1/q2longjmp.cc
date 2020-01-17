@@ -21,12 +21,12 @@ vector<int> stack;
 void throwException(){
     if(stack.size() > 0){
         if(stack.back() == 1){
-            longjmp(jumpE1);
+            longjmp(jumpE1, 1);
         } else {
-            longjmp(jumpE2);
+            longjmp(jumpE2, 1);
         }  
     } else {
-        longjmp(jumpE3);
+        longjmp(jumpE3, 1);
     }  
 }
 
