@@ -21,6 +21,9 @@ vector<int> stack;
 void throwException(){
     if(stack.size() > 0){
         if(stack.back() == 1){
+            for (auto n : stack){
+                cout << n << " ";
+            }
             longjmp(jumpE1, 1);
         } else {
             longjmp(jumpE2, 1);
@@ -31,7 +34,8 @@ void throwException(){
 }
 
 long int Ackermann( long int m, long int n ) {
-    calls += 1;
+    //for(;;){
+        calls += 1;
     if ( m == 0 ) {
         if ( rand() % eperiod == 0 ) { 
             PRT( T t; ) excepts += 1; 
@@ -63,7 +67,8 @@ long int Ackermann( long int m, long int n ) {
                 }
             }
     } // if
-    return 0;                                           // recover by returning 0
+    return 0; 
+    //}                                          // recover by returning 0
 }
 int main( int argc, char * argv[] ) {
     long int m = 4, n = 6, seed = getpid();             // default values
