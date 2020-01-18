@@ -24,7 +24,7 @@ long int Ackermann( long int m, long int n ) {
     if ( m == 0 ) {
         if ( rand() % eperiod == 0 ) { 
             PRT( T t; ) excepts += 1; 
-            memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
+            //memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
             longjmp(jumpTo, 1);
         }
         return n + 1;
