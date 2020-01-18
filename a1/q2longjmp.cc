@@ -43,7 +43,7 @@ long int Ackermann( long int m, long int n ) {
             }
     } else {
             if(setjmp(jumpTo) == 0){
-                result = Ackermann( m - 1, Ackermann( m, n - 1 );
+                result = Ackermann( m - 1, Ackermann( m, n - 1 ));
                 memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
                 return result;
             } else {
