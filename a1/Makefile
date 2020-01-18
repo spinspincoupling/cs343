@@ -52,7 +52,7 @@ ${EXEC3} : ${OBJECTS3}			# compile and link 3rd executable
 	g++ ${CXXFLAGS} $^ -o $@
 
 q2%.o : q2%.cc				# change compiler 4th executable, ADJUST SUFFIX (for .C/.cpp)
-	g++ ${CXXFLAGS} -c $< -o $@
+	g++ ${CXXFLAGS} -c -DNOOUTPUT $< -o $@
 
 ${EXEC02} : ${OBJECTS02}		# optional build of given program
 	g++ ${CXXFLAGS} $^ -o $@

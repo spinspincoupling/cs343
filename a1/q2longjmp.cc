@@ -46,7 +46,7 @@ long int Ackermann( long int m, long int n ) {
             if(setjmp(jumpTo) == 0){
                 //memcpy(jumpToPreviousStack, jumpTo, sizeof(jmp_buf));
                 result = Ackermann( m, n - 1 );
-                memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
+                //memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
                 result = Ackermann( m - 1, result);
                 memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
                 return result;
