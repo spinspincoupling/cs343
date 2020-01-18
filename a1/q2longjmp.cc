@@ -41,7 +41,11 @@ long int Ackermann( long int m, long int n ) {
             }
     } else {
             if(setjmp(jumpTo) == 0){
-                return Ackermann( m - 1, Ackermann( m, n - 1 ) );
+                memcpy(jumpToPreviousStack, jumpTo, sizeof(jmp_buf));
+                long int result = Ackermann( m, n - 1 );
+                memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
+                return Ackermann( m - 1, result);
+                //return Ackermann( m - 1, Ackermann( m, n - 1 ) );
             } else {
                 PRT( cout << "E2 " << m << " " << n << endl );
                 if ( rand() % eperiod == 0 ) { 
