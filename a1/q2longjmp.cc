@@ -41,8 +41,9 @@ long int Ackermann( long int m, long int n ) {
             }
     } else {
             if(setjmp(jumpTo) == 0){
+                //memcpy(jumpToPreviousStack, jumpTo, sizeof(jmp_buf));
                 long int result = Ackermann( m, n - 1 );
-                memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
+                //memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
                 return Ackermann( m - 1, result);
                 //return Ackermann( m - 1, Ackermann( m, n - 1 ) );
             } else {
@@ -54,6 +55,7 @@ long int Ackermann( long int m, long int n ) {
                 }
             }
     } // if
+    memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
     return 0;                                          // recover by returning 0
 }
 int main( int argc, char * argv[] ) {
