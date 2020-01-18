@@ -19,13 +19,12 @@ jmp_buf jumpTo;
 
 long int Ackermann( long int m, long int n ) {
     calls += 1;
-    jmp_buf jumpToPreviousStack;
     long int result;
+    jmp_buf jumpToPreviousStack;
     memcpy(jumpToPreviousStack, jumpTo, sizeof(jmp_buf));
     if ( m == 0 ) {
         if ( rand() % eperiod == 0 ) { 
             PRT( T t; ) excepts += 1; 
-            //memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
             longjmp(jumpTo, 1);
         }
         return n + 1;
@@ -44,10 +43,7 @@ long int Ackermann( long int m, long int n ) {
             }
     } else {
             if(setjmp(jumpTo) == 0){
-                //memcpy(jumpToPreviousStack, jumpTo, sizeof(jmp_buf));
-                result = Ackermann( m, n - 1 );
-                //memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
-                result = Ackermann( m - 1, result);
+                result = Ackermann( m - 1, Ackermann( m, n - 1 );
                 memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
                 return result;
             } else {
