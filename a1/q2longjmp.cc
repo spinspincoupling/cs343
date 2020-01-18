@@ -20,6 +20,7 @@ jmp_buf jumpTo;
 long int Ackermann( long int m, long int n ) {
     calls += 1;
     jmp_buf jumpToPreviousStack;
+    long int result;
     memcpy(jumpToPreviousStack, jumpTo, sizeof(jmp_buf));
     if ( m == 0 ) {
         if ( rand() % eperiod == 0 ) { 
@@ -30,7 +31,9 @@ long int Ackermann( long int m, long int n ) {
         return n + 1;
     } else if ( n == 0 ) {
             if(setjmp(jumpTo) == 0) {
-                return Ackermann( m - 1, 1 );
+                result = Ackermann( m - 1, 1 );
+                memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
+                return result;
             } else {
                 PRT( cout << "E1 " << m << " " << n << endl );
                 if ( rand() % eperiod == 0 ) { 
@@ -42,10 +45,11 @@ long int Ackermann( long int m, long int n ) {
     } else {
             if(setjmp(jumpTo) == 0){
                 //memcpy(jumpToPreviousStack, jumpTo, sizeof(jmp_buf));
-                long int result = Ackermann( m, n - 1 );
-                //memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
-                return Ackermann( m - 1, result);
-                //return Ackermann( m - 1, Ackermann( m, n - 1 ) );
+                result = Ackermann( m, n - 1 );
+                memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
+                result = Ackermann( m - 1, result);
+                memcpy(jumpTo, jumpToPreviousStack, sizeof(jmp_buf));
+                return result;
             } else {
                 PRT( cout << "E2 " << m << " " << n << endl );
                 if ( rand() % eperiod == 0 ) { 
