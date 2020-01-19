@@ -15,11 +15,17 @@ void validateInput(istream& is){ //not guarded dont need to care for leading spa
                     continue;
                 }
                 FloatConstant corountine;
-                while(pos < length && corountine.next(line[pos]) != FloatConstant::Status::INVALID){
-                    ++pos;
+                FloatConstant::Status status = FloatConstant::Status::CONT;
+                try{
+                    while(pos < length){
+                        status = corountine.next(line[pos]);
+                        ++pos;
+                    }
+                } catch (FloatConstant::Error e){
+                    FloatConstant::Status status = FloatConstant::Status::CONT;
                 }
                 cout << "\"" << line << "\" : \"" << line.substr(0, pos+1) << "\" ";
-                if(corountine.getStatus() == FloatConstant::Status::MATCH){
+                if(status == FloatConstant::Status::MATCH){
                     cout << "yes";
                 } else {
                     cout << "no";

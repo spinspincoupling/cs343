@@ -31,7 +31,6 @@ void FloatConstant::checkExp() {
 
 void FloatConstant::main(){
     int digits = 0; 
-    try{
         if(ch == '+' || ch == '-'){
             suspend();
         }
@@ -76,7 +75,4 @@ void FloatConstant::main(){
                 throw Error();
             } else throw Error();
         } else throw Error();
-    } catch (Error){
-        status = INVALID;
-    }
 }
