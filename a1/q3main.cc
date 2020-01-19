@@ -39,7 +39,7 @@ int main( int argc, char * argv[] ) {
             try {
                 file.open(argv[1]);
                 validateInput(file);
-                file.close;
+                file.close();
             }
             catch (...) {
                 file.close;
