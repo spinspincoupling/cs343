@@ -42,8 +42,6 @@ void FloatConstant::main(){
                     if (digits > maxDigits) throw Error();
                 }
                 else if (ch == '.'){
-                    ++digits;
-                    if (digits > maxDigits) throw Error();
                     break;
                 }
                 else if (ch == 'E' || ch == 'e'){
@@ -53,32 +51,31 @@ void FloatConstant::main(){
                 else throw Error();
                 suspend();
             }
-        }
-        if(digits > 1) status = MATCH;
-        else {
+            if(digits > 1) status = MATCH;
+            else {
+                suspend();
+                if(isdigit(ch)){
+                    ++digits;
+                    status = MATCH;
+                } else throw Error();
+            }
             suspend();
-            if(isdigit(ch)){
-                ++digits;
-                status = MATCH;
+            for(;;){
+                if(isdigit(ch)){
+                    ++digits;
+                    if(digits > maxDigits) throw Error();
+                } else break;
+                suspend();
+            }
+            if(ch == 'E' || ch == 'e'){
+                status = CONT;
+                suspend();
+                checkExp();
+            } else if(ch == 'f' || ch == 'l' || ch == 'F' || ch == 'L') {
+                suspend(); // no more input beyond this point
+                throw Error();
             } else throw Error();
-        }
-        suspend();
-        for(;;){
-            if(isdigit(ch)){
-                ++digits;
-                if(digits > maxDigits) throw Error();
-            } else break;
-            suspend();
-        }
-        if(ch == 'E' || ch == 'e'){
-            status = CONT;
-            suspend();
-            checkExp();
-        } else if(ch == 'f' || ch == 'l' || ch == 'F' || ch == 'L') {
-            suspend(); // no more input beyond this point
-            throw Error();
         } else throw Error();
-
     } catch (Error){
         status = INVALID;
     }

@@ -42,7 +42,7 @@ int main( int argc, char * argv[] ) {
             }
             catch (...) {
                 file.close();
-                cerr << "Error! Could not open input file " << argv[1] << endl;
+                cerr << "Error! Could not open input file \"" << argv[1] << "\"" << endl;
                 throw;
             }
         } else if (argc == 1){// iostream
