@@ -12,6 +12,7 @@ private:
     char ch;
     Status status;
     void main(); // coroutine main
+    void checkExp();
 public:
     _Event Error{}; // last character is invalid
     Status next(char c) {
@@ -22,5 +23,6 @@ public:
     Status getStatus(){
         return status;
     }
+    FloatConstant();
 };
 #endif
