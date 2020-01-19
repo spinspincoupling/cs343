@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <exception>
 #include "q3floatconstant.h"
 using namespace std;
 
@@ -41,7 +40,7 @@ int main( int argc, char * argv[] ) {
                 validateInput(file);
                 file.close();
             }
-            catch (ifstream::failure& e) {
+            catch (...) {
                 file.close();
                 cerr << "Error! Could not open input file \"" << argv[1] << "\"" << endl;
                 exit( EXIT_FAILURE );
@@ -54,8 +53,5 @@ int main( int argc, char * argv[] ) {
     } catch ( int i ) {
         cerr << "Usage: " << argv[0] << " [infile-file]" << endl;
         exit( EXIT_FAILURE );
-    } catch( exception& e) {
-        cerr << e.what();
-        exit( EXIT_FAILURE );
-    } // try
+    }
 }
