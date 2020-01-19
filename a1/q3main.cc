@@ -21,7 +21,7 @@ void validateInput(istream& is){ //not guarded dont need to care for leading spa
                         status = corountine.next(line[pos]);
                         ++pos;
                     }
-                } catch (FloatConstant::Error &e){
+                } catch (FloatConstant::Error& e){
                     status = FloatConstant::Status::CONT;
                 }
                 cout << "\"" << line << "\" : \"" << line.substr(0, pos+1) << "\" ";
