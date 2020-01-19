@@ -51,7 +51,7 @@ int main( int argc, char * argv[] ) {
             throw 1;
         }
     } catch ( int i ) {
-        cerr << "Usage: " << argv[0] " [infile-file]" << endl;
+        cerr << "Usage: " << argv[0] << " [infile-file]" << endl;
     } catch( ... ) {
         exit( EXIT_FAILURE );
     } // try
