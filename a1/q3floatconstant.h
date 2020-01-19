@@ -5,7 +5,8 @@ _Coroutine FloatConstant{
 public:
     enum Status {
         CONT,
-        MATCH
+        MATCH,
+        INVALID
     }; // possible status
 private:
     char ch;
@@ -18,6 +19,9 @@ public:
         ch = c;        // communication in
         resume();      // activate
         return status; // communication out
+    }
+    Status getStatus(){
+        return status;
     }
     FloatConstant();
 };
