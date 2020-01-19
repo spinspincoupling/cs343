@@ -7,7 +7,6 @@ using namespace std;
 void validateInput(istream& is){ //not guarded dont need to care for leading space
     string line;
     int pos, length;
-    FloatConstant corountine;
     while(getline(is, line, '\n')){
                 pos = 0;
                 length = line.size();
@@ -15,17 +14,17 @@ void validateInput(istream& is){ //not guarded dont need to care for leading spa
                     cout << "\"\" : Warning! Blank line." << endl;
                     continue;
                 }
-                while(corountine.next(line[pos]) != FloatConstant::Status::INVALID && pos < length){
-                    //corountine.next(line[pos]);
+                FloatConstant corountine;
+                while(pos < length && corountine.next(line[pos]) != FloatConstant::Status::INVALID && ){
                     ++pos;
                 }
-                cout << "\"" << line << "\" : \"" << line.substr(0, pos) << "\" ";
+                cout << "\"" << line << "\" : \"" << line.substr(0, pos+1) << "\" ";
                 if(corountine.getStatus() == FloatConstant::Status::MATCH){
                     cout << "yes";
                 } else {
                     cout << "no";
-                    if(pos < length ){
-                        cout << " -- extraneous characters \"" << line.substr(pos) << "\"" ;
+                    if(pos < length-1 ){
+                        cout << " -- extraneous characters \"" << line.substr(pos+1) << "\"" ;
                     }
                 }
                 cout << endl;
