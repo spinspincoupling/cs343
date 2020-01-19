@@ -5,7 +5,7 @@ const int maxDigits = 16;
 const int maxExp = 3;
 
 FloatConstant::FloatConstant(){
-    status = Status.CONT;
+    status = CONT;
 }
 
 void FloatConstant::checkExp() {
@@ -13,7 +13,7 @@ void FloatConstant::checkExp() {
     if(ch == '+' || ch == '-') suspend();
     if(isdigit(ch)){
         ++exp;
-        status = Status.MATCH;
+        status = MATCH;
         suspend();
         for (;;) {
             if(isdigit(ch)) {
@@ -54,12 +54,12 @@ void FloatConstant::main(){
                 suspend();
             }
         }
-        if(digits > 1) status = Status.MATCH;
+        if(digits > 1) status = MATCH;
         else {
             suspend();
             if(isdigit(ch)){
                 ++digits;
-                status = Status.MATCH;
+                status = MATCH;
             } else throw Error();
         }
         suspend();
@@ -71,7 +71,7 @@ void FloatConstant::main(){
             suspend();
         }
         if(ch == 'E' || ch == 'e'){
-            status = Status.CONT;
+            status = CONT;
             suspend();
             checkExp();
         } else if(ch == 'f' || ch == 'l' || ch == 'F' || ch == 'L') {
@@ -80,6 +80,6 @@ void FloatConstant::main(){
         } else throw Error();
 
     } catch (Error){
-        status = Status.INVALID;
+        status = INVALID;
     }
 }
