@@ -42,7 +42,7 @@ int main( int argc, char * argv[] ) {
                 file.close();
             }
             catch (...) {
-                file.close;
+                file.close();
                 throw;
             }
         } else if (argc == 1){// iostream
