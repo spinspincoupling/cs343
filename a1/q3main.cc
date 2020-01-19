@@ -15,12 +15,12 @@ void validateInput(istream& is){ //not guarded dont need to care for leading spa
                     cout << "\"\" : Warning! Blank line." << endl;
                     continue;
                 }
-                while(corountine.next(line[pos]) != corountine.Status.INVALID && pos < length){
+                while(corountine.next(line[pos]) != FloatConstant::Status::INVALID && pos < length){
                     //corountine.next(line[pos]);
                     ++pos;
                 }
                 cout << "\"" << line << "\" : \"" << line.substr(0, pos) << "\" ";
-                if(corountine.getStatus() == corountine.Status.MATCH){
+                if(corountine.getStatus() == FloatConstant::Status::MATCH){
                     cout << "yes";
                 } else {
                     cout << "no";
@@ -38,7 +38,7 @@ int main( int argc, char * argv[] ) {
             ifstream file;
             try {
                 file.open(argv[1]);
-                validateInput(file)
+                validateInput(file);
                 file.close;
             }
             catch (...) {
@@ -48,7 +48,7 @@ int main( int argc, char * argv[] ) {
         } else if (argc == 1){// iostream
             validateInput(cin);
         } else {
-            throw 1
+            throw 1;
         }
     } catch ( int i ) {
         cerr << "Invalid number of arguments" << endl;
