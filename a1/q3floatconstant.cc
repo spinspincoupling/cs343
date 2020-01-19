@@ -4,15 +4,11 @@
 const int maxDigits = 16;
 const int maxExp = 3;
 
-FloatConstant::FloatConstant(){
+FloatConstant::FloatConstant() override{
     status = Status.CONT;
 }
 
-FloatConstant::~FloatConstant(){
-    
-}
-
-private void checkExp() {
+void checkExp() {
     int exp = 0;
     if(ch == '+' || ch == '-') suspend();
     if(isdigit(ch)){
@@ -33,7 +29,7 @@ private void checkExp() {
     throw Error();
 }
 
-private void FloatConstant::main(){
+void FloatConstant::main(){
     int digits = 0; 
     try{
         if(ch == '+' || ch == '-'){
@@ -51,6 +47,7 @@ private void FloatConstant::main(){
                     break;
                 }
                 else if (ch == 'E' || ch == 'e'){
+                    status = Status.CONT;
                     suspend();
                     checkExp();
                 }
@@ -75,6 +72,7 @@ private void FloatConstant::main(){
             suspend();
         }
         if(ch == 'E' || ch == 'e'){
+            status = Status.CONT;
             suspend();
             checkExp();
         } else if(ch == 'f' || ch == 'l' || ch == 'F' || ch == 'L') {
