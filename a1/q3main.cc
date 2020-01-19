@@ -2,7 +2,7 @@
 #include <string>
 #include <fstream>
 #include "q3floatconstant.h"
-using namespace std:
+using namespace std;
 
 void validateInput(istream& is){ //not guarded dont need to care for leading space
     string line;
@@ -39,19 +39,20 @@ int main( int argc, char * argv[] ) {
             try {
                 file.open(argv[1]);
                 validateInput(file)
+                file.close;
             }
             catch (...) {
                 file.close;
+                throw;
             }
-        } else (argc == 1){// iostream
+        } else if (argc == 1){// iostream
             validateInput(cin);
         } else {
-            throw //invalid # of arguments
+            throw 1
         }
-    } catch ( Exception ) {
-
-    }
-    catch( ... ) {
+    } catch ( int i ) {
+        cerr << "Invalid number of arguments" << endl;
+    } catch( ... ) {
         cerr << "Usage: " << argv[0] << " [ times > 0 | d [ eperiod > 0 | d [ seed > 0 ] ] ]" << endl;
         exit( EXIT_FAILURE );
     } // try
