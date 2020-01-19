@@ -42,6 +42,7 @@ int main( int argc, char * argv[] ) {
             }
             catch (...) {
                 file.close();
+                cerr << "Error! Could not open input file " << argv[1] << endl;
                 throw;
             }
         } else if (argc == 1){// iostream
@@ -50,9 +51,8 @@ int main( int argc, char * argv[] ) {
             throw 1;
         }
     } catch ( int i ) {
-        cerr << "Invalid number of arguments" << endl;
+        cerr << "Usage: " << argv[0] " [infile-file]" << endl;
     } catch( ... ) {
-        cerr << "Usage: " << argv[0] << " [ times > 0 | d [ eperiod > 0 | d [ seed > 0 ] ] ]" << endl;
         exit( EXIT_FAILURE );
     } // try
 }
