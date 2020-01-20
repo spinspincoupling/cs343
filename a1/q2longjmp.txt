@@ -1,0 +1,36 @@
+(b) i. Explain why the output is not the same between the original and transformed program.
+The transformed program do not produce '~' because longjmp does not perform stack unwinding, 
+hence the T object does not get destroyed and hence does not print out '~'
+
+ii. 
+transformed(optimizer off):
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./longjmp 11 11 103 13
+calls 127764658  exceptions 4625859
+3.03u 0.00s 0:03.03
+
+original(optimizer off):
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./throwcatch 11 11 103 13
+calls 127764658  exceptions 4625859
+9.99u 0.00s 0:10.02
+
+transformed(optimizer on):
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./longjmp 11 11 103 13
+calls 127764658  exceptions 4625859
+2.61u 0.00s 0:02.61
+
+original(optimizer on):
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./throwcatch 11 11 103 13
+calls 127764658  exceptions 4625859
+11.25u 0.00s 0:11.26
+
+Experiment without compiler optimization:
+The transformed program is faster than the original one by a lot. This is because try-catch requires a 
+linear search in the stack frame when throwing the exception to locate the handler. 
+On the orther hand, longjmp just jump directly to location in the stack. 
+This can be expensive when a lot of try-catch are present in the stack.
+
+
+Experiment with compiler optimization:
+The transformed program is faster than the original one by even more as after optimization, longjmp is faster while 
+throwcatch is slower.
+

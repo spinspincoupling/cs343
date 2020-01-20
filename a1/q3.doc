@@ -1,0 +1,223 @@
++--------+------------------------------------------+
+| Test # | Purpose of Tests                         |
++--------+------------------------------------------+
+| 1-11   | Tests the valid float constant           |
++--------+------------------------------------------+
+| 12-30  | Tests the invalid float constant         |
++--------+------------------------------------------+
+| 31-33  | Tests error handling                     |
++--------+------------------------------------------+
+
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| Test # | Type of    | Line #s    | Reason for Test                     | Analysis of Test                    |
+|        | Test       |            |                                     |                                     |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 1      | Boundary   | Part A 3,  | test string having digits.digits    | valid float constant since it is    |
+|        |            | 15         | format and having mantissa length   | fractional-constant                 |
+|        |            |            | 16                                  |                                     |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 2      | General    | Part A 4,  | test fractional constant having     | valid float constant since it is    |
+|        |            | 16         | sign or ending with '.'             | sign(opt)digits'.'                  |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 3      | General    | Part A 5,  | test fractional constant starting   | valid float constant since it is    |
+|        |            | 17         | with '.'                            | sign(opt)'.'digits with no optional |
+|        |            |            |                                     | digits before '.'                   |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 4      | General    | Part A 6,  | test fractional constant with       | valid float constant since it is    |
+|        |            | 18         | exponent                            | digits'.'digits'e'digits            |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 5      | General    | Part A 7,  | test fractional constant having     | valid float constant                |
+|        |            | 19         | floating-suffix 'F' but does not    |                                     |
+|        |            |            | have exponent                       |                                     |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 6      | Boundary   | Part A 8,  | test fractional constant having     | valid float constant                |
+|        |            | 20         | floating-suffix 'l' but does not    |                                     |
+|        |            |            | have exponent and having mantissa   |                                     |
+|        |            |            | length 16                           |                                     |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 7      | General    | Part A 9,  | test fractional constant having     | valid float constant                |
+|        |            | 21         | exponent with sign or having        |                                     |
+|        |            |            | floating-suffix 'f'                 |                                     |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 8      | Boundary   | Part A 10, | test fractional constant having     | valid float constant                |
+|        |            | 22         | exponent of max length and signed   |                                     |
+|        |            |            | or having floating-suffix 'L'       |                                     |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 9      | General    | Part A 11, | test most simple non-fractional     | valid float constant since it has   |
+|        |            | 23         | constant                            | digits + exponent                   |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 10     | General    | Part A 12, | test signed non-fractional constant | valid float constant it has digits  |
+|        |            | 24         | having exponent with sign or having | + exponent and have valid exponent  |
+|        |            |            | floating-suffix                     | and floating-suffix                 |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 11     | Boundary   | Part A 13, | test non-fractional constant of max | valid float constant it has digits  |
+|        |            | 25         | length and having exponent of max   | + exponent and have valid exponent  |
+|        |            |            | length                              | and floating-suffix                 |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 12     | General    | Part B 3,  | test empty line                     | the program produce warning message |
+|        |            | 23         |                                     |                                     |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 13     | General    | Part B 4,  | test invalid character in floating  | once received 'a', the program      |
+|        |            | 24         | constant                            | terminates, '1.' would not be       |
+|        |            |            |                                     | parsed                              |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 14     | General    | Part B 5,  | test incomplete string only have    | when stops reading input, the state |
+|        |            | 25         | sign                                | is CONT, hence invalid float        |
+|        |            |            |                                     | constant                            |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 15     | General    | Part B 6,  | test incomplete string only have    | when stops reading input, the state |
+|        |            | 26         | '.' without digits in front or at   | is CONT, hence invalid float        |
+|        |            |            | the back                            | constant                            |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 16     | General    | Part B 7,  | test string only have '.' without   | after '.' it expects a digits, when |
+|        |            | 27         | digits in front or at the back but  | it reads 'e', it stops parsing      |
+|        |            |            | have exponent at the back           |                                     |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 17     | General    | Part B 8,  | test string having white space at   | once it reads ' ', program stops    |
+|        |            | 28         | the beginning                       | parsing                             |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 18     | General    | Part B 9,  | test string having 2 white space at | once it reads the first ' ',        |
+|        |            | 29         | the back                            | program stops parsing and the       |
+|        |            |            |                                     | second ' ' remains unparsed         |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 19     | General    | Part B 10, | test string having 2 '.' in between | when it reads the first '.',        |
+|        |            | 30         |                                     | program expects digits or a         |
+|        |            |            |                                     | exponent or floating suffix, once   |
+|        |            |            |                                     | it reads'.', the string is invalid  |
+|        |            |            |                                     | and '0' is unparsed                 |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 20     | General    | Part B 11, | test string having 2 '+' at the     | when it reads the first '+',        |
+|        |            | 31         | beginning                           | program expects digits or a '.',    |
+|        |            |            |                                     | when another '+' is parsed, program |
+|        |            |            |                                     | stops and '0' is unparsed           |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 21     | General    | Part B 12, | test string having incomplete       | the program expect digits after '+' |
+|        |            | 32         | exponent                            | but receive eof                     |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 22     | General    | Part B 13, | test string having non suffix       | the program expect {F,L,f l} but    |
+|        |            | 33         | characters at the end               | receive 'Y'                         |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 23     | General    | Part B 14, | test string having exponent after   | floating-suffix should be the last  |
+|        |            | 34         | floating-suffix                     | charater, once it receives e, the   |
+|        |            |            |                                     | program stops parsing               |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 24     | General    | Part B 15, | test non-fractional float without   | for non-fractional float constant,  |
+|        |            | 35         | exponent                            | exponent is not optional            |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 25     | General    | Part B 16, | test non-fractional float without   | when reads 'f' the parsing stops    |
+|        |            | 36         | exponent but have floating-suffix   | because it expects a exponent       |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 26     | Boundary   | Part B 17, | test string of length 17 with '.'   | string has 17 characters, the       |
+|        |            | 37         | in the middle and only digits       | program parses the whole 17         |
+|        |            |            |                                     | characters                          |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 27     | Boundary   | Part B 18, | test string with 17 digits and '.'  | the program stops parsing when it   |
+|        |            | 38         | at the beginning                    | reads the last digit, the last 'L'  |
+|        |            |            |                                     | remains unparsed                    |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 28     | Boundary   | Part B 19, | test string with 17 digits and '.'  | the program stops parsing when it   |
+|        |            | 39         | at the end                          | reads the last digit, the last      |
+|        |            |            |                                     | '.e12' remains unparsed             |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 29     | Boundary   | Part B 20, | test non-fractional float with 20   | the program stops parsing when it   |
+|        |            | 40         | digits                              | reads the last digit, the last      |
+|        |            |            |                                     | '890' remains unparsed              |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 30     | Boundary   | Part B 21, | test exponent with 4 digits         | the program stops parsing when it   |
+|        |            | 41         |                                     | reads the last expoenent digit, the |
+|        |            |            |                                     | last 'l' remains unparsed           |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 31     | General    | Part C 1-3 | test read from std input            | the program is able to read from    |
+|        |            |            |                                     | standard input and process strings  |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 32     | General    | Part C 4-5 | test cannot open file               | the program termininates and        |
+|        |            |            |                                     | produces error message 'Error!      |
+|        |            |            |                                     | Could not open input file           |
+|        |            |            |                                     | {filename}'                         |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+| 33     | General    | Part C 4-5 | test supply more than one argument  | the program termininates and        |
+|        |            |            |                                     | produces error message 'Usage:      |
+|        |            |            |                                     | {programname} [infile-file]'        |
++--------+------------+------------+-------------------------------------+-------------------------------------+
+
+Part A
+------------
+  1 @ubuntu1804-008%  ./floatconstant q3valid > q3valid.out
+  2 @ubuntu1804-008% cat q3valid
+  3 123.4567
+  4 +1234567890123456.
+  5 -.1234
+  6 1234.56e1
+  7 12345.F
+  8 +.0123456789876543l
+  9 -0123.456E+78f
+ 10 +0123456789.123456e-123L
+ 11 0E9
+ 12 +1234e-35f
+ 13 -9876543210123456E+999L
+ 14 @ubuntu1804-008% cat q3valid.out
+ 15 "123.4567" : "123.4567" yes
+ 16 "+1234567890123456." : "+1234567890123456." yes
+ 17 "-.1234" : "-.1234" yes
+ 18 "1234.56e1" : "1234.56e1" yes
+ 19 "12345.F" : "12345.F" yes
+ 20 "+.0123456789876543l" : "+.0123456789876543l" yes
+ 21 "-0123.456E+78f" : "-0123.456E+78f" yes
+ 22 "+0123456789.123456e-123L" : "+0123456789.123456e-123L" yes
+ 23 "0E9" : "0E9" yes
+ 24 "+1234e-35f" : "+1234e-35f" yes
+ 25 "-9876543210123456E+999L" : "-9876543210123456E+999L" yes
+
+Part B
+------------
+  1 @ubuntu1804-008% ./floatconstant q3invalid > q3invalid.out
+  2 @ubuntu1804-008% cat q3invalid
+  3 
+  4 a1.
+  5 +
+  6 .
+  7 -.e12
+  8  12.4
+  9 12.4  
+ 10 23.8.0
+ 11 ++53.2
+ 12 1234E+
+ 13 2.8Y
+ 14 123.Le-8
+ 15 1234
+ 16 123ff
+ 17 1234567.1234567890
+ 18 .12345678901234567L
+ 19 12345678901234567.e12
+ 20 12345678901234567890
+ 21 123456E-1234l
+ 22 @ubuntu1804-008% cat q3invalid.out
+ 23 "" : Warning! Blank line.
+ 24 "a1." : "a" no -- extraneous characters "1."
+ 25 "+" : "+" no
+ 26 "." : "." no
+ 27 "-.e12" : "-.e" no -- extraneous characters "12"
+ 28 " 12.4" : " " no -- extraneous characters "12.4"
+ 29 "12.4  " : "12.4 " no -- extraneous characters " "
+ 30 "23.8.0" : "23.8." no -- extraneous characters "0"
+ 31 "++53.2" : "++" no -- extraneous characters "53.2"
+ 32 "1234E+" : "1234E+" no
+ 33 "2.8Y" : "2.8Y" no
+ 34 "123.Le-8" : "123.Le" no -- extraneous characters "-8"
+ 35 "1234" : "1234" no
+ 36 "123ff" : "123f" no -- extraneous characters "f"
+ 37 "1234567.1234567890" : "1234567.1234567890" no
+ 38 ".12345678901234567L" : ".12345678901234567" no -- extraneous characters "L"
+ 39 "12345678901234567.e12" : "12345678901234567" no -- extraneous characters ".e12"
+ 40 "12345678901234567890" : "12345678901234567" no -- extraneous characters "890"
+ 41 "123456E-1234l" : "123456E-1234" no -- extraneous characters "l"
+
+Part C
+------------
+  1 @ubuntu1804-008% ./floatconstant
+  2 123
+  3 "123" : "123" no
+  4 @ubuntu1804-008% ./floatconstant notexist.txt
+  5 Error! Could not open input file "notexist.txt"
+  6 @ubuntu1804-008% ./floatconstant arg1 arg2
+  7 Usage: ./floatconstant [infile-file]

@@ -1,0 +1,112 @@
+(b) i. 
+• Include the 8 timing results to validate the experiments.
+(without compiler optimization)
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./exception 100000000 10000 1003
+normal result 1.49955e+16 exception results 843126 2023546318 258515074
+calls 99969977 exceptions 10034 9754 10235
+3.52u 0.00s 0:03.53
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./returnglobal 100000000 10000 1003
+normal result 1.49955e+16 exception results 843126 2023546318 258515074
+calls 99969977 exceptions 10034 9754 10235
+3.75u 0.00s 0:03.75
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./returntype 100000000 10000 1003
+normal result 1.49955e+16 exception results 843126 2023546318 258515074
+calls 99969977 exceptions 10034 9754 10235
+22.52u 0.00s 0:22.52
+@ubuntu1804-008%  /usr/bin/time -f "%Uu %Ss %E" ./returntypec 100000000 10000 1003
+normal result 1.49955e+16 exception results 843126 2023546318 258515074
+calls 99969977 exceptions 10034 9754 10235
+4.17u 0.00s 0:04.17
+
+(with compiler optimization)
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./exception 100000000 10000 1003
+normal result 1.49955e+16 exception results 843126 2023546318 258515074
+calls 99969977 exceptions 10034 9754 10235
+3.73u 0.00s 0:03.73
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./returnglobal 100000000 10000 1003
+normal result 1.49955e+16 exception results 843126 2023546318 258515074
+calls 99969977 exceptions 10034 9754 10235
+3.02u 0.00s 0:03.03
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./returntype 100000000 10000 1003
+normal result 1.49955e+16 exception results 843126 2023546318 258515074
+calls 99969977 exceptions 10034 9754 10235
+3.72u 0.00s 0:03.73
+@ubuntu1804-008%  /usr/bin/time -f "%Uu %Ss %E" ./returntypec 100000000 10000 1003
+normal result 1.49955e+16 exception results 843126 2023546318 258515074
+calls 99969977 exceptions 10034 9754 10235
+3.48u 0.00s 0:03.48
+
+ii. State the performance difference (larger/smaller/by how much) between the original and transformed
+programs, and the reason for the difference.
+performance from fastest to slowest: exception > returnglobal > returntypec > returntype
+This is because addiitonal code is added to differntiate which method raise the exception whreas exception types
+are handled internally and already optimized. Less checking is done on returnglobal so it is the fastest among the
+transformed programs. returntype requires most amount of checking since every time we try to access an object in 
+variant, we need to check its type.
+
+iii. State the performance difference (larger/smaller/by how much) between the original and transformed
+programs when compiler optimization is used.
+performance from fastest to slowest: returnglobal > returntypec > returntype > exception
+
+(c) i. Run a similar experiment with compiler optimization turned on but vary the error period (second
+command-line parameter eperiod) with values 1000, 100, and 50.
+• Include the 12 timing results to validate the experiments.
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./exception 100000000 1000 1003
+normal result 1.49549e+16 exception results 519898 1258274405 -161930289
+calls 99699191 exceptions 99705 100355 100749
+4.86u 0.00s 0:04.86
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./returnglobal 100000000 1000 1003
+normal result 1.49549e+16 exception results 519898 1258274405 -161930289
+calls 99699191 exceptions 99705 100355 100749
+3.52u 0.00s 0:03.52
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./returntype 100000000 1000 1003
+normal result 1.49549e+16 exception results 519898 1258274405 -161930289
+calls 99699191 exceptions 99705 100355 100749
+3.73u 0.00s 0:03.73
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./returntypec 100000000 1000 1003
+normal result 1.49549e+16 exception results 519898 1258274405 -161930289
+calls 99699191 exceptions 99705 100355 100749
+3.58u 0.00s 0:03.58
+
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./exception 100000000 100 1003
+normal result 1.45545e+16 exception results 12950717 -1691041092 -1613075605
+calls 97028750 exceptions 974322 993697 1003231
+11.09u 0.05s 0:11.15
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./returnglobal 100000000 100 1003
+normal result 1.45545e+16 exception results 12950717 -1691041092 -1613075605
+calls 97028750 exceptions 974322 993697 1003231
+3.54u 0.00s 0:03.55
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./returntype 100000000 100 1003
+normal result 1.45545e+16 exception results 12950717 -1691041092 -1613075605
+calls 97028750 exceptions 974322 993697 1003231
+4.24u 0.00s 0:04.24
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./returntypec 100000000 100 1003
+normal result 1.45545e+16 exception results 12950717 -1691041092 -1613075605
+calls 97028750 exceptions 974322 993697 1003231
+3.57u 0.01s 0:03.58
+
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./exception 100000000 50 1003
+normal result 1.41181e+16 exception results -2426457 -946478927 1142791650
+calls 94118905 exceptions 1902095 1970231 2008769
+16.96u 0.00s 0:16.99
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./returnglobal 100000000 50 1003
+normal result 1.41181e+16 exception results -2426457 -946478927 1142791650
+calls 94118905 exceptions 1902095 1970231 2008769
+3.35u 0.00s 0:03.36
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./returntype 100000000 50 1003
+normal result 1.41181e+16 exception results -2426457 -946478927 1142791650
+calls 94118905 exceptions 1902095 1970231 2008769
+3.85u 0.00s 0:03.85
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./returntypec 100000000 50 1003
+normal result 1.41181e+16 exception results -2426457 -946478927 1142791650
+calls 94118905 exceptions 1902095 1970231 2008769
+3.43u 0.00s 0:03.44
+
+
+ii. State the performance difference (larger/smaller/by how much) between the original and transformed
+programs as the error period decreases, and the reason for the difference.
+Performance from fastest to slowest: returnglobal > returntypec > returntype > exception
+Original program (exception) became much slower whreas the execution time for the transformed programs only
+increase by a little or mostly remain constant.
+This is when error period decreases, frequency of throwing exceptions increases, try-catch are expensive since
+it requires a linear walk in the stack frame.
