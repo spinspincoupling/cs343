@@ -6,11 +6,11 @@
 #include <sstream>
 using namespace std;
 
+//helper for main::main
 void sortFile(ostream &os, char* infile){
     ifstream file;
         try {
             file.open(infile);
-            //corountine call
             int length;
             while (file >> length) {
                 Binsertsort<TYPE> binsertsort;
@@ -21,7 +21,7 @@ void sortFile(ostream &os, char* infile){
                     binsertsort.sort(value);
                 }
                 os << endl;
-                _Resume Binsertsort<TYPE>::Sentinel() _At binsertsort;
+                _Resume Binsertsort<TYPE>::Sentinel() _At binsertsort; //end of input
                 try {
                     for (;;) {
                         _Enable{
@@ -43,6 +43,7 @@ void sortFile(ostream &os, char* infile){
         }
 }
 
+//main::main
 int main( int argc, char * argv[] ) {
     try {
         if( argc == 3 ){// write to file
@@ -126,6 +127,40 @@ void Binsertsort<T>::main()
     catch (Sentinel &){ // all branch ends notify parent
     }
     _Resume Sentinel() _At resumer();
+}
+
+class Point{
+    int x;
+    int y;
+  public:
+    Point(const Point& p):
+    x{p.x}, y{p.y}{
+    }
+
+    friend istream& operator>> (istream& is, Point& p)
+    friend istream& operator<< (ostream& os, Point& p)
+
+    bool operator==(const Pont& lhs, const Point& rhs) const {
+        return lhs.x == rhs.x && lhs.y == rhs.y;
+    }
+
+    bool operator<(const Pont& lhs, const Point& rhs) const {
+        if(lhs.x == rhs.x){
+            return lhs.y<rhs.y;
+        }
+        return lhs.x<rhs.x;
+    }
+}
+
+istream& operator>> (istream& is, Point& p){
+    char c;
+    is>> c >> p.x >> c >> p.y>> c;
+    return is;
+}
+
+istream& operator<< (ostream& os, Point& p){
+    os << '(' << p.x << ',' << p.y << ')';
+    return os;
 }
 
 #endif
