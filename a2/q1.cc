@@ -30,6 +30,11 @@ class Point{
         }
         return this.x<rhs.x;
     }
+
+    Point& operator=(const Point& p){
+        return this.x == p.x && this.y == p.y;
+        return *this;
+    }
 }
 
 istream& operator>> (istream& is, Point& p){
