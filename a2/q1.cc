@@ -36,11 +36,11 @@ class Point{
         y = p.y;
         return *this;
     }
-}
+};
 
-std::istream& operator>> (istream& is, Point& p){
+istream& operator>> (istream& is, Point& p){
     char c;
-    is>> c >> p.x >> c >> p.y>> c;
+    is >> c >> p.x >> c >> p.y>> c;
     return is;
 }
 
