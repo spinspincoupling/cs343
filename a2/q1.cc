@@ -21,18 +21,18 @@ class Point{
     friend std::ostream& operator<< (std::ostream& os, const Point& p);
 
     bool operator==(const Point& rhs) const {
-        return this.x == rhs.x && this.y == rhs.y;
+        return x == rhs.x && y == rhs.y;
     }
 
     bool operator<(const Point& rhs) const {
-        if(this.x == rhs.x){
-            return this.y<rhs.y;
+        if(x == rhs.x){
+            return y<rhs.y;
         }
-        return this.x<rhs.x;
+        return x<rhs.x;
     }
 
     Point& operator=(const Point& p){
-        return this.x == p.x && this.y == p.y;
+        return x == p.x && y == p.y;
         return *this;
     }
 }
