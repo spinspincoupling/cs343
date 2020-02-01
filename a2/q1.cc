@@ -6,6 +6,44 @@
 #include <sstream>
 using namespace std;
 
+// point class implementation
+class Point{
+    int x;
+    int y;
+  public:
+    Point(const Point& p):
+    x{p.x}, y{p.y}{
+    }
+
+    friend std::istream& operator>> (std::istream& is, Point& p)
+    friend std::istream& operator<< (std::ostream& os, Point& p)
+
+    bool operator==(const Point& rhs) const {
+        return this.x == rhs.x && this.y == rhs.y;
+    }
+
+    bool operator<(const Point& rhs) const {
+        if(this.x == rhs.x){
+            return this.y<rhs.y;
+        }
+        return this.x<rhs.x;
+    }
+}
+
+istream& operator>> (istream& is, Point& p){
+    char c;
+    is>> c >> p.x >> c >> p.y>> c;
+    return is;
+}
+
+istream& operator<< (ostream& os, Point& p){
+    os << '(' << p.x << ',' << p.y << ')';
+    return os;
+}
+
+///////////////////////////////////////////////////
+
+
 //helper for main::main
 void sortFile(ostream &os, char* infile){
     ifstream file;
@@ -129,38 +167,6 @@ void Binsertsort<T>::main()
     _Resume Sentinel() _At resumer();
 }
 
-class Point{
-    int x;
-    int y;
-  public:
-    Point(const Point& p):
-    x{p.x}, y{p.y}{
-    }
 
-    friend istream& operator>> (istream& is, Point& p)
-    friend istream& operator<< (ostream& os, Point& p)
-
-    bool operator==(const Pont& lhs, const Point& rhs) const {
-        return lhs.x == rhs.x && lhs.y == rhs.y;
-    }
-
-    bool operator<(const Pont& lhs, const Point& rhs) const {
-        if(lhs.x == rhs.x){
-            return lhs.y<rhs.y;
-        }
-        return lhs.x<rhs.x;
-    }
-}
-
-istream& operator>> (istream& is, Point& p){
-    char c;
-    is>> c >> p.x >> c >> p.y>> c;
-    return is;
-}
-
-istream& operator<< (ostream& os, Point& p){
-    os << '(' << p.x << ',' << p.y << ')';
-    return os;
-}
 
 #endif
