@@ -21,7 +21,7 @@ void sortFile(ostream &os, char* infile){
                     binsertsort.sort(value);
                 }
                 os << endl;
-                _Resume Binsertsort<T>::Sentinel() _At binsertsort;
+                _Resume Binsertsort<TYPE>::Sentinel() _At binsertsort;
                 try {
                     for (;;) {
                         _Enable{
@@ -30,7 +30,7 @@ void sortFile(ostream &os, char* infile){
                         os << value << " ";
                     }
                 }
-                catch (Binsertsort<T>::Sentinel &){
+                catch (Binsertsort<TYPE>::Sentinel &){
                     os << endl << endl;
                 } 
             }
@@ -48,7 +48,7 @@ int main( int argc, char * argv[] ) {
         if( argc == 3 ){// write to file
             try {
                 ofstream outfile(argv[2]);
-                sortFile(outfile, argv[1])
+                sortFile(outfile, argv[1]);
                 outfile.close();
             }
             catch (...) {
