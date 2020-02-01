@@ -105,7 +105,7 @@ void Binsertsort<T>::main()
     try{
         for (;;) {
             _Enable{
-                value = less.retrive();
+                value = less.retrieve();
             }
             suspend();
         }
@@ -118,7 +118,7 @@ void Binsertsort<T>::main()
     try {
         for (;;) {
             _Enable {
-                value = less.retrive();
+                value = less.retrieve();
             }
             suspend();
         }
