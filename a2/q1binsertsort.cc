@@ -1,0 +1,64 @@
+#include "q1binsertsort.h"
+
+template<typename T>
+void Binsertsort<T>::main()
+{
+    try{
+        _Enable{}
+    }
+    catch (Sentinel &){
+        _Resume Sentinel();
+    }
+    pivot = value;
+    try {
+        suspend();
+         _Enable{}
+    }
+    catch (Sentinel &) { // end of value set
+        suspend();
+        _Resume Sentinel();
+    }
+    // implies vertex node
+    Binsertsort<T> less, greater; // create less and greater
+    try{
+        for (;;) {
+            if (value < pivot) {
+                hasLess = true;
+                less.sort(value);
+            } else (value >= pivot) {
+                hasGreater = true;
+                greater.sort(value);
+            }
+            value = T();
+            suspend();
+            _Enable{}
+        }
+    }
+    catch (Sentinel &) { // end of value set, first retrive
+    }
+    _Resume Sentinel() _At less;
+    try{
+        for (;;) {
+            _Enable{
+                value = less.retrive();
+            }
+            suspend();
+        }
+    }
+    catch (Sentinel &) { //exception from left child end
+    }
+    value = pivot;
+    suspend();
+    _Resume Sentinel() _At greater;
+    try {
+        for (;;) {
+            _Enable {
+                value = less.retrive();
+            }
+            suspend();
+        }
+    }
+    catch (Sentinel &){ // all branch ends notify parent
+    }
+    _Resume Sentinel();
+}

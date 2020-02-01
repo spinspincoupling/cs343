@@ -5,10 +5,10 @@ CXXFLAGS = -g -Wall -Wextra -MMD -DTYPE="${TYPE}"
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 
 ## NOTE: q1binsertsort.h must *NOT* be compiled, so don't put it in the list of objects!
-OBJECTS1 = # object files forming 1st executable with prefix "q1"
+OBJECTS1 = q1binsertsort.o q1.o
 EXEC1 = binsertsort
 
-OBJECTS2 = # object files forming 2st executable with prefix "q2"
+OBJECTS2 = q2printer.o
 EXEC2 = cardgame
 
 OBJECTS = ${OBJECTS1} ${OBJECTS2}		# all object files
