@@ -14,9 +14,11 @@ class Point{
     Point(const Point& p):
     x{p.x}, y{p.y}{
     }
+    Point(){
+    }
 
-    friend std::istream& operator>> (std::istream& is, Point& p)
-    friend std::istream& operator<< (std::ostream& os, Point& p)
+    friend std::istream& operator>> (std::istream& is, Point& p);
+    friend std::istream& operator<< (std::ostream& os, const Point& p);
 
     bool operator==(const Point& rhs) const {
         return this.x == rhs.x && this.y == rhs.y;
@@ -36,7 +38,7 @@ istream& operator>> (istream& is, Point& p){
     return is;
 }
 
-istream& operator<< (ostream& os, Point& p){
+istream& operator<< (ostream& os, const Point& p){
     os << '(' << p.x << ',' << p.y << ')';
     return os;
 }
