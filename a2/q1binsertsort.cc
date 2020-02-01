@@ -9,7 +9,7 @@ void Binsertsort<T>::main()
     catch (Sentinel &){
         _Resume Sentinel();
     }
-    pivot = value;
+    T pivot = value;
     try {
         suspend();
          _Enable{}
@@ -23,13 +23,10 @@ void Binsertsort<T>::main()
     try{
         for (;;) {
             if (value < pivot) {
-                hasLess = true;
                 less.sort(value);
-            } else (value >= pivot) {
-                hasGreater = true;
+            } else {
                 greater.sort(value);
             }
-            value = T();
             suspend();
             _Enable{}
         }
