@@ -21,16 +21,16 @@ void sortFile(ostream &os, char* infile){
                     binsertsort.sort(value);
                 }
                 os << endl;
-                _Resume Binsertsort::Sentinel() _At binsertsort;
+                _Resume Binsertsort<T>::Sentinel() _At binsertsort;
                 try {
                     for (;;) {
                         _Enable{
-                            value = binsertsort.retrive();
+                            value = binsertsort.retrieve();
                         }
                         os << value << " ";
                     }
                 }
-                catch (Binsertsort::Sentinel &){
+                catch (Binsertsort<T>::Sentinel &){
                     os << endl << endl;
                 } 
             }
@@ -38,7 +38,7 @@ void sortFile(ostream &os, char* infile){
         }
         catch (...){
             file.close();
-            cerr << "Error! Could not open input file \"" << argv[1] << "\"" << endl;
+            cerr << "Error! Could not open input file \"" << infile << "\"" << endl;
             exit(EXIT_FAILURE);
         }
 }
@@ -49,10 +49,10 @@ int main( int argc, char * argv[] ) {
             try {
                 ofstream outfile(argv[2]);
                 sortFile(outfile, argv[1])
-                file.close();
+                outfile.close();
             }
             catch (...) {
-                file.close();
+                outfile.close();
                 exit( EXIT_FAILURE );
             }
         } else if (argc == 2){// std out
