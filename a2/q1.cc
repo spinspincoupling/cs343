@@ -46,13 +46,15 @@ void sortFile(ostream &os, char* infile){
 int main( int argc, char * argv[] ) {
     try {
         if( argc == 3 ){// write to file
+            ofstream outfile;
             try {
-                ofstream outfile(argv[2]);
+                outfile.open(argv[2]);
                 sortFile(outfile, argv[1]);
                 outfile.close();
             }
             catch (...) {
                 outfile.close();
+                cerr << "Error! Could not open file \"" << argv[2] << "\"" << endl;
                 exit( EXIT_FAILURE );
             }
         } else if (argc == 2){// std out
