@@ -38,13 +38,13 @@ class Point{
     }
 }
 
-istream& operator>> (istream& is, Point& p){
+std::istream& operator>> (istream& is, Point& p){
     char c;
     is>> c >> p.x >> c >> p.y>> c;
     return is;
 }
 
-ostream& operator<< (ostream& os, const Point& p){
+std::ostream& operator<< (ostream& os, const Point& p){
     os << '(' << p.x << ',' << p.y << ')';
     return os;
 }
