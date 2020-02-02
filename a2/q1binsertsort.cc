@@ -1,5 +1,6 @@
 #include "q1binsertsort.h"
 
+template<typename T>
 void Binsertsort<T>::main(){
     try{
         _Enable{}
