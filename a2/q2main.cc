@@ -11,6 +11,27 @@ using namespace std;
 
 PRNG prng;
 
+void game(){
+    //randomize
+            Printer printer = Printer(players, cards);
+            vector<unique_ptr<Player>> playerlist;
+            for (unsigned int i = 0; i < players; ++i) {
+                playerlist.emplace_back(new Player(printer, i));
+            }
+            try{
+                _Enable{
+                for (unsigned int i = 0; i < players; ++i) {
+                    playerlist[i]->start(*playerlist[(i + players - 1) % players], *playerlist[(i + 1) % players]);
+                }
+                int start = prng(players - 1);
+                playerlist[start]->play(cards);
+                }
+            }
+            catch (Player::GameOver &)
+            { 
+            }
+}
+
 int main( int argc, char * argv[] ) {
     int games = 5, seed = getpid();
     prng= PRNG(seed);
@@ -40,26 +61,8 @@ int main( int argc, char * argv[] ) {
     } // try
     Player::players(players);
     while (games > 0){
-            //randomize
-            Printer printer = Printer(players, cards);
-            vector<unique_ptr<Player>> playerlist;
-            for (unsigned int i = 0; i < players; ++i) {
-                playerlist.emplace_back(new Player(printer, i));
-            }
-            try{
-                _Enable{
-                for (unsigned int i = 0; i < players; ++i) {
-                    playerlist[i]->start(*playerlist[(i + players - 1) % players], *playerlist[(i + 1) % players]);
-                }
-                int start = prng(players - 1);
-                playerlist[start]->play(cards);
-                }
-            }
-            catch (Player::GameOver &)
-            { // one game terminates
-                --games;
-            }
-            printer.~Printer();
+        game();           
+            --games;
             if (games > 0)
             {
                 cout << endl << endl;
