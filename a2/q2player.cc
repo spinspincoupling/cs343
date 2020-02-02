@@ -38,7 +38,7 @@ void Player::main(){
         }
         unsigned int take = prng(1, 8); 
         if(take >= deck) { //win
-        std::cout << "should end" << std::endl;
+        //std::cout << "should end" << std::endl;
             printer.prt(id, deck, numPlayers);
             _Resume GameOver() _At starter();
             return;
