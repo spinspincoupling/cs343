@@ -30,7 +30,7 @@ void Player::main(){
         }
         unsigned int take = prng(1, 8); 
         try {
-            if(prng(9) == 0){
+            if(deck%DEATH_DECK_DIVISOR != 0 && prng(9) == 0){
                 std:: cout << "start drink" << std::endl;
                 _Resume Schmilblick() _At *rplayer;
                 rplayer->drink();
@@ -50,7 +50,7 @@ void Player::main(){
         if((deck + take)%DEATH_DECK_DIVISOR == 0){
             --numPlayers;
             std::cout << id << " " << take <<" " << deck << " " << numPlayers << std::endl;
-            printer.prt(1,2,2);
+            printer.prt(id,take,numPlayers);
             break;
         }
         printer.prt(id, take, numPlayers);
