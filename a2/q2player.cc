@@ -23,7 +23,6 @@ void Player::main(){
                 _Enable{}
         }
         catch (Schmilblick &){
-            std::cout << "call to printer -1" << std::endl;
             printer.prt(id, 0, -1);
             _Resume Schmilblick() _At *rplayer;
             rplayer->drink();
@@ -42,8 +41,7 @@ void Player::main(){
         }
         try {
             if(prng(9) == 0){
-                std:: cout << "start drink" <<" count is " << take << std::endl;
-                std::cout << "call to printer -1" << std::endl;
+                //std:: cout << "start drink" <<" count is " << take << std::endl;
                 printer.prt(id, 0, -1);
                 _Resume Schmilblick() _At *rplayer;
                 rplayer->drink();

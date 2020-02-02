@@ -25,7 +25,6 @@ void game(unsigned int players, unsigned int cards){
                 }
                 int start = prng(players - 1);
                 start = prng(players - 1);
-                std::cout << start << std::endl;
                 playerlist[start]->play(cards);
                 }
             }
