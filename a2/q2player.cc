@@ -16,7 +16,7 @@ void Player::passDeck(unsigned int deck){
 }
 
 void Player::main(){
-    std::cout << "num: " << numPlayers << std::endl;
+    //std::cout << "num: " << numPlayers << std::endl;
     suspend(); //start set cocaller
     //play get deck
     for(;;) {
@@ -30,7 +30,7 @@ void Player::main(){
             rplayer->drink();
             continue;
         }
-        std::cout << "remaining players: " << numPlayers << std::endl;
+        //std::cout << "remaining players: " << numPlayers << std::endl;
         if(numPlayers == 1){ //win
             printer.prt(id, 0, numPlayers);
             _Resume GameOver() _At starter();
@@ -48,7 +48,7 @@ void Player::main(){
         if(deck%DEATH_DECK_DIVISOR == 0){ //check dead
             deck -= take;
             terminate();
-            std::cout << "one die" << std::endl;
+            //std::cout << "one die" << std::endl;
             break;
         }
         try {
