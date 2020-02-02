@@ -4,7 +4,7 @@
 class Printer;
 _Coroutine Player {
     // YOU MAY ADD PRIVATE MEMBERS, INCLUDING STATICS
-    static unsigned int numPlayers;
+    static unsigned int numPlayers = 0;
     unsigned int id;
     unsigned int deck; //commuication
     Printer &printer;
@@ -14,7 +14,7 @@ _Coroutine Player {
     void passDeck(unsigned int deck);
     _Event Schmilblick{};
     _Event GameOver{};
-    void terminate() {
+    static void terminate() {
         --Player::numPlayers;
     }
 public:
