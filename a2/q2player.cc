@@ -47,10 +47,10 @@ void Player::main(){
         if((deck + take)%DEATH_DECK_DIVISOR == 0){
             --numPlayers;
             std::cout << id << " " << take <<" " << deck << " " << numPlayers << std::endl;
-            printer.prt(id, take<deck? take, numPlayers);
+            printer.prt(id, take, numPlayers);
             break;
         }
-        printer.prt(id, take<deck? take, numPlayers);
+        printer.prt(id, take, numPlayers);
         passDeck(deck);    
     }
     for(;;) { //dead
