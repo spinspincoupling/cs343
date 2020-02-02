@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <vector>
 #include "q2player.h"
+#include "q2printer.h"
 #include "PRNG.h"
 using namespace std;
 
@@ -59,3 +60,4 @@ int main( int argc, char * argv[] ) {
             cout << endl << endl;
         }
     }
+}
