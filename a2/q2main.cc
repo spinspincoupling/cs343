@@ -33,6 +33,7 @@ void game(unsigned int players, unsigned int cards){
 
 int main( int argc, char * argv[] ) {
     int games = 5, seed = getpid();
+    cout << "seed is " << seed << endl;
     unsigned int players, cards;
     try {                                               // process command-line arguments
         switch ( argc ) {
