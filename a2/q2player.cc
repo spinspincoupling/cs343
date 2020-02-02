@@ -13,26 +13,26 @@ void Player::passDeck(unsigned int deck){
 void Player::main(){
     suspend(); //start set cocaller
     //play get deck
-    for(;;) { 
+    for(;;) {
         try {
-            _Enable{}
+                _Enable{}
+        }
+        catch (Schmilblick &){
+            printer.prt(id, -1, numPlayers);
+            _Resume Schmilblick() _At *rplayer;
+            rplayer->drink();
+        }
+        unsigned int take = prng(1, 8); 
+        try {
             if(prng(9) == 0){
-                _Resume Schmilblick() _At rplayer;
+                _Resume Schmilblick() _At *rplayer;
                 rplayer->drink();
-                try {
-                    _Enable{}
-                }
-                catch (Schmilblick &){
-                    printer.prt(id, -1, numPlayers);
-                } 
+                _Enable{}
             }
         }
         catch (Schmilblick &){
             printer.prt(id, -1, numPlayers);
-            _Resume Schmilblick() _At rplayer;
-            rplayer->drink();
         }
-        int take = prng(1, 8);
         printer.prt(id, take, numPlayers); //see printer behaviors
         if(take >= deck || numPlayers == 1) { //win
             _Resume GameOver() _At starter();
@@ -44,10 +44,10 @@ void Player::main(){
     for(;;) { //dead
         try {
             _Enable{}
-            passDeck)(deck);
+            passDeck(deck);
         }
         catch (Schmilblick &){
-            _Resume Schmilblick() _At rplayer;
+            _Resume Schmilblick() _At *rplayer;
             rplayer->drink();
         }
     }

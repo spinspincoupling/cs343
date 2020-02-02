@@ -26,7 +26,7 @@ public:
         numPlayers = num;
     }
     Player(Printer & printer, unsigned int id):
-    printer{printer}, id{id}{
+    id{id}, printer{printer}{
     }
     void start(Player & lp, Player & rp){
         lplayer = &lp;
