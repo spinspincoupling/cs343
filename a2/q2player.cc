@@ -40,6 +40,7 @@ void Player::main(){
             _Resume GameOver() _At starter();
             return;
         }
+        std::cout << "take and not win at " << id << "count: " << take << std::endl; 
         printer.prt(id, take, numPlayers);
         if(deck%DEATH_DECK_DIVISOR == 0){ //check dead
             deck -= take;
@@ -48,7 +49,7 @@ void Player::main(){
         }
         try {
             if(prng(9) == 0){
-                std:: cout << "start drink" <<" count is " << take << std::endl;
+                std:: cout << "start drink" <<" raise at " << id << std::endl;
                 printer.prt(id, 0, -1);
                 _Resume Schmilblick() _At *rplayer;
                 rplayer->drink();
