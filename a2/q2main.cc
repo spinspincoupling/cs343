@@ -40,18 +40,17 @@ int main( int argc, char * argv[] ) {
     Player::players(players);
     while (games > 0){
         Printer printer = Printer(players, cards);
-        vector<Player> playerlist;
+        vector<unique_ptr<Player>> playerlist;
         for (unsigned int i = 0; i < players; ++i){
-            Player p = Player(printer, i);
-            playerlist.emplace_back(p);
+            playerlist.emplace_back( new Player(printer, i));
         }
         for (unsigned int i = 0; i < players; ++i){
-            playerlist[i].start(playerlist[(i + players - 1) % players], playerlist[(i + 1) % players]);
+            playerlist[i].start(*playerlist[(i + players - 1) % players], *playerlist[(i + 1) % players]);
         }
         int start = prng(players - 1);
         try{
             _Enable{
-                playerlist[start].play(cards);
+                playerlist[start]->play(cards);
             }
         }
         catch (...) { // one game terminates
