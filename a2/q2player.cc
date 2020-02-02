@@ -23,7 +23,7 @@ void Player::main(){
                 _Enable{}
         }
         catch (Schmilblick &){
-            std::cout << "catch at " << id << std::endl;
+            //std::cout << "catch at " << id << std::endl;
             printer.prt(id, 0, -1);
             _Resume Schmilblick() _At *rplayer;
             rplayer->drink();
@@ -36,12 +36,12 @@ void Player::main(){
         }
         unsigned int take = prng(1, 8); 
         if(take >= deck) { //win
-        std::cout << "should end" << std::endl;
+        //std::cout << "should end" << std::endl;
             printer.prt(id, deck, numPlayers);
             _Resume GameOver() _At starter();
             return;
         }
-        std::cout << "take and not win at " << id << " count: " << take << std::endl; 
+        //std::cout << "take and not win at " << id << " count: " << take << std::endl; 
         printer.prt(id, take, numPlayers);
         if(deck%DEATH_DECK_DIVISOR == 0){ //check dead
             deck -= take;
@@ -50,7 +50,7 @@ void Player::main(){
         }
         try {
             if(prng(9) == 0){
-                std:: cout << "start drink" <<" raise at " << id << std::endl;
+                //std:: cout << "start drink" <<" raise at " << id << std::endl;
                 printer.prt(id, 0, -1);
                 _Resume Schmilblick() _At *rplayer;
                 rplayer->drink();
@@ -58,7 +58,7 @@ void Player::main(){
             }
         }
         catch (Schmilblick &){
-            std::cout << "return catch at " << id << std::endl;
+            //std::cout << "return catch at " << id << std::endl;
         }
         deck -= take;
         passDeck(deck);    
