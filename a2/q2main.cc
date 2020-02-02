@@ -34,9 +34,6 @@ void game(unsigned int players, unsigned int cards){
 
 int main( int argc, char * argv[] ) {
     int games = 5, seed = getpid();
-    prng= PRNG(seed);
-    unsigned int players = prng(2,10);
-    unsigned int cards = prng(10,200);
     try {                                               // process command-line arguments
         switch ( argc ) {
           case 5: if ( strcmp( argv[4], "d" ) != 0 ) {  // default ?
@@ -59,8 +56,15 @@ int main( int argc, char * argv[] ) {
              " [ cards (> 0) | d [ seed (> 0) | d ] ] ] ]" << endl;
         exit( EXIT_FAILURE );
     } // try
+    prng= PRNG(seed);
     while (games > 0){
         Player::players(players);
+        if(argc < 3){
+            unsigned int players = prng(2,10);
+        }
+        if(argc < 4){
+            unsigned int cards = prng(10,200);
+        }
         game(players, cards);           
             --games;
             if (games > 0)
