@@ -11,7 +11,7 @@ using namespace std;
 
 PRNG prng;
 
-void game(){
+void game(unsigned int players, unsigned int cards){
     //randomize
             Printer printer = Printer(players, cards);
             vector<unique_ptr<Player>> playerlist;
@@ -61,7 +61,7 @@ int main( int argc, char * argv[] ) {
     } // try
     Player::players(players);
     while (games > 0){
-        game();           
+        game(players, cards);           
             --games;
             if (games > 0)
             {
