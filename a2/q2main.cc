@@ -57,7 +57,6 @@ int main( int argc, char * argv[] ) {
             }
             catch (Player::GameOver &)
             { // one game terminates
-                cout << "main" << endl;
                 --games;
             }
             if (games > 0)
