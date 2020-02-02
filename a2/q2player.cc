@@ -39,17 +39,18 @@ void Player::main(){
             printer.prt(id, -1, 0);
         }
         if(take >= deck || numPlayers == 1) { //win
+            printer.prt(id, take, numPlayers);
             _Resume GameOver() _At starter();
             return;
         }
         deck -= take;
         if((deck + take)%DEATH_DECK_DIVISOR == 0){
             --numPlayers;
-            std::cout << id << " " << take<deck? take:deck <<" " << deck << " " << numPlayers << std::endl;
-            printer.prt(id, take<deck? take:deck, numPlayers);
+            std::cout << id << " " << take <<" " << deck << " " << numPlayers << std::endl;
+            printer.prt(id, take<deck? take, numPlayers);
             break;
         }
-        printer.prt(id, take<deck? take:deck, numPlayers);
+        printer.prt(id, take<deck? take, numPlayers);
         passDeck(deck);    
     }
     for(;;) { //dead
