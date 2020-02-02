@@ -42,6 +42,5 @@ public:
         resume();
     }
 };
-unsigned int Player::numPlayers;
 
 #endif

@@ -4,6 +4,8 @@
 
 extern PRNG prng;
 
+unsigned int Player::numPlayers;
+
 void Player::passDeck(unsigned int deck){
     if(deck%2 == 0) {
         rplayer->play(deck);
