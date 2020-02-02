@@ -29,6 +29,18 @@ void Player::main(){
             rplayer->drink();
         }
         unsigned int take = prng(1, 8); 
+        if(take >= deck || numPlayers == 1) { //win
+            printer.prt(id, take<deck? take:deck, numPlayers);
+            _Resume GameOver() _At starter();
+            return;
+        }
+        
+        if((deck + take)%DEATH_DECK_DIVISOR == 0){
+            printer.prt(id,take,numPlayers);
+            --numPlayers;
+            break;
+        }
+        printer.prt(id, take, numPlayers);
         try {
             if(deck%DEATH_DECK_DIVISOR != 0 && prng(9) == 0){
                 std:: cout << "start drink" <<" count is " << take << std::endl;
@@ -41,18 +53,7 @@ void Player::main(){
         }
         catch (Schmilblick &){
         }
-        if(take >= deck || numPlayers == 1) { //win
-            printer.prt(id, take<deck? take:deck, numPlayers);
-            _Resume GameOver() _At starter();
-            return;
-        }
         deck -= take;
-        if((deck + take)%DEATH_DECK_DIVISOR == 0){
-            printer.prt(id,take,numPlayers);
-            --numPlayers;
-            break;
-        }
-        printer.prt(id, take, numPlayers);
         passDeck(deck);    
     }
     for(;;) { //dead
