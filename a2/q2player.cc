@@ -1,3 +1,4 @@
+#include <iostream>
 #include "q2player.h"
 #include "q2printer.h"
 #include "PRNG.h"
@@ -22,7 +23,7 @@ void Player::main(){
                 _Enable{}
         }
         catch (Schmilblick &){
-            printer.prt(id, -1, numPlayers);
+            printer.prt(id, -1, 0);
             _Resume Schmilblick() _At *rplayer;
             rplayer->drink();
         }
@@ -35,10 +36,11 @@ void Player::main(){
             }
         }
         catch (Schmilblick &){
-            printer.prt(id, -1, numPlayers);
+            printer.prt(id, -1, 0);
         }
-        printer.prt(id, take, numPlayers); //see printer behaviors
+        printer.prt(id, take<deck? take:deck, numPlayers); //see printer behaviors
         if(take >= deck || numPlayers == 1) { //win
+            std::cout << "should end" << std::endl;
             _Resume GameOver() _At starter();
         }
         deck -= take;

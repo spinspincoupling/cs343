@@ -40,6 +40,7 @@ int main( int argc, char * argv[] ) {
     } // try
     Player::players(players);
     while (games > 0){
+        //randomize
         Printer printer = Printer(players, cards);
         vector<unique_ptr<Player>> playerlist;
         for (unsigned int i = 0; i < players; ++i){
@@ -55,6 +56,7 @@ int main( int argc, char * argv[] ) {
             }
         }
         catch (...) { // one game terminates
+            cout << "main" << endl;
             --games;
         }
         if (games > 0){
