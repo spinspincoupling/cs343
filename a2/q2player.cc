@@ -20,7 +20,7 @@ void Player::main(){
                 _Enable{}
         }
         catch (Schmilblick &){
-            printer.prt(id, -1, Player::numPlayers);
+            printer.prt(id, -1, numPlayers);
             _Resume Schmilblick() _At *rplayer;
             rplayer->drink();
         }
@@ -33,10 +33,10 @@ void Player::main(){
             }
         }
         catch (Schmilblick &){
-            printer.prt(id, -1, Player::numPlayers);
+            printer.prt(id, -1, numPlayers);
         }
-        printer.prt(id, take, Player::numPlayers); //see printer behaviors
-        if(take >= deck || Player::numPlayers == 1) { //win
+        printer.prt(id, take, numPlayers); //see printer behaviors
+        if(take >= deck || numPlayers == 1) { //win
             _Resume GameOver() _At starter();
         }
         deck -= take;
