@@ -27,9 +27,14 @@ void Player::main(){
             _Resume Schmilblick() _At *rplayer;
             rplayer->drink();
         }
-        unsigned int take = prng(1, 8); 
-        if(take >= deck || numPlayers == 1) { //win
+        if(numPlayers == 1){
             printer.prt(id, take<deck? take:deck, numPlayers);
+            _Resume GameOver() _At starter();
+            return;
+        }
+        unsigned int take = prng(1, 8); 
+        if(take >= deck) { //win
+            printer.prt(id, deck, numPlayers);
             _Resume GameOver() _At starter();
             return;
         }
