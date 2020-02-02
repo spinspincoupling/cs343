@@ -58,8 +58,8 @@ int main( int argc, char * argv[] ) {
             catch (Player::GameOver &)
             { // one game terminates
                 --games;
-                printer.~Printer();
             }
+            printer.~Printer();
             if (games > 0)
             {
                 cout << endl << endl;
