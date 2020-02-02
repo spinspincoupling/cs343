@@ -40,27 +40,30 @@ int main( int argc, char * argv[] ) {
     } // try
     Player::players(players);
     while (games > 0){
-        //randomize
-        Printer printer = Printer(players, cards);
-        vector<unique_ptr<Player>> playerlist;
-        for (unsigned int i = 0; i < players; ++i){
-            playerlist.emplace_back( new Player(printer, i));
-        }
-        for (unsigned int i = 0; i < players; ++i){
-            playerlist[i]->start(*playerlist[(i + players - 1) % players], *playerlist[(i + 1) % players]);
-        }
-        int start = prng(players - 1);
-        try{
-            _Enable{
-                playerlist[start]->play(cards);
+            //randomize
+            Printer printer = Printer(players, cards);
+            vector<unique_ptr<Player>> playerlist;
+            for (unsigned int i = 0; i < players; ++i) {
+                playerlist.emplace_back(new Player(printer, i));
             }
-        }
-        catch (...) { // one game terminates
-            cout << "main" << endl;
-            --games;
-        }
-        if (games > 0){
-            cout << endl << endl;
-        }
+            try{
+                for (unsigned int i = 0; i < players; ++i) {
+                _Enable{
+                    playerlist[i]->start(*playerlist[(i + players - 1) % players], *playerlist[(i + 1) % players]);
+                }
+            }
+            int start = prng(players - 1);
+            playerlist[start]->play(cards);
+            }
+            catch (...)
+            { // one game terminates
+                cout << "main" << endl;
+                --games;
+            }
+            if (games > 0)
+            {
+                cout << endl
+                     << endl;
+            }
     }
 }
