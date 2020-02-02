@@ -46,6 +46,7 @@ void Player::main(){
         if(deck%DEATH_DECK_DIVISOR == 0){ //check dead
             deck -= take;
             --numPlayers;
+            std::cout << "one die" << std::endl;
             break;
         }
         try {
