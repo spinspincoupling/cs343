@@ -23,7 +23,7 @@ public:
         DEATH_DECK_DIVISOR = 7
     };
     static void players(unsigned int num){
-        Player::numPlayers = num;
+        numPlayers = num;
     }
     Player(Printer & printer, unsigned int id):
     id{id}, printer{printer}{
