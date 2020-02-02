@@ -31,6 +31,7 @@ void Player::main(){
         unsigned int take = prng(1, 8); 
         try {
             if(prng(9) == 0){
+                std:: cout << "start drink" << std::endl;
                 _Resume Schmilblick() _At *rplayer;
                 rplayer->drink();
                 _Enable{}
