@@ -29,14 +29,13 @@ void Player::main(){
             rplayer->drink();
             continue;
         }
-        if(numPlayers == 2) std::cout << "two remaining" << std::endl;
+        std::cout << "remaining players: " << numPlayers << std::endl;
         if(numPlayers == 1){ //win
             printer.prt(id, 0, numPlayers);
             _Resume GameOver() _At starter();
             return;
         }
         unsigned int take = prng(1, 8); 
-        if(numPlayers == 1) std::cout << "one remaining" << std::endl;
         if(take >= deck) { //win
         std::cout << "should end" << std::endl;
             printer.prt(id, deck, numPlayers);
@@ -47,7 +46,7 @@ void Player::main(){
         printer.prt(id, take, numPlayers);
         if(deck%DEATH_DECK_DIVISOR == 0){ //check dead
             deck -= take;
-            --numPlayers;
+            terminate();
             std::cout << "one die" << std::endl;
             break;
         }
