@@ -28,7 +28,7 @@ void Player::main(){
             rplayer->drink();
         }
         if(numPlayers == 1){
-            printer.prt(id, take<deck? take:deck, numPlayers);
+            printer.prt(id, -1, numPlayers);
             _Resume GameOver() _At starter();
             return;
         }
