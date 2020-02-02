@@ -40,9 +40,10 @@ void Player::main(){
         }
         printer.prt(id, take<deck? take:deck, numPlayers); //see printer behaviors
         if(take >= deck || numPlayers == 1) { //win
-            std::cout << "should end" << std::endl;
             std::cout << starter().getName() << std::endl;;
+            std::cout << "should end" << std::endl;
             _Resume GameOver() _At starter();
+            suspend();
         }
         deck -= take;
         if((deck + take)%DEATH_DECK_DIVISOR == 0){
