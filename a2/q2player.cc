@@ -37,6 +37,7 @@ void Player::main(){
         printer.prt(id, take, numPlayers);
         if(deck%DEATH_DECK_DIVISOR == 0){
             //printer.prt(id,take,numPlayers);
+            std::cout << "dead" << std::endl;
             --numPlayers;
             break;
         }
