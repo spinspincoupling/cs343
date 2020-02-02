@@ -6,9 +6,11 @@
 #include "PRNG.h"
 using namespace std:
 
+extern PRNG prng;
+
 int main( int argc, char * argv[] ) {
     int games = 5, seed = getpid();
-    PRNG prng(seed);
+    prng= PRNG(seed);
     unsigned int players = prng(2,10);
     unsigned int cards = prng(10,200);
     try {                                               // process command-line arguments

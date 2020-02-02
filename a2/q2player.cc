@@ -2,8 +2,6 @@
 #include "q2printer.h"
 #include "PRNG.h"
 
-class PRNG;
-
 void Player::passDeck(unsigned int deck){
     if(deck%2 == 0) {
         rplayer->play(deck);
