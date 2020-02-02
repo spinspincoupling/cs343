@@ -59,8 +59,8 @@ int main( int argc, char * argv[] ) {
              " [ cards (> 0) | d [ seed (> 0) | d ] ] ] ]" << endl;
         exit( EXIT_FAILURE );
     } // try
-    Player::players(players);
     while (games > 0){
+        Player::players(players);
         game(players, cards);           
             --games;
             if (games > 0)
