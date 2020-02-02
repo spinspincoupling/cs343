@@ -3,6 +3,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <vector>
+#include <memory>
 #include "q2player.h"
 #include "q2printer.h"
 #include "PRNG.h"
