@@ -24,7 +24,6 @@ void game(unsigned int players, unsigned int cards){
                     playerlist[i]->start(*playerlist[(i + players - 1) % players], *playerlist[(i + 1) % players]);
                 }
                 int start = prng(players - 1);
-                start = prng(players - 1);
                 playerlist[start]->play(cards);
                 }
             }
