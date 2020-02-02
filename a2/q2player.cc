@@ -29,7 +29,7 @@ void Player::main(){
             rplayer->drink();
             continue;
         }
-        if(numPlayers == 1){ //win
+        if(numPlayers <= 1){ //win
             printer.prt(id, 0, numPlayers);
             _Resume GameOver() _At starter();
             return;
