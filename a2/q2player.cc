@@ -43,7 +43,7 @@ void Player::main(){
             std::cout << starter().getName() << std::endl;;
             std::cout << "should end" << std::endl;
             _Resume GameOver() _At starter();
-            suspend();
+            return;
         }
         deck -= take;
         if((deck + take)%DEATH_DECK_DIVISOR == 0){
