@@ -6,7 +6,7 @@
 #include "PRNG.h"
 using namespace std:
 
-extern PRNG prng;
+PRNG prng;
 
 int main( int argc, char * argv[] ) {
     int games = 5, seed = getpid();
