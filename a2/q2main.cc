@@ -59,13 +59,13 @@ int main( int argc, char * argv[] ) {
     } // try
     prng= PRNG(seed);
     while (games > 0){
-        Player::players(players);
         if(argc < 3){
             players = prng(2,10);
         }
         if(argc < 4){
             cards = prng(10,200);
         }
+        Player::players(players);
         game(players, cards);           
             --games;
             if (games > 0)

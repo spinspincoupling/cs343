@@ -16,6 +16,7 @@ void Player::passDeck(unsigned int deck){
 }
 
 void Player::main(){
+    std::cout << "num: " << numPlayers << std::endl;
     suspend(); //start set cocaller
     //play get deck
     for(;;) {
