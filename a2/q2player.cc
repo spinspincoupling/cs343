@@ -35,7 +35,7 @@ void Player::main(){
             return;
         }
         
-        if((deck + take)%DEATH_DECK_DIVISOR == 0){
+        if(deck%DEATH_DECK_DIVISOR == 0){
             printer.prt(id,take,numPlayers);
             --numPlayers;
             break;
