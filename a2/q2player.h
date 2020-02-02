@@ -15,7 +15,7 @@ _Coroutine Player {
     _Event Schmilblick{};
     _Event GameOver{};
     static void terminate() {
-        --numPlayers;
+        --Player::numPlayers;
     }
 public:
     enum
@@ -23,7 +23,7 @@ public:
         DEATH_DECK_DIVISOR = 7
     };
     static void players(unsigned int num){
-        numPlayers = num;
+        Player::numPlayers = num;
     }
     Player(Printer & printer, unsigned int id):
     id{id}, printer{printer}{
