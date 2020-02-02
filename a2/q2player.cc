@@ -24,7 +24,7 @@ void Player::main(){
         }
         catch (Schmilblick &){
             std::cout << "call to printer -1" << std::endl;
-            printer.prt(id, -1, numPlayers);
+            printer.prt(id, -1, -1);
             _Resume Schmilblick() _At *rplayer;
             rplayer->drink();
         }
@@ -32,14 +32,14 @@ void Player::main(){
         try {
             if(deck%DEATH_DECK_DIVISOR != 0 && prng(9) == 0){
                 std:: cout << "start drink" << std::endl;
+                std::cout << "call to printer -1" << std::endl;
+                printer.prt(id, -1, -1);
                 _Resume Schmilblick() _At *rplayer;
                 rplayer->drink();
                 _Enable{}
             }
         }
         catch (Schmilblick &){
-            std::cout << "call to printer -1" << std::endl;
-            printer.prt(id, -1, numPlayers);
         }
         if(take >= deck || numPlayers == 1) { //win
             printer.prt(id, take<deck? take:deck, numPlayers);

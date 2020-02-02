@@ -27,8 +27,7 @@ void game(unsigned int players, unsigned int cards){
                 playerlist[start]->play(cards);
                 }
             }
-            catch (Player::GameOver &)
-            { 
+            catch (...){ 
             }
 }
 
