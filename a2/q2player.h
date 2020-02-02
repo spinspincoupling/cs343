@@ -14,7 +14,7 @@ _Coroutine Player {
     void passDeck(unsigned int deck);
     _Event Schmilblick{};
     _Event GameOver{};
-    static void terminate() {
+    void terminate() {
         --Player::numPlayers;
     }
 public:
@@ -42,7 +42,5 @@ public:
         resume();
     }
 };
-
-unsigned int Player::numPlayers;
 
 #endif
