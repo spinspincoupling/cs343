@@ -38,21 +38,20 @@ void Player::main(){
         catch (Schmilblick &){
             printer.prt(id, -1, 0);
         }
-        printer.prt(id, take<deck? take:deck, numPlayers); //see printer behaviors
         if(take >= deck || numPlayers == 1) { //win
             _Resume GameOver() _At starter();
             return;
         }
         deck -= take;
         if((deck + take)%DEATH_DECK_DIVISOR == 0){
-            std::cout << "detect termination" << std::endl;
             --numPlayers;
+            printer.prt(id, take<deck? take:deck, numPlayers);
             break;
         }
+        printer.prt(id, take<deck? take:deck, numPlayers);
         passDeck(deck);    
     }
     for(;;) { //dead
-    std::cout << "dead" << std::endl;
         try {
             _Enable{}
             passDeck(deck);
