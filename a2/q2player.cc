@@ -34,7 +34,7 @@ void Player::main(){
         }
         unsigned int take = prng(1, 8); 
         if(take >= deck) { //win
-        std::cout << "should end win" << std::endl;
+        std::cout << "should end" << std::endl;
             printer.prt(id, deck, numPlayers);
             _Resume GameOver() _At starter();
             return;
@@ -47,7 +47,7 @@ void Player::main(){
         }
         try {
             if(prng(9) == 0){
-                //std:: cout << "start drink" <<" count is " << take << std::endl;
+                std:: cout << "start drink" <<" count is " << take << std::endl;
                 printer.prt(id, 0, -1);
                 _Resume Schmilblick() _At *rplayer;
                 rplayer->drink();
