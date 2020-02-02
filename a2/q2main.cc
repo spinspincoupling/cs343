@@ -46,7 +46,7 @@ int main( int argc, char * argv[] ) {
             playerlist.emplace_back( new Player(printer, i));
         }
         for (unsigned int i = 0; i < players; ++i){
-            playerlist[i].start(*playerlist[(i + players - 1) % players], *playerlist[(i + 1) % players]);
+            playerlist[i]->start(*playerlist[(i + players - 1) % players], *playerlist[(i + 1) % players]);
         }
         int start = prng(players - 1);
         try{
