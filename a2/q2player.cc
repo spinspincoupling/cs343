@@ -35,9 +35,9 @@ void Player::main(){
             return;
         }
         printer.prt(id, take, numPlayers);
+        deck -= take;
         if(deck%DEATH_DECK_DIVISOR == 0){
             //printer.prt(id,take,numPlayers);
-            std::cout << "dead" << std::endl;
             --numPlayers;
             break;
         }
@@ -53,7 +53,6 @@ void Player::main(){
         }
         catch (Schmilblick &){
         }
-        deck -= take;
         passDeck(deck);    
     }
     for(;;) { //dead
