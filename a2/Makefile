@@ -1,14 +1,14 @@
-TYPE:=Point
+TYPE:=int
 
 CXX = u++					# compiler
 CXXFLAGS = -g -Wall -Wextra -MMD -DTYPE="${TYPE}"
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 
 ## NOTE: q1binsertsort.h must *NOT* be compiled, so don't put it in the list of objects!
-OBJECTS1 = q1.o
+OBJECTS1 = q1binsertsort.o q1.o
 EXEC1 = binsertsort
 
-OBJECTS2 = q2printer.o
+OBJECTS2 = q2printer.o q2player.o q2main.o
 EXEC2 = cardgame
 
 OBJECTS = ${OBJECTS1} ${OBJECTS2}		# all object files

@@ -1,13 +1,11 @@
 #include "q1binsertsort.h"
 
-template<typename T>
-void Binsertsort<T>::main()
-{
+void Binsertsort<T>::main(){
     try{
         _Enable{}
     }
     catch (Sentinel &){
-        _Resume Sentinel();
+        _Resume Sentinel() _At resumer();
     }
     T pivot = value;
     try {
@@ -16,7 +14,7 @@ void Binsertsort<T>::main()
     }
     catch (Sentinel &) { // end of value set
         suspend();
-        _Resume Sentinel();
+        _Resume Sentinel() _At resumer();
     }
     // implies vertex node
     Binsertsort<T> less, greater; // create less and greater
@@ -37,7 +35,7 @@ void Binsertsort<T>::main()
     try{
         for (;;) {
             _Enable{
-                value = less.retrive();
+                value = less.retrieve();
             }
             suspend();
         }
@@ -50,12 +48,12 @@ void Binsertsort<T>::main()
     try {
         for (;;) {
             _Enable {
-                value = less.retrive();
+                value = greater.retrieve();
             }
             suspend();
         }
     }
     catch (Sentinel &){ // all branch ends notify parent
     }
-    _Resume Sentinel();
+    _Resume Sentinel() _At resumer();
 }

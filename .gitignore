@@ -1,5 +1,4 @@
 *.pdf
-*.o
 *.d
 .vscode/
 *.pl
