@@ -44,8 +44,8 @@ void Player::main(){
         }
         deck -= take;
         if((deck + take)%DEATH_DECK_DIVISOR == 0){
-            std::cout << id << take << deck << numPlayers << std::endl;
             --numPlayers;
+            std::cout << id << " " << take<deck? take:deck <<" " << deck << " " << numPlayers << std::endl;
             printer.prt(id, take<deck? take:deck, numPlayers);
             break;
         }
