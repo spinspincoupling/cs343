@@ -45,12 +45,14 @@ void Player::main(){
         }
         deck -= take;
         if((deck + take)%DEATH_DECK_DIVISOR == 0){
-            terminate();
+            std::cout << "detect termination" << std::endl;
+            --numPlayer;
             break;
         }
         passDeck(deck);    
     }
     for(;;) { //dead
+    std::cout << "dead" << std::endl;
         try {
             _Enable{}
             passDeck(deck);
