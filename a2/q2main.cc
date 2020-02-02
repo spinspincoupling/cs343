@@ -55,15 +55,14 @@ int main( int argc, char * argv[] ) {
             int start = prng(players - 1);
             playerlist[start]->play(cards);
             }
-            catch (...)
+            catch (Player::GameOver &)
             { // one game terminates
                 cout << "main" << endl;
                 --games;
             }
             if (games > 0)
             {
-                cout << endl
-                     << endl;
+                cout << endl << endl;
             }
     }
 }

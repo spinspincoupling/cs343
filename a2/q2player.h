@@ -13,11 +13,11 @@ _Coroutine Player {
     void main();
     void passDeck(unsigned int deck);
     _Event Schmilblick{};
-    _Event GameOver{};
     static void terminate() {
         --numPlayers;
     }
 public:
+    _Event GameOver{};
     enum
     {
         DEATH_DECK_DIVISOR = 7
