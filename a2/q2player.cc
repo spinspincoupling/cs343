@@ -24,7 +24,7 @@ void Player::main(){
         }
         catch (Schmilblick &){
             std::cout << "call to printer -1" << std::endl;
-            printer.prt(id, -1, -1);
+            printer.prt(id, 0, -1);
             _Resume Schmilblick() _At *rplayer;
             rplayer->drink();
         }
@@ -34,18 +34,17 @@ void Player::main(){
             _Resume GameOver() _At starter();
             return;
         }
-        
+        printer.prt(id, take, numPlayers);
         if(deck%DEATH_DECK_DIVISOR == 0){
-            printer.prt(id,take,numPlayers);
+            //printer.prt(id,take,numPlayers);
             --numPlayers;
             break;
         }
-        printer.prt(id, take, numPlayers);
         try {
-            if(deck%DEATH_DECK_DIVISOR != 0 && prng(9) == 0){
+            if(prng(9) == 0){
                 std:: cout << "start drink" <<" count is " << take << std::endl;
                 std::cout << "call to printer -1" << std::endl;
-                printer.prt(id, -1, -1);
+                printer.prt(id, 0, -1);
                 _Resume Schmilblick() _At *rplayer;
                 rplayer->drink();
                 _Enable{}
