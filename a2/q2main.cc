@@ -36,29 +36,26 @@ int main( int argc, char * argv[] ) {
              " [ cards (> 0) | d [ seed (> 0) | d ] ] ] ]" << endl;
         exit( EXIT_FAILURE );
     } // try
-    try {
-        Player.players(players);
-        while(games > 0) {
-            Printer printer = Printer(players, cards);
-            vector<Player> playerlist;
-            for(unsigned int i=0; i<players; ++i) {
-                playerlist.emplace_back(Player(printer), i);
-            }
-            for(unsigned int i=0; i<players; ++i) {
-                playerlist[i].start(playerlist[(i+players-1)%players], playerlist[(i+1)%players]);
-            }
-            int start = prng(players-1);
-            try{
-                _Enable{
-                    playerlist[start].play(cards);
-                }
-            }
-            catch (...) { // one game terminates
-                --games;
-            }
-            if(game > 0){
-                cout<< endl <<endl;
+    Player::players(players);
+    while (games > 0){
+        Printer printer = Printer(players, cards);
+        vector<Player> playerlist;
+        for (unsigned int i = 0; i < players; ++i){
+            playerlist.emplace_back(Player(printer), i);
+        }
+        for (unsigned int i = 0; i < players; ++i){
+            playerlist[i].start(playerlist[(i + players - 1) % players], playerlist[(i + 1) % players]);
+        }
+        int start = prng(players - 1);
+        try{
+            _Enable{
+                playerlist[start].play(cards);
             }
         }
-
+        catch (...) { // one game terminates
+            --games;
+        }
+        if (games > 0){
+            cout << endl << endl;
+        }
     }
