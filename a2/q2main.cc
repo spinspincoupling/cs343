@@ -1,10 +1,11 @@
 #include <iostream>
 #include <unistd.h>
 #include <cstring>
+#include <cstdlib>
 #include <vector>
 #include "q2player.h"
 #include "PRNG.h"
-using namespace std:
+using namespace std;
 
 PRNG prng;
 
