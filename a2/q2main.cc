@@ -42,7 +42,8 @@ int main( int argc, char * argv[] ) {
         Printer printer = Printer(players, cards);
         vector<Player> playerlist;
         for (unsigned int i = 0; i < players; ++i){
-            playerlist.emplace_back(Player(printer, i));
+            Player p = Player(printer, i);
+            playerlist.emplace_back(p);
         }
         for (unsigned int i = 0; i < players; ++i){
             playerlist[i].start(playerlist[(i + players - 1) % players], playerlist[(i + 1) % players]);
