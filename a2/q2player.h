@@ -1,6 +1,7 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
+class Printer;
 _Coroutine Player {
     // YOU MAY ADD PRIVATE MEMBERS, INCLUDING STATICS
     static unsigned int numPlayers;
