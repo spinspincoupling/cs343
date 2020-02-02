@@ -43,4 +43,6 @@ public:
     }
 };
 
+unsigned int Player::numPlayers;
+
 #endif
