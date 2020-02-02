@@ -1,0 +1,45 @@
+(a) Show the 10 results from each version of the program.
+without multi:
+shared:452280152
+shared:487769904
+shared:419605521
+shared:476004389
+shared:361239796
+shared:430581198
+shared:435663707
+shared:449154080
+shared:421700495
+shared:412082563
+
+with multi:
+shared:318519230
+shared:333710116
+shared:311695049
+shared:331586316
+shared:304085684
+shared:336857460
+shared:319128516
+shared:320833854
+shared:303493194
+shared:318845306
+
+(b) Must all 10 runs for each version produce the same result? Explain your answer.
+No. This is because even without multiprocessors, the two iterations happen in two threads, they both access the shared 
+global variable, race condition may arise and if one thread has not finifshed writing to shared and another thread
+read the wrong value of shared and calculte the wrong answer and write that wrong answer into shard. This could happen in
+every iteration. The chance of that happening depends on the timing of read and write which are uncertain.
+
+(c) In theory, what are the smallest and largest values that could be printed out by this program with an
+argument of 100000000? Explain your answers. (Hint: one of the obvious answers is wrong.)
+
+The largest value would be 600000000-6 = 599999993 if no race consition ever happens, all reads are after previous writes.
+The smallest would be 300000001-6 = 299999994 if race conditions happen one after another, ie except for the first read,
+all other reads are incorrect hence the first thread that writes ignores all the addiiton of the second thread. Overall, 
+only addiiton in one of the thread and the last addition from the other thread is actually added.
+
+
+(d) Explain the difference in the size of the values between the uniprocessor and multiprocessor output.
+More race conditions would arise when we have multiprocessors, this is because then the two threads can execute in 
+parallel, both threads are reading and writing at the same time. However, when we only have one CPU, the concurrency
+is achieved via rapid context switch. The race consition only arises during conetxt switch, therefore the chance of read
+before write is lower and hence the result is closer to the actual correct result of the program.
