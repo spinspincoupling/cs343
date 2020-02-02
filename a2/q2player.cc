@@ -31,6 +31,7 @@ void Player::main(){
         unsigned int take = prng(1, 8); 
         if(take >= deck || numPlayers == 1) { //win
             printer.prt(id, take<deck? take:deck, numPlayers);
+            prng(9);
             _Resume GameOver() _At starter();
             return;
         }
