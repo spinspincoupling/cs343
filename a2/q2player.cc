@@ -46,7 +46,7 @@ void Player::main(){
         deck -= take;
         if((deck + take)%DEATH_DECK_DIVISOR == 0){
             std::cout << "detect termination" << std::endl;
-            --numPlayer;
+            --numPlayers;
             break;
         }
         passDeck(deck);    
