@@ -2,13 +2,13 @@
 #include "q2printer.h"
 
 void Printer::clearBuffer(){
-    for(int i=0; i<NoOfPlayers; ++i){
+    for(unsigned int i=0; i<NoOfPlayers; ++i){
             if(!written[i]){
                 std::cout << '\t';
                 continue;
             }
             written[i] = false;
-            if(remainingPlayers == -1){
+            if(remainingPlayers.get()[i] == -1){
                 std::cout << 'D' << '\t';
                 continue;
             }
@@ -35,7 +35,7 @@ Printer::Printer( const unsigned int NoOfPlayers, const unsigned int NoOfCards )
             w= false;
         }
         std::cout << "Players: " << NoOfPlayers <<  '\t' << "Cards: " << NoOfCards << std::endl;
-        for(int i=0; i<NoOfPlayers; ++i){
+        for(unsigned int i=0; i<NoOfPlayers; ++i){
             std::cout << "P" << i << '\t';
         }
         std::cout << std::endl;
