@@ -4,12 +4,13 @@
 void Printer::clearBuffer(){
     for(unsigned int i=0; i<NoOfPlayers; ++i){
             if(!written[i]){
-                std::cout << '\t';
+                if(i < NoOfPlayers-1) std::cout << '\t';
                 continue;
             }
             written[i] = false;
             if(remainingPlayers.get()[i] == -1){
-                std::cout << 'D' << '\t';
+                std::cout << 'D' ;
+                if(i < NoOfPlayers-1) std::cout<< '\t';
                 continue;
             }
             bool dead = (taken[i]+remainingCards[i]) % DEATH_DECK_DIVISOR == 0;
@@ -21,7 +22,7 @@ void Printer::clearBuffer(){
                 else std::cout << '<';
             } else std::cout << '#';
             if(dead) std::cout << 'X';
-            std::cout << '\t';           
+            if(i < NoOfPlayers-1)  std::cout << '\t';           
         }
     std::cout << std::endl;
 }
@@ -34,7 +35,8 @@ Printer::Printer( const unsigned int NoOfPlayers, const unsigned int NoOfCards )
         }
         std::cout << "Players: " << NoOfPlayers <<  '\t' << "Cards: " << NoOfCards << std::endl;
         for(unsigned int i=0; i<NoOfPlayers; ++i){
-            std::cout << "P" << i << '\t';
+            std::cout << "P" << i ;
+            if(i < NoOfPlayers-1) std::cout << "    ";
         }
         std::cout << std::endl;
 }
