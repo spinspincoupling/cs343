@@ -12,7 +12,7 @@ void Printer::clearBuffer(){
                 std::cout << 'D' << '\t';
                 continue;
             }
-            bool dead = (taken[i]+remainingCard[i]) % DEATH_DECK_DIVISOR == 0;
+            bool dead = (taken[i]+remainingCards[i]) % DEATH_DECK_DIVISOR == 0;
             bool win = remainingPlayers[i] == 1 || remainingCards[i] == 0;
             if(remainingPlayers[i] == 1) std::cout<< '#' << remainingCards[i];
             else std::cout << taken[i] << ':' << remainingCards[i];
@@ -26,11 +26,8 @@ void Printer::clearBuffer(){
 }
 
 Printer::Printer( const unsigned int NoOfPlayers, const unsigned int NoOfCards )
-    :NoOfPlayers{NoOfPlayers}, NoOfCards{NoOfCards}{
-        written = std::unique_ptr(new bool[NoOfPlayers]);
-        taken = std::unique_ptr(new int[NoOfPlayers]);
-        remainingCards = std::unique_ptr(new int[NoOfPlayers]);
-        remainingPlayers = std::unique_ptr(new int[NoOfPlayers]);
+    :NoOfPlayers{NoOfPlayers}, NoOfCards{NoOfCards}, written{new bool[NoOfPlayers]},
+    taken{new int[NoOfPlayers]}, remainingCards{new int[NoOfPlayers]},remainingPlayers{new int[NoOfPlayers]} {
         for(auto w:written) {
             w= false;
         }
