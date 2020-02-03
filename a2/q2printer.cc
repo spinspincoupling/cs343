@@ -8,11 +8,11 @@ void Printer::clearBuffer(){
                 //if(i < NoOfPlayers-1) std::cout << '\t';
                 continue;
             }
-            lastwrite = i;
             written[i] = false;
             for(unsigned int j=lastwrite+1; j<i; ++j){
                 std::cout << '\t';
             }
+            lastwrite = i;
             if(remainingPlayers.get()[i] == -1){
                 std::cout << 'D' ;
                 if(i < NoOfPlayers-1) std::cout<< '\t';
