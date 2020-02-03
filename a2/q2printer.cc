@@ -2,12 +2,17 @@
 #include "q2printer.h"
 
 void Printer::clearBuffer(){
+    int lastwrite = -1;
     for(unsigned int i=0; i<NoOfPlayers; ++i){
             if(!written[i]){
-                if(i < NoOfPlayers-1) std::cout << '\t';
+                //if(i < NoOfPlayers-1) std::cout << '\t';
                 continue;
             }
+            lastwrite = i;
             written[i] = false;
+            for(unsigned int j=lastwrite; j<i; ++j){
+                std::cout << '\t';
+            }
             if(remainingPlayers.get()[i] == -1){
                 std::cout << 'D' ;
                 if(i < NoOfPlayers-1) std::cout<< '\t';
