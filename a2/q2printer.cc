@@ -10,7 +10,7 @@ void Printer::clearBuffer(){
             }
             lastwrite = i;
             written[i] = false;
-            for(unsigned int j=lastwrite; j<i; ++j){
+            for(unsigned int j=lastwrite+1; j<i; ++j){
                 std::cout << '\t';
             }
             if(remainingPlayers.get()[i] == -1){
