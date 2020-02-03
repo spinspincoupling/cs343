@@ -28,7 +28,7 @@ void Printer::clearBuffer(){
 Printer::Printer( const unsigned int NoOfPlayers, const unsigned int NoOfCards )
     :NoOfPlayers{NoOfPlayers}, NoOfCards{NoOfCards}, written{new bool[NoOfPlayers]},
     taken{new int[NoOfPlayers]}, remainingCards{new int[NoOfPlayers]},remainingPlayers{new int[NoOfPlayers]} {
-        for(auto w:written) {
+        for(auto w:written.get()) {
             w= false;
         }
         std::cout << "Players: " << NoOfPlayers <<  '\t' << "Cards: " << NoOfCards << std::endl;
@@ -48,7 +48,7 @@ void Printer::prt( unsigned int id, int took, int RemainingPlayers ){
         std::cout << std::endl;
     }
     taken[id] = took;
-    remainingPlayers[id] = remainingPlayers;
+    remainingPlayers[id] = RemainingPlayers;
     NoOfCards -= took;
     remainingCards[id] = NoOfCards;
 }
