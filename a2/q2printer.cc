@@ -33,10 +33,10 @@ Printer::Printer( const unsigned int NoOfPlayers, const unsigned int NoOfCards )
         for(unsigned int i=0; i<NoOfPlayers; ++i) {
             written[i] = false;
         }
-        std::cout << "Players: " << NoOfPlayers <<  '\t' << "Cards: " << NoOfCards << std::endl;
+        std::cout << "Players: " << NoOfPlayers <<  "    " << "Cards: " << NoOfCards << std::endl;
         for(unsigned int i=0; i<NoOfPlayers; ++i){
             std::cout << "P" << i ;
-            if(i < NoOfPlayers-1) std::cout << "    ";
+            if(i < NoOfPlayers-1) std::cout << '\t';
         }
         std::cout << std::endl;
 }
