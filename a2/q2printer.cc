@@ -23,6 +23,7 @@ void Printer::clearBuffer(){
             if(dead) std::cout << 'X';
             std::cout << '\t';           
         }
+    std::cout << std::endl;
 }
 
 Printer::Printer( const unsigned int NoOfPlayers, const unsigned int NoOfCards )
@@ -45,8 +46,8 @@ Printer::~Printer(){
 void Printer::prt( unsigned int id, int took, int RemainingPlayers ){
     if(written[id]) {//clear buffer
         clearBuffer();
-        std::cout << std::endl;
     }
+    written[id] = true;
     taken[id] = took;
     remainingPlayers[id] = RemainingPlayers;
     NoOfCards -= took;
