@@ -2,20 +2,20 @@
 #include "q2printer.h"
 
 void Printer::clearBuffer(){
-    int lastwrite = -1;
+    int lastwrite = 0;
     for(unsigned int i=0; i<NoOfPlayers; ++i){
             if(!written[i]){
                 //if(i < NoOfPlayers-1) std::cout << '\t';
                 continue;
             }
             written[i] = false;
-            for(unsigned int j=lastwrite+1; j<i; ++j){
+            for(unsigned int j=lastwrite; j<i; ++j){
                 std::cout << '\t';
             }
             lastwrite = i;
             if(remainingPlayers.get()[i] == -1){
                 std::cout << 'D' ;
-                if(i < NoOfPlayers-1) std::cout<< '\t';
+                //if(i < NoOfPlayers-1) std::cout<< '\t';
                 continue;
             }
             bool dead = (taken[i]+remainingCards[i]) % DEATH_DECK_DIVISOR == 0;
@@ -27,7 +27,7 @@ void Printer::clearBuffer(){
                 else std::cout << '<';
             } else std::cout << '#';
             if(dead) std::cout << 'X';
-            if(i < NoOfPlayers-1)  std::cout << '\t';           
+            //if(i < NoOfPlayers-1)  std::cout << '\t';           
         }
     std::cout << std::endl;
 }
