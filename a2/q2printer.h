@@ -6,10 +6,10 @@ class Printer {
     PImpl *pimpl;
     const unsigned int NoOfPlayers;
     unsigned int NoOfCards;
-    std::unique_ptr<bool*> written;
-    std::unique_ptr<int*> taken;
-    std::unique_ptr<int*> remainingCards;
-    std::unique_ptr<int*> remainingPlayers;
+    std::unique_ptr<bool[]> written;
+    std::unique_ptr<int[]> taken;
+    std::unique_ptr<int[]> remainingCards;
+    std::unique_ptr<int[]> remainingPlayers;
     enum
     {
         DEATH_DECK_DIVISOR = 7
