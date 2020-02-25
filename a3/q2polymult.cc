@@ -6,19 +6,17 @@
 #endif
 
 void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t delta ) {
-    const int size = sizeof(c)/sizeof(*c);
-    const int sizep = sizeof(a)/sizeof(*a);
 
 #if defined( CFOR )
     COFOR(b, 0, delta,
         int index=b; 
-        while(index < size){
+        while(index < c.size){
             int total = 0;
             for(int i=0; i<=index; ++i){
-                if(i+sizep-1 < index) continue;
-                total += a[i]*b[index-i];
+                if(i+a.size-1 < index) continue;
+                total += a.arr[i]*b.arr[index-i];
             }
-            c[index] = total;
+            c.arr[index] = total;
             index += delta;
         }
 	);
@@ -27,7 +25,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
 
     struct WorkMsg : public uActor::Message {
 	int delta;
-    int start;
+    size_t start;
     const poly_t & a;
     const poly_t & b;
     poly_t & c;
@@ -38,19 +36,19 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
     _Actor Multiply {
 	Allocation receive( Message & w ) {
 	    Case( WorkMsg, w ) {			// discriminate derived message
-            int index = w_d->start;
+            size_t index = w_d->start;
             int delta = w_d->delta;
-            const int size = sizeof(c)/sizeof(*c);
-            const int sizep = sizeof(a)/sizeof(*a);
             const poly_t & a = w_d->a;
             const poly_t & b = w_d->b;
+            const size_t size = c.size;
+            const size_t sizep = a.size;
             while(index < size){
             int total = 0;
                 for(int i=0; i<=index; ++i){
                     if(i+sizep-1 < index) continue;
-                    total += a[i]*b[index-i];
+                    total += a.arr[i]*b.arr[index-i];
                 }
-            (w_d->c)[index] = total;
+            (w_d->c).arr[index] = total;
             index += delta;
             }
 	    } else assert( false );			// bad message
@@ -75,20 +73,18 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
 
     void main(){
         if(startIndex == endIndex){
-            const int size = sizeof(c)/sizeof(*c);
-            const int sizep = sizeof(a)/sizeof(*a);
-            int index=startIndex; 
-            while(index < size){
+            size_t index=startIndex; 
+            while(index < c.size){
             int total = 0;
-                for(int i=0; i<=index; ++i){
-                    if(i+sizep-1 < index) continue;
-                    total += a[i]*b[index-i];
+                for(unsigned int i=0; i<=index; ++i){
+                    if(i+a.size-1 < index) continue;
+                    total += a.arr[i]*b.arr[index-i];
                 }
-            c[index] = total;
+            c.arr[index] = total;
             index += delta;
             }
         }else {
-            int mid = (startIndex+endIndex)/2;
+            size_t mid = (startIndex+endIndex)/2;
             if(mid > startIndex) Multiply(a, b, c, mid, endIndex, delta);
             Multiply(a, b, c, startIndex, mid, delta);
         }
@@ -100,7 +96,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
           a{a}, b{b}, c{c}, startIndex{startIndex}, endIndex{endIndex}, delta{delta} {}
     };
     
-    Multiply(a,b,c, 0, delta, delta);
+    Multiply(a,b,c, 0, (size_t)delta, delta);
 
     
 #else

@@ -4,6 +4,7 @@
 #include <cstring>
 #include <cmath>
 #include "q2polymult.h"
+using namespace std;
 
 void inputpoly(char *fileA, char *fileB){
     try{
@@ -13,26 +14,41 @@ void inputpoly(char *fileA, char *fileB){
         int size1, size2;
         long sizer = size1+size2-1;
         while(file1 >> size1 && file2 >> size2){
-            int poly1[] = new int[size1];
-            int poly2[] = new int[size2];
-            int polyr[] = new int[sizer]{};
+            int poly1* = new int[size1];
+            int poly2* = new int[size2];
+            int polyr* = new int[sizer]{};
             for(int i=0; i<size1; ++i){//assume sizes are the same
                 file1 >> poly1[i]
                 file2 >> poly2[i];
             }
-            polymultiply(poly1, poly2, polyr, floor(sqrt(sizer)));
+            polymultiply(poly_t(poly1, size1), poly_t(poly2, size2), poly_t(polyr, sizer), floor(sqrt(sizer)));
             for(int i=size1-1; i>0; --i){
-                cout << poly1[i] << "x^" << i << " + "; 
+                if(poly1[i] != 0){
+                    cout << poly1[i] << "x^" << i << " + "; 
+                }
             }
-            cout << poly1[0] <<"x^" << 0 << endl;
+            if(poly[0] != 0){
+                cout << poly1[0] <<"x^" << 0;
+            }
+            cout << endl;
             for(int i=size2-1; i>0; --i){
-                cout << poly2[i]<< "x^" << i << " + ";
+                if(poly2[i] != 0){
+                    cout << poly2[i]<< "x^" << i << " + ";
+                }
             }
-            cout << poly2[0] <<"x^" << 0 << endl;
+            if(poly2[0] != 0){
+                cout << poly2[0] <<"x^" << 0;
+            }
+            cout << endl;
             for(int i=sizer-1; i>0; --i){
-                cout << polyr[i]<< "x^" << i << " + ";
+                if(polyr[i] != 0){
+                    cout << polyr[i]<< "x^" << i << " + ";
+                }
             }
-            cout << polyr[0] <<"x^" << 0 << endl;
+            if(polyr[0] != 0){
+                cout << polyr[0] <<"x^" << 0;
+            }
+            cout << endl;
         }
         delete poly1;
         delete poly2;
@@ -49,14 +65,15 @@ void inputpoly(char *fileA, char *fileB){
 }
 
 void randompoly(long numCoef){
-    int poly1[] = new int[numCoef];
-    int poly2[] = new int[numCoef];
-    int polyr[] = new int[2*numCoef-1]{};
+    int sizer = 2*numCoef-1;
+    int poly1* = new int[numCoef];
+    int poly2* = new int[numCoef];
+    int polyr* = new int[sizer]{};
     for (int i=0; i<numCoef; ++i){
         poly1[i] = i+1;
         poly2[i] = i+1;
     }
-    polymultiply(poly1, poly2, polyr, floor(sqrt(2*numCoef-1)));
+    polymultiply(poly_t(poly1, numCoef), poly_t(poly2, numCoef), poly_t(polyr, sizer), floor(sqrt(sizer)));
 }
 
 int main( int argc, char * argv[] ) {
