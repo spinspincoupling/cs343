@@ -59,7 +59,7 @@ void inputpoly(char *fileA, char *fileB){
         file1.close();
         file2.close();
     }
-    catch(Exception &e){
+    catch(exception &e){
         file1.close();
         file2.close();
         cerr << e.what() << endl;
