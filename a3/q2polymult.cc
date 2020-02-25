@@ -87,8 +87,10 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
             }
         }else {
             size_t mid = (startIndex+endIndex)/2;
-            if(mid > startIndex) Multiply(a, b, c, mid, endIndex, delta);
-            Multiply(a, b, c, startIndex, mid, delta);
+            if(mid > startIndex){
+                Multiply right = Multiply(a, b, c, mid, endIndex, delta);
+            }
+            Multiply left = Multiply(a, b, c, startIndex, mid, delta);
         }
         
     }
