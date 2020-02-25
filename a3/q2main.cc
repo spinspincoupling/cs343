@@ -15,10 +15,10 @@ void inputpoly(char *fileA, char *fileB){
         int size1, size2;
         int sizer = size1+size2-1;
         while(file1 >> size1 && file2 >> size2){
+            cout << size1 << " " << size2  << " " << sizer << endl;
             int *poly1 = new int[size1];
             int *poly2 = new int[size2];
             int *polyr = new int[sizer];
-            cout << size1 << " " << size2  << " " << sizer << endl;
             for(int i=0; i<size1; ++i){//assume sizes are the same
                 file1 >> poly1[i];
                 file2 >> poly2[i];
