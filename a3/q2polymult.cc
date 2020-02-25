@@ -43,6 +43,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
             const size_t size = (w_d->c).size;
             const size_t sizep = a.size;
             while(index < size){
+                cout << "calculate" << endl;
             int total = 0;
                 for(unsigned int i=0; i<a.size; ++i){
                     if(i+sizep-1 < index) continue;
@@ -59,8 +60,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
 
     uActorStart();					// start actor system
     for(unsigned int i=0; i<delta; ++i){
-        Multiply m = Multiply();
-        m | *new WorkMsg(delta, i, a, b, c);
+        Multiply() | *new WorkMsg(delta, i, a, b, c);
     }
     uActorStop();
     
