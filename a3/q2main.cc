@@ -11,13 +11,14 @@ void inputpoly(char *fileA, char *fileB){
     try{
         file1.open(fileA);
         file2.open(fileB);
+        cout << "here";
         size_t size1, size2;
         size_t sizer = size1+size2-1;
         while(file1 >> size1 && file2 >> size2){
+            cout << "in loop";
             int *poly1 = new int[size1];
             int *poly2 = new int[size2];
             int *polyr = new int[sizer]{};
-            cout << "here";
             for(unsigned int i=0; i<size1; ++i){//assume sizes are the same
                 file1 >> poly1[i];
                 file2 >> poly2[i];
