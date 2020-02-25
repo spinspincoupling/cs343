@@ -61,6 +61,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
     }; // Multiply
 
     uActorStart();					// start actor system
+    std::cout << "in actor start ";
     for(unsigned int i=0; i<delta; ++i){
         std::cout << "here";
         WorkMsg *msg = new WorkMsg(delta, i, a, b, c);
