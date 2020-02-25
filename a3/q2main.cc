@@ -21,8 +21,9 @@ void inputpoly(char *fileA, char *fileB){
                 file1 >> poly1[i];
                 file2 >> poly2[i];
             }
-            polymultiply(Poly{poly1, size1}, Poly{poly2, size2}, Poly{polyr, sizer}, floor(sqrt(sizer)));
-            for(int i=size1-1; i>0; --i){
+            Poly c = {polyr, sizer};
+            polymultiply(Poly{poly1, size1}, Poly{poly2, size2}, c, floor(sqrt(sizer)));
+            for(unsigned int i=size1-1; i>0; --i){
                 if(poly1[i] != 0){
                     cout << poly1[i] << "x^" << i << " + "; 
                 }
@@ -31,7 +32,7 @@ void inputpoly(char *fileA, char *fileB){
                 cout << poly1[0] <<"x^" << 0;
             }
             cout << endl;
-            for(int i=size2-1; i>0; --i){
+            for(unsigned int i=size2-1; i>0; --i){
                 if(poly2[i] != 0){
                     cout << poly2[i]<< "x^" << i << " + ";
                 }
@@ -40,7 +41,7 @@ void inputpoly(char *fileA, char *fileB){
                 cout << poly2[0] <<"x^" << 0;
             }
             cout << endl;
-            for(int i=sizer-1; i>0; --i){
+            for(unsigned int i=sizer-1; i>0; --i){
                 if(polyr[i] != 0){
                     cout << polyr[i]<< "x^" << i << " + ";
                 }
@@ -73,7 +74,8 @@ void randompoly(long numCoef){
         poly1[i] = i+1;
         poly2[i] = i+1;
     }
-    polymultiply(Poly{poly1, numCoef}, Poly{poly2, numCoef}, Poly{polyr, sizer}, floor(sqrt(sizer)));
+    Poly c = {polyr, sizer};
+    polymultiply(Poly{poly1, numCoef}, Poly{poly2, numCoef}, c, floor(sqrt(sizer)));
 }
 
 int main( int argc, char * argv[] ) {
