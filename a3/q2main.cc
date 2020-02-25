@@ -18,10 +18,10 @@ void inputpoly(char *fileA, char *fileB){
             int *poly2 = new int[size2];
             int *polyr = new int[sizer]{};
             for(int i=0; i<size1; ++i){//assume sizes are the same
-                file1 >> poly1[i]
+                file1 >> poly1[i];
                 file2 >> poly2[i];
             }
-            polymultiply(poly_t(poly1, size1), poly_t(poly2, size2), poly_t(polyr, sizer), floor(sqrt(sizer)));
+            polymultiply(Poly(poly1, size1), Poly(poly2, size2), Poly(polyr, sizer), floor(sqrt(sizer)));
             for(int i=size1-1; i>0; --i){
                 if(poly1[i] != 0){
                     cout << poly1[i] << "x^" << i << " + "; 
@@ -73,7 +73,7 @@ void randompoly(long numCoef){
         poly1[i] = i+1;
         poly2[i] = i+1;
     }
-    polymultiply(poly_t(poly1, numCoef), poly_t(poly2, numCoef), poly_t(polyr, sizer), floor(sqrt(sizer)));
+    polymultiply(Poly{poly1, numCoef}, Poly{poly2, numCoef}, Poly{polyr, sizer}, floor(sqrt(sizer)));
 }
 
 int main( int argc, char * argv[] ) {
