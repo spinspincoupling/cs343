@@ -12,9 +12,9 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
         int index=s; 
         while(index < c.size){
             int total = 0;
-            for(int i=0; i<=index; ++i){
+            for(int i=0; i<a.size; ++i){
                 if(i+a.size-1 < index) continue;
-                if(i >= a.size) break;
+                if(i > index) break;
                 total += a.arr[i]*b.arr[index-i];
             }
             c.arr[index] = total;
@@ -77,9 +77,9 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
             size_t index=startIndex; 
             while(index < c.size){
             int total = 0;
-                for(unsigned int i=0; i<=index; ++i){
+                for(unsigned int i=0; i<=a.size; ++i){
                     if(i+a.size-1 < index) continue;
-                    if(i >= a.size) break;
+                    if(i > index) break;
                     total += a.arr[i]*b.arr[index-i];
                 }
             c.arr[index] = total;
