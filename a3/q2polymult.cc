@@ -37,7 +37,6 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
 	Allocation receive( Message & w ) {
 	    Case( WorkMsg, w ) {			// discriminate derived message
             size_t index = w_d->start;
-            int delta = w_d->delta;
             const poly_t & a = w_d->a;
             const poly_t & b = w_d->b;
             const size_t size = c.size;
@@ -49,7 +48,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
                     total += a.arr[i]*b.arr[index-i];
                 }
             (w_d->c).arr[index] = total;
-            index += delta;
+            index += w_d->delta;
             }
 	    } else assert( false );			// bad message
 	    return Finished;				// one-shot
@@ -96,7 +95,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
           a{a}, b{b}, c{c}, startIndex{startIndex}, endIndex{endIndex}, delta{delta} {}
     };
     
-    Multiply(a,b,c, 0, (size_t)delta, delta);
+    Multiply(a,b,c, 0, delta, delta);
 
     
 #else
