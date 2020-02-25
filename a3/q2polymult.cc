@@ -30,7 +30,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
     const poly_t & a;
     const poly_t & b;
     poly_t & c;
-	WorkMsg(int delta, int start, const poly_t & a, const poly_t & b, poly_t & c) : 
+	WorkMsg(size_t delta, size_t start, const poly_t & a, const poly_t & b, poly_t & c) : 
     Message( uActor::Delete ), delta{delta}, start{start}, a{a}, b{b}, c{c} {}
     };
 
@@ -40,7 +40,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
             size_t index = w_d->start;
             const poly_t & a = w_d->a;
             const poly_t & b = w_d->b;
-            const size_t size = c.size;
+            const size_t size = (w_d->c).size;
             const size_t sizep = a.size;
             while(index < size){
             int total = 0;
@@ -58,7 +58,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
     }; // Multiply
 
     uActorStart();					// start actor system
-    for(int i=0; i<delta; ++i){
+    for(unsigned int i=0; i<delta; ++i, a, b, c){
         Multiply() | new WorkMsg(delta, i);
     }
     uActorStop();
