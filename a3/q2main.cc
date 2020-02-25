@@ -14,9 +14,9 @@ void inputpoly(char *fileA, char *fileB){
         int size1, size2;
         long sizer = size1+size2-1;
         while(file1 >> size1 && file2 >> size2){
-            int poly1* = new int[size1];
-            int poly2* = new int[size2];
-            int polyr* = new int[sizer]{};
+            int *poly1 = new int[size1];
+            int *poly2 = new int[size2];
+            int *polyr = new int[sizer]{};
             for(int i=0; i<size1; ++i){//assume sizes are the same
                 file1 >> poly1[i]
                 file2 >> poly2[i];
@@ -66,9 +66,9 @@ void inputpoly(char *fileA, char *fileB){
 
 void randompoly(long numCoef){
     int sizer = 2*numCoef-1;
-    int poly1* = new int[numCoef];
-    int poly2* = new int[numCoef];
-    int polyr* = new int[sizer]{};
+    int *poly1 = new int[numCoef];
+    int *poly2 = new int[numCoef];
+    int *polyr = new int[sizer]{};
     for (int i=0; i<numCoef; ++i){
         poly1[i] = i+1;
         poly2[i] = i+1;
