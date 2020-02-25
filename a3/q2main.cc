@@ -11,8 +11,8 @@ void inputpoly(char *fileA, char *fileB){
         ifstream file1, file2;
         file1.open(fileA);
         file2.open(fileB);
-        int size1, size2;
-        long sizer = size1+size2-1;
+        size_t size1, size2;
+        size_t sizer = size1+size2-1;
         while(file1 >> size1 && file2 >> size2){
             int *poly1 = new int[size1];
             int *poly2 = new int[size2];
@@ -21,7 +21,7 @@ void inputpoly(char *fileA, char *fileB){
                 file1 >> poly1[i];
                 file2 >> poly2[i];
             }
-            polymultiply(Poly(poly1, size1), Poly(poly2, size2), Poly(polyr, sizer), floor(sqrt(sizer)));
+            polymultiply(Poly{poly1, size1}, Poly{poly2, size2}, Poly{polyr, sizer}, floor(sqrt(sizer)));
             for(int i=size1-1; i>0; --i){
                 if(poly1[i] != 0){
                     cout << poly1[i] << "x^" << i << " + "; 
@@ -65,7 +65,7 @@ void inputpoly(char *fileA, char *fileB){
 }
 
 void randompoly(long numCoef){
-    int sizer = 2*numCoef-1;
+    size_t sizer = (size_t)2*numCoef-1;
     int *poly1 = new int[numCoef];
     int *poly2 = new int[numCoef];
     int *polyr = new int[sizer]{};
