@@ -8,7 +8,7 @@
 void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t delta ) {
 
 #if defined( CFOR )
-    COFOR(s, 0, delta,
+    COFOR(s, 0, (int)delta,
         int index=s; 
         while(index < c.size){
             int total = 0;
@@ -44,9 +44,9 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
             const size_t sizep = a.size;
             while(index < size){
             int total = 0;
-                for(int i=0; i<=index; ++i){
+                for(unsigned int i=0; i<a.size; ++i){
                     if(i+sizep-1 < index) continue;
-                    if(i >= a.size) break;
+                    if(i > index) break;
                     total += a.arr[i]*b.arr[index-i];
                 }
             (w_d->c).arr[index] = total;
