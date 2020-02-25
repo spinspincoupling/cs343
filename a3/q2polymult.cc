@@ -24,7 +24,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
 	);
     
 #elif defined( ACTOR )
-
+    std::cout << "in actor ";
     struct WorkMsg : public uActor::Message {
 	size_t delta;
     size_t start;
@@ -34,7 +34,6 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
 	WorkMsg(size_t delta, size_t start, const poly_t & a, const poly_t & b, poly_t & c) : 
     Message( uActor::Delete ), delta{delta}, start{start}, a{a}, b{b}, c{c} {}
     };
-
     _Actor Multiply {
 	Allocation receive( Message & w ) {
 	    Case( WorkMsg, w ) {			// discriminate derived message
