@@ -1,4 +1,5 @@
 #include "q2polymult.h"
+#include <iostream>
 #if defined( CFOR )
 #include <uCobegin.h>
 #elif defined( ACTOR )
@@ -43,7 +44,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
             const size_t size = (w_d->c).size;
             const size_t sizep = a.size;
             while(index < size){
-                cout << "calculate" << endl;
+                std::cout << "calculate" << endl;
             int total = 0;
                 for(unsigned int i=0; i<a.size; ++i){
                     if(i+sizep-1 < index) continue;
