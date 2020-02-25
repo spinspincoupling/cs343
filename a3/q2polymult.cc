@@ -24,7 +24,6 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
 	);
     
 #elif defined( ACTOR )
-    std::cout << "in actor ";
     struct WorkMsg : public uActor::Message {
 	size_t delta;
     size_t start;
@@ -37,14 +36,12 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
     _Actor Multiply {
 	Allocation receive( Message & w ) {
 	    Case( WorkMsg, w ) {			// discriminate derived message
-        std::cout << "in receive ";
             size_t index = w_d->start;
             const poly_t & a = w_d->a;
             const poly_t & b = w_d->b;
             const size_t size = (w_d->c).size;
             const size_t sizep = a.size;
             while(index < size){
-                std::cout << "calculate" << std::endl;
             int total = 0;
                 for(unsigned int i=0; i<a.size; ++i){
                     if(i+sizep-1 < index) continue;
@@ -60,7 +57,6 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
     }; // Multiply
 
     uActorStart();					// start actor system
-    //std::cout << "in actor start ";
     Multiply m[delta];
     for(unsigned int i=0; i<delta; ++i){
         m[i] | *new WorkMsg(delta, i, a, b, c);
