@@ -44,7 +44,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
             const size_t size = (w_d->c).size;
             const size_t sizep = a.size;
             while(index < size){
-                std::cout << "calculate" << endl;
+                std::cout << "calculate" << std:endl;
             int total = 0;
                 for(unsigned int i=0; i<a.size; ++i){
                     if(i+sizep-1 < index) continue;
