@@ -3,6 +3,7 @@
 #include <string>
 #include <cstring>
 #include <cmath>
+#include <exception>
 #include "q2polymult.h"
 using namespace std;
 
@@ -58,9 +59,10 @@ void inputpoly(char *fileA, char *fileB){
         file1.close();
         file2.close();
     }
-    catch(...){
+    catch(Exception &e){
         file1.close();
         file2.close();
+        cerr << e.what() << endl;
         cerr << "Error! Could not open input files \"" << fileA << "\" \"" << fileB << "\"" << endl;
         exit( EXIT_FAILURE );
     }
