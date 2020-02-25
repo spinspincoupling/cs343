@@ -25,7 +25,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
 #elif defined( ACTOR )
 
     struct WorkMsg : public uActor::Message {
-	int delta;
+	size_t delta;
     size_t start;
     const poly_t & a;
     const poly_t & b;
@@ -59,7 +59,8 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
 
     uActorStart();					// start actor system
     for(unsigned int i=0; i<delta; ++i){
-        Multiply() | new WorkMsg(delta, i, a, b, c);
+        Multiply m = Multiply();
+        m | new WorkMsg(delta, i, a, b, c);
     }
     uActorStop();
     
