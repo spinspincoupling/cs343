@@ -12,8 +12,8 @@ void inputpoly(char *fileA, char *fileB){
     try{
         file1.open(fileA);
         file2.open(fileB);
-        size_t size1, size2;
-        size_t sizer = size1+size2-1;
+        int size1, size2;
+        int sizer = size1+size2-1;
         while(file1 >> size1 && file2 >> size2){
             int *poly1 = new int[size1];
             int *poly2 = new int[size2];
@@ -23,8 +23,8 @@ void inputpoly(char *fileA, char *fileB){
                 file1 >> poly1[i];
                 file2 >> poly2[i];
             }
-            Poly c = {polyr, sizer};
-            polymultiply(Poly{poly1, size1}, Poly{poly2, size2}, c, floor(sqrt(sizer)));
+            Poly c = {polyr, (size_t)sizer};
+            polymultiply(Poly{poly1, (size_t)size1}, Poly{poly2, (size_t)size2}, c, floor(sqrt(sizer)));
             for(unsigned int i=size1-1; i>0; --i){
                 if(poly1[i] != 0){
                     cout << poly1[i] << "x^" << i << " + "; 
