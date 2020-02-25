@@ -19,13 +19,13 @@ void inputpoly(char *fileA, char *fileB){
             int *poly2 = new int[size2];
             int *polyr = new int[sizer];
             cout << "here";
-            for(unsigned int i=0; i<size1; ++i){//assume sizes are the same
+            for(int i=0; i<size1; ++i){//assume sizes are the same
                 file1 >> poly1[i];
                 file2 >> poly2[i];
             }
             Poly c = {polyr, (size_t)sizer};
             polymultiply(Poly{poly1, (size_t)size1}, Poly{poly2, (size_t)size2}, c, floor(sqrt(sizer)));
-            for(unsigned int i=size1-1; i>0; --i){
+            for(int i=size1-1; i>0; --i){
                 if(poly1[i] != 0){
                     cout << poly1[i] << "x^" << i << " + "; 
                 }
@@ -34,7 +34,7 @@ void inputpoly(char *fileA, char *fileB){
                 cout << poly1[0] <<"x^" << 0;
             }
             cout << endl;
-            for(unsigned int i=size2-1; i>0; --i){
+            for(int i=size2-1; i>0; --i){
                 if(poly2[i] != 0){
                     cout << poly2[i]<< "x^" << i << " + ";
                 }
@@ -43,7 +43,7 @@ void inputpoly(char *fileA, char *fileB){
                 cout << poly2[0] <<"x^" << 0;
             }
             cout << endl;
-            for(unsigned int i=sizer-1; i>0; --i){
+            for(int i=sizer-1; i>0; --i){
                 if(polyr[i] != 0){
                     cout << polyr[i]<< "x^" << i << " + ";
                 }
