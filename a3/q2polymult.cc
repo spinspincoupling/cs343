@@ -14,6 +14,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
             int total = 0;
             for(int i=0; i<=index; ++i){
                 if(i+a.size-1 < index) continue;
+                if(i >= a.size) break;
                 total += a.arr[i]*b.arr[index-i];
             }
             c.arr[index] = total;
@@ -45,6 +46,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
             int total = 0;
                 for(int i=0; i<=index; ++i){
                     if(i+sizep-1 < index) continue;
+                    if(i >= a.size) break;
                     total += a.arr[i]*b.arr[index-i];
                 }
             (w_d->c).arr[index] = total;
@@ -77,6 +79,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
             int total = 0;
                 for(unsigned int i=0; i<=index; ++i){
                     if(i+a.size-1 < index) continue;
+                    if(i >= a.size) break;
                     total += a.arr[i]*b.arr[index-i];
                 }
             c.arr[index] = total;
