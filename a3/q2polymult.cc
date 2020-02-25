@@ -38,6 +38,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
     _Actor Multiply {
 	Allocation receive( Message & w ) {
 	    Case( WorkMsg, w ) {			// discriminate derived message
+        std::cout << "in receive ";
             size_t index = w_d->start;
             const poly_t & a = w_d->a;
             const poly_t & b = w_d->b;
@@ -61,6 +62,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
 
     uActorStart();					// start actor system
     for(unsigned int i=0; i<delta; ++i){
+        std:: cout << "here";
         Multiply() | *new WorkMsg(delta, i, a, b, c);
     }
     uActorStop();
