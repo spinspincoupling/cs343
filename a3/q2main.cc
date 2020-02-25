@@ -7,8 +7,8 @@
 using namespace std;
 
 void inputpoly(char *fileA, char *fileB){
+    ifstream file1, file2;
     try{
-        ifstream file1, file2;
         file1.open(fileA);
         file2.open(fileB);
         size_t size1, size2;
@@ -27,7 +27,7 @@ void inputpoly(char *fileA, char *fileB){
                     cout << poly1[i] << "x^" << i << " + "; 
                 }
             }
-            if(poly[0] != 0){
+            if(poly1[0] != 0){
                 cout << poly1[0] <<"x^" << 0;
             }
             cout << endl;
@@ -49,10 +49,10 @@ void inputpoly(char *fileA, char *fileB){
                 cout << polyr[0] <<"x^" << 0;
             }
             cout << endl;
+            delete poly1;
+            delete poly2;
+            delete polyr;
         }
-        delete poly1;
-        delete poly2;
-        delete polyr;
         file1.close();
         file2.close();
     }
