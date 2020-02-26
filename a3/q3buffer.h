@@ -68,7 +68,7 @@ void BoundedBuffer<T>::insert( T elem ){
 template<typename T>
 T BoundedBuffer<T>::remove(){
     mutex.acquire();
-    if(buff == 0 || cwait > 0{
+    if(buff == 0 || cwait > 0){
         ++cwait;
         clock.wait(mutex);
     }
