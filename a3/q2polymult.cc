@@ -74,7 +74,6 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
 
     void main(){
         if(startIndex == endIndex){
-            std::cout << startIndex << " ";
             size_t index=startIndex; 
             while(index < c.size){
             int total = 0;
