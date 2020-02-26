@@ -7,14 +7,14 @@ MPRNG mprng = MPRNG();
 template<typename T> class BoundedBuffer {
     const unsigned int size;
     unsigned int buff;
-    bool pwait;
-    bool cwait;
+    int pwait;
+    int cwait;
     std::queue<T> queue;
     uOwnerLock mutex;
     uCondLock plock;
     uCondLock clock;
   public:
-    BoundedBuffer( const unsigned int size = 10 ): size{size}, buff{0}, pwait{false}, cwait{false} {}
+    BoundedBuffer( const unsigned int size = 10 ): size{size}, buff{0}, pwait{0}, cwait{0} {}
     void insert( T elem );
     T remove();
 };
@@ -51,33 +51,36 @@ T BoundedBuffer<T>::remove(){
 template<typename T>
 void BoundedBuffer<T>::insert( T elem ){
     mutex.acquire();
-    if(buff == size || pwait){
+    if(buff == size || pwait >= size-buff){
+      ++pwait;
       plock.wait(mutex);
     }
+    --pwait;
     ++buff;
     queue.push(elem);
-    if(clock.empty()) cwait = false;
-    else {
-      cwait = true;
+    //if(clock.empty()) cwait = false;
+    //else {
       clock.signal();
-    }
+    //}
     mutex.release(); 
 }
 
 template<typename T>
 T BoundedBuffer<T>::remove(){
     mutex.acquire();
-    if(buff == 0 || cwait){
+    if(buff == 0 || cwait >= buff){
+        ++cwait;
         clock.wait(mutex);
     }
+    --cwait;
     --buff;
     T item = queue.front();
     queue.pop();
-    if(plock.empty()) pwait = false;
-    else {
-      pwait = true;
+    //if(plock.empty()) pwait = false;
+    //else {
+      //pwait = true;
       plock.signal();
-    }
+    //}
     mutex.release();
     return item;
 }
