@@ -1,4 +1,4 @@
-OPT:= -multi  -O2
+OPT:= #-O2 #-multi  -O2
 PIMPL:=TASK
 BIMPL:=BUSY
 TYPE:=int
