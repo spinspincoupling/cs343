@@ -69,6 +69,7 @@ void inputpoly(char *fileA, char *fileB){
 }
 
 void randompoly(long numCoef){
+    cout << "random" << endl;
     size_t sizer = (size_t)2*numCoef-1;
     int *poly1 = new int[numCoef];
     int *poly2 = new int[numCoef];
@@ -101,7 +102,7 @@ int main( int argc, char * argv[] ) {
                 break;
             case 3:
                 if(strcmp( argv[1], "-t" ) == 0 ){
-                    int numCoef = stoi( argv[4] ); 
+                    int numCoef = stoi( argv[2] ); 
                     if ( numCoef <= 0 ) throw 1;
                     randompoly(numCoef);
                 } else {
