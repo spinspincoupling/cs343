@@ -69,7 +69,6 @@ void inputpoly(char *fileA, char *fileB){
 }
 
 void randompoly(long numCoef){
-    cout << "random" << endl;
     size_t sizer = (size_t)2*numCoef-1;
     int *poly1 = new int[numCoef];
     int *poly2 = new int[numCoef];
@@ -80,6 +79,9 @@ void randompoly(long numCoef){
     }
     Poly c = {polyr, sizer};
     polymultiply(Poly{poly1, (size_t)numCoef}, Poly{poly2, (size_t)numCoef}, c, floor(sqrt(sizer)));
+    delete poly1;
+    delete poly2;
+    delete polyr;
 }
 
 int main( int argc, char * argv[] ) {
