@@ -55,7 +55,7 @@ void BoundedBuffer<T>::insert( T elem ){
     ++buff;
     queue.push(elem);
     if(clock.empty()) cwait = false;
-    else clock.signal();
+    clock.signal();
     mutex.release(); 
 }
 
@@ -69,7 +69,7 @@ T BoundedBuffer<T>::remove(){
     T item = queue.front();
     queue.pop();
     if(plock.empty()) pwait = false;
-    else plock.signal();
+    plock.signal();
     mutex.release();
     return item;
 }
