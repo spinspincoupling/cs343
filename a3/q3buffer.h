@@ -49,14 +49,17 @@ T BoundedBuffer<T>::remove(){
 template<typename T>
 void BoundedBuffer<T>::insert( T elem ){
     mutex.acquire();
-    if(pwait || buff == size){
+    if(buff == size){
         pwait = true;
         plock.wait(mutex);
+    }
+    if(pwait){
+      plock.wait(mutex);
     }
     ++buff;
     queue.push(elem);
     if(clock.empty()) cwait = false;
-    else clock.signal();
+    clock.signal();
     mutex.release(); 
 }
 
@@ -67,11 +70,14 @@ T BoundedBuffer<T>::remove(){
         cwait = true;
         clock.wait(mutex);
     }
+    if(cwait){
+      clock.wait(mutex);
+    }
     --buff;
     T item = queue.front();
     queue.pop();
     if(plock.empty()) pwait = false;
-    else plock.signal();
+    plock.signal();
     mutex.release();
     return item;
 }
