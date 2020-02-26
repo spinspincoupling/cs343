@@ -76,7 +76,7 @@ void randompoly(long numCoef){
         poly2[i] = i+1;
     }
     Poly c = {polyr, sizer};
-    polymultiply(Poly{poly1, (size_t)numCoef}, Poly{poly2, (size_t)numCoef}, c, floor(sqrt(sizer))+1);
+    polymultiply(Poly{poly1, (size_t)numCoef}, Poly{poly2, (size_t)numCoef}, c, floor(sqrt(sizer)));
     delete poly1;
     delete poly2;
     delete polyr;
