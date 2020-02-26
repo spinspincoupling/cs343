@@ -4,7 +4,7 @@
 using namespace std;
 
 int main( int argc, char * argv[] ) {
-    int cons=5 , prods=3 , produce=10 , bufferSize=10 , delays; 
+    unsigned int cons=5 , prods=3 , produce=10 , bufferSize=10 , delays; 
     //int seed = getpid();
     try {                                               // process command-line arguments
         switch ( argc ) {
