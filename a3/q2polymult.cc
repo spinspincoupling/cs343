@@ -40,7 +40,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
     _Actor Multiply {
 	Allocation receive( Message & w ) {
 	    Case( WorkMsg, w ) {			// discriminate derived message
-            calculate(w_d->a, w_d->b, w_d->c, w_d->delta, w_d->start)
+            calculate(w_d->a, w_d->b, w_d->c, w_d->delta, w_d->start);
 	    } else assert( false );			// bad message
 	    return Finished;				// one-shot
 	} // Multiply::receive
