@@ -12,7 +12,7 @@ MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 OBJECTS1 = q2polymult.o q2main.o
 EXEC1 = polymult				# 1st executable name
 
-OBJECTS2 = # object files forming 2nd executable with prefix "q3"
+OBJECTS2 = q3buffer.o q3main.o
 EXEC2 = buffer					# 2nd executable name
 
 OBJECTS = ${OBJECTS1} ${OBJECTS2}		# all object files
