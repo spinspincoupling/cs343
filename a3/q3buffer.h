@@ -4,10 +4,10 @@
 MPRNG mprng = MPRNG();
 template<typename T> class BoundedBuffer {
     const unsigned int size;
-    unsigned int buff;
-    bool pwait;
-    bool cwait;
-    std::queue<T> queue;
+    volatile unsigned int buff;
+    volatile bool pwait;
+    volatile bool cwait;
+    volatile std::queue<T> queue;
     uOwnerLock mutex;
     uCondLock plock;
     uCondLock clock;
