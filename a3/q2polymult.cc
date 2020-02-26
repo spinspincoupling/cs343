@@ -74,21 +74,22 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
 
     void main(){
         if(startIndex == endIndex){
+            std::cout << startIndex << " ";
             size_t index=startIndex; 
             while(index < c.size){
             int total = 0;
-                for(unsigned int i=0; i<=a.size; ++i){
-                    if(i+a.size-1 < index) continue;
-                    if(i > index) break;
-                    total += a.arr[i]*b.arr[index-i];
-                }
+            for(unsigned int i=0; i<a.size; ++i){
+                if(i+a.size-1 < index) continue;
+                if(i > index) break;
+                total += a.arr[i]*b.arr[index-i];
+            }
             c.arr[index] = total;
             index += delta;
-            }
+        }
         }else {
             size_t mid = (startIndex+endIndex)/2;
             if(mid > startIndex){
-                Multiply right = Multiply(a, b, c, mid+1, endIndex, delta);
+                Multiply right = Multiply(a, b, c, mid, endIndex, delta);
             }
             Multiply left = Multiply(a, b, c, startIndex, mid, delta);
         }
