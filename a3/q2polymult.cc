@@ -6,15 +6,8 @@
 #include <uActor.h>
 #endif
 
-//void calculate(const poly_t & a, const poly_t & b, poly_t & c, const size_t delta, ){
-
-//}
-
-void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t delta ) {
-
-#if defined( CFOR )
-    COFOR(s, 0, (int)delta,
-        int index=s; 
+void calculate(const poly_t & a, const poly_t & b, poly_t & c, const size_t delta, size_t start){
+    size_t index=start; 
         while(index < c.size){
             int total = 0;
             for(unsigned int i=index<a.size? 0: index+1-a.size; i<a.size; ++i){
@@ -25,6 +18,13 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
             c.arr[index] = total;
             index += delta;
         }
+}
+
+void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t delta ) {
+
+#if defined( CFOR )
+    COFOR(s, 0, delta,
+        calculate(a, b, c, delta, s);
 	);
     
 #elif defined( ACTOR )
@@ -40,21 +40,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
     _Actor Multiply {
 	Allocation receive( Message & w ) {
 	    Case( WorkMsg, w ) {			// discriminate derived message
-            size_t index = w_d->start;
-            const poly_t & a = w_d->a;
-            const poly_t & b = w_d->b;
-            const size_t size = (w_d->c).size;
-            const size_t sizep = a.size;
-            while(index < size){
-            int total = 0;
-                for(unsigned int i=0; i<a.size; ++i){
-                    if(i+sizep-1 < index) continue;
-                    if(i > index) break;
-                    total += a.arr[i]*b.arr[index-i];
-                }
-            (w_d->c).arr[index] = total;
-            index += w_d->delta;
-            }
+            calculate(w_d->a, w_d->b, w_d->c, w_d->delta, w_d->start)
 	    } else assert( false );			// bad message
 	    return Finished;				// one-shot
 	} // Multiply::receive
@@ -78,16 +64,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
 
     void main(){
         if(startIndex == endIndex){
-            size_t index=startIndex; 
-            while(index < c.size){
-            int total = 0;
-            for(unsigned int i=0; i<a.size; ++i){
-                if(i+a.size-1 < index) continue;
-                if(i > index) break;
-                total += a.arr[i]*b.arr[index-i];
-            }
-            c.arr[index] = total;
-            index += delta;
+            calculate(a, b, c, delta, startIndex);
         }
         }else {
             size_t mid = (startIndex+endIndex)/2;
