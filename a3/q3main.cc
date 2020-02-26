@@ -33,6 +33,7 @@ int main( int argc, char * argv[] ) {
         producers[i] = new Producer(buffer, produce, delays);
     }
     for(unsigned int i=0; i< cons; ++i){
+        subtotal[i] = 0;
         consumers[i] = new Consumer(buffer, delays, SENTINEL, subtotal[i] );
     }
     for(unsigned int i=0; i< prods; ++i){

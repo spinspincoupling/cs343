@@ -1,3 +1,5 @@
+#ifndef _BUFFER_H
+#define _BUFFER_H
 #include <queue>
 #include "MPRNG.h"
 
@@ -5,10 +7,8 @@ MPRNG mprng = MPRNG();
 template<typename T> class BoundedBuffer {
     const unsigned int size;
     unsigned int buff;
-    #ifdef NOBUSY 
     bool pwait;
     bool cwait;
-    #endif
     std::queue<T> queue;
     uOwnerLock mutex;
     uCondLock plock;
@@ -51,7 +51,7 @@ T BoundedBuffer<T>::remove(){
 template<typename T>
 void BoundedBuffer<T>::insert( T elem ){
     mutex.acquire();
-    if(pwait || buff == size){
+    if(buff == size || pwait){
       plock.wait(mutex);
     }
     ++buff;
@@ -67,7 +67,7 @@ void BoundedBuffer<T>::insert( T elem ){
 template<typename T>
 T BoundedBuffer<T>::remove(){
     mutex.acquire();
-    if(cwait || buff == 0){
+    if(buff == 0 || cwait){
         clock.wait(mutex);
     }
     --buff;
@@ -111,12 +111,12 @@ void Producer::main(){
 }
 
 void Consumer::main(){
-    int subtotal = 0;
     for(;;){
         yield(mprng(Delay));
         int v = buffer.remove();
         if(v == Sentinel) break;
-        subtotal += v;
+        sum += v;
     }
-    sum = subtotal;
 }
+
+#endif
