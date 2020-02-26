@@ -59,7 +59,7 @@ template<typename T>
 void BoundedBuffer<T>::insert( T elem ){
     mutex.acquire();
     if (busy) {
-        block.wait(lock);
+        block.wait(mutex);
         if (block.empty()) {
             busy = false;
         }
@@ -93,7 +93,7 @@ T BoundedBuffer<T>::remove(){
     //    clock.wait(mutex);
     //}
     if (busy) {
-        block.wait(lock);
+        block.wait(mutex);
         if (block.empty()) {
             busy = false;
         }
