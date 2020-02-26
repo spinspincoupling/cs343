@@ -24,24 +24,24 @@ int main( int argc, char * argv[] ) {
     #ifdef __U_MULTI__
     uProcessor p[3] __attribute__(( unused )); // create 3 kernel thread for a total of 4
     #endif // __U_MULTI__
-    BoundedBuffer<int> buffer = BoundedBuffer(bufferSize);
+    BoundedBuffer<int> buffer = BoundedBuffer<int>(bufferSize);
     int subtotal[cons];
     Producer *producers[prods];
     Consumer *consumers[cons];
     int total = 0;
-    for(int i=0; i< prods; ++i){
+    for(unsigned int i=0; i< prods; ++i){
         producers[i] = new Producer(buffer, produce, delays);
     }
-    for(int i=0; i< cons; ++i){
+    for(unsigned int i=0; i< cons; ++i){
         consumers[i] = new Consumer(buffer, delays, SENTINEL, subtotal[i] );
     }
-    for(int i=0; i< prods; ++i){
+    for(unsigned int i=0; i< prods; ++i){
         delete producers[i];
     }
-    for(int i=0; i< cons; ++i){
+    for(unsigned int i=0; i< cons; ++i){
         buffer.insert(SENTINEL);
     }
-    for(int i=0; i< cons; ++i){
+    for(unsigned int i=0; i< cons; ++i){
         delete consumers[i];
         total += subtotal[i];
     }
