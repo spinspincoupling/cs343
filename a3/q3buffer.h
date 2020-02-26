@@ -4,7 +4,7 @@ template<typename T> class BoundedBuffer {
     unsigned int buff;
     bool pwait;
     bool cwait;
-    queue<T> queue;
+    std::queue<T> queue;
     uOwnerLock mutex;
     uCondLock plock;
     uCondLock clock;
