@@ -65,7 +65,6 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
     void main(){
         if(startIndex == endIndex){
             calculate(a, b, c, delta, startIndex);
-        }
         }else {
             size_t mid = (startIndex+endIndex)/2;
             if(mid > startIndex){
