@@ -49,7 +49,7 @@ T BoundedBuffer<T>::remove(){
 template<typename T>
 void BoundedBuffer<T>::insert( T elem ){
     mutex.acquire();
-    if(pwait && buff == size){
+    if(buff == size || pwait){
         plock.wait(mutex);
     }
     ++buff;
@@ -62,7 +62,7 @@ void BoundedBuffer<T>::insert( T elem ){
 template<typename T>
 T BoundedBuffer<T>::remove(){
     mutex.acquire();
-    if(cwait && buff == 0){
+    if(buff == 0 || cwait){
         clock.wait(mutex);
     }
     --buff;
