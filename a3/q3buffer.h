@@ -7,14 +7,21 @@ MPRNG mprng = MPRNG();
 template<typename T> class BoundedBuffer {
     const unsigned int size;
     unsigned int buff;
-    unsigned int pwait;
-    unsigned int cwait;
+    #ifdef NOBUSY
+    bool busy;
+    uCondLock block;
+    #endif
     std::queue<T> queue;
     uOwnerLock mutex;
     uCondLock plock;
     uCondLock clock;
   public:
-    BoundedBuffer( const unsigned int size = 10 ): size{size}, buff{0}, pwait{0}, cwait{0} {}
+  #ifdef BUSY 
+    BoundedBuffer( const unsigned int size = 10 ): size{size}, buff{0} {}
+  #endif
+  #ifdef NOBUSY
+    BoundedBuffer( const unsigned int size = 10 ): size{size}, buff{0}, busy{false} {}
+  #endif
     void insert( T elem );
     T remove();
 };
@@ -51,36 +58,64 @@ T BoundedBuffer<T>::remove(){
 template<typename T>
 void BoundedBuffer<T>::insert( T elem ){
     mutex.acquire();
-    if(buff == size || pwait > 0){
-      ++pwait;
-      plock.wait(mutex);
+    if (busy) {
+        block.wait(lock);
+        if (block.empty()) {
+            busy = false;
+        }
     }
-    --pwait;
+    if (buff == size) {
+        block.signal(); // one in one out
+        plock.wait(mutex);
+    }
+    //if(buff == size || pwait > 0){
+      //plock.wait(mutex);
+    //}
     ++buff;
     queue.push(elem);
     //if(clock.empty()) cwait = false;
     //else {
-      clock.signal();
+      //clock.signal();
     //}
+    busy = !block.empty() || !clock.empty();
+    if (!clock.empty()) {
+        clock.signal();
+    } else if (!block.empty()) {
+        block.signal();
+    }
     mutex.release(); 
 }
 
 template<typename T>
 T BoundedBuffer<T>::remove(){
     mutex.acquire();
-    if(buff == 0 || cwait > 0){
-        ++cwait;
+    //if(buff == 0 ){
+    //    clock.wait(mutex);
+    //}
+    if (busy) {
+        block.wait(lock);
+        if (block.empty()) {
+            busy = false;
+        }
+    }
+    if (buff == 0) {
+        block.signal(); // one in one out
         clock.wait(mutex);
     }
-    --cwait;
     --buff;
     T item = queue.front();
     queue.pop();
     //if(plock.empty()) pwait = false;
     //else {
       //pwait = true;
-      plock.signal();
+      //plock.signal();
     //}
+    busy = !block.empty() || !plock.empty();
+    if (!plock.empty()) {
+        plock.signal();
+    } else if (!block.empty()) {
+        block.signal();
+    }
     mutex.release();
     return item;
 }
