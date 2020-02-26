@@ -1,0 +1,91 @@
+(b)
+• Include 15 timing results to validate the experiments, 5 for each preprocessor variable.
+
+CFOR:
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 1 -t 75000
+16.08u 0.05s 0:16.10r 8700kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 2 -t 75000
+16.36u 0.03s 0:08.22r 8684kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 4 -t 75000
+18.54u 0.05s 0:05.01r 10736kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 8 -t 75000
+18.14u 0.05s 0:02.54r 13336kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 16 -t 75000
+18.25u 0.05s 0:01.20r 19668kb
+
+ACTOR:
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 1 -t 75000
+16.15u 0.05s 0:16.17r 8752kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 2 -t 75000
+17.01u 0.03s 0:08.52r 9628kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 4 -t 75000
+17.67u 0.04s 0:04.43r 10564kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 8 -t 75000
+18.45u 0.05s 0:02.33r 13568kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 16 -t 75000
+23.49u 0.06s 0:01.50r 19776kb
+
+TASK:
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 1 -t 75000
+17.09u 0.08s 0:17.21r 10820kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 2 -t 75000
+21.20u 0.08s 0:18.23r 11876kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 4 -t 75000
+22.84u 0.11s 0:18.52r 12896kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 8 -t 75000
+25.30u 0.16s 0:18.70r 14848kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 16 -t 75000
+27.76u 0.23s 0:19.16r 18740kb
+
+ii. State the performance difference (larger/smaller/by how much) as kernel threads increase.
+Run time for CFOR increases the least as kernel threads increases.
+Run time for ACTOR increase more than CTOR but less than TASK as kernel threads increases.
+Run time for TASK increase the most as kernel threads increases.
+
+iii. State the performance difference (larger/smaller/by how much) among the 3 concurrency implementations.
+CTOR is the fastest, followed by ACTOR, TASK is the slowest
+
+(c) i. Repeat the experiment in 2b adding the -O2 compilation flag and using a polynomial of degree
+150,000.
+• Include 15 timing results to validate the experiments, 5 for each preprocessor variable.
+CFOR:
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 1 -t 150000
+16.69u 0.07s 0:16.76r 9336kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 2 -t 150000
+16.52u 0.09s 0:08.39r 10400kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 4 -t 150000
+17.42u 0.02s 0:04.43r 11356kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 8 -t 150000
+18.43u 0.04s 0:02.35r 14080kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 16 -t 150000
+18.70u 0.02s 0:01.24r 20368kb
+
+ACTOR:
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 1 -t 150000
+16.66u 0.05s 0:16.73r 9396kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 2 -t 150000
+16.91u 0.02s 0:08.46r 10164kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 4 -t 150000
+17.78u 0.03s 0:04.45r 11416kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 8 -t 150000
+19.40u 0.06s 0:02.45r 14044kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 16 -t 150000
+20.13u 0.04s 0:01.29r 20392kb
+
+TASK:
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 1 -t 150000
+17.05u 0.07s 0:17.07r 12396kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 2 -t 150000
+22.54u 0.09s 0:19.53r 12184kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 4 -t 150000
+25.58u 0.11s 0:20.33r 13424kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 8 -t 150000
+29.26u 0.21s 0:21.02r 15496kb
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./polymult -p 16 -t 150000
+31.58u 0.24s 0:20.75r 19284kb
+
+ii. State the performance difference (larger/smaller/by how much) for optimization.
+There is large improvement for optimization for all 3 implementations
+
+iii. State the performance difference (larger/smaller/by how much) among the 3 concurrency implementations.
+CTOR is the fastest, followed by ACTOR, TASK is the slowest.

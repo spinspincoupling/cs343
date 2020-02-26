@@ -68,15 +68,8 @@ void BoundedBuffer<T>::insert( T elem ){
         block.signal(); // one in one out
         plock.wait(mutex);
     }
-    //if(buff == size || pwait > 0){
-      //plock.wait(mutex);
-    //}
     ++buff;
     queue.push(elem);
-    //if(clock.empty()) cwait = false;
-    //else {
-      //clock.signal();
-    //}
     busy = !block.empty() || !clock.empty();
     if (!clock.empty()) {
         clock.signal();
@@ -89,9 +82,6 @@ void BoundedBuffer<T>::insert( T elem ){
 template<typename T>
 T BoundedBuffer<T>::remove(){
     mutex.acquire();
-    //if(buff == 0 ){
-    //    clock.wait(mutex);
-    //}
     if (busy) {
         block.wait(mutex);
         if (block.empty()) {
@@ -105,11 +95,6 @@ T BoundedBuffer<T>::remove(){
     --buff;
     T item = queue.front();
     queue.pop();
-    //if(plock.empty()) pwait = false;
-    //else {
-      //pwait = true;
-      //plock.signal();
-    //}
     busy = !block.empty() || !plock.empty();
     if (!plock.empty()) {
         plock.signal();

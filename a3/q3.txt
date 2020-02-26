@@ -1,0 +1,67 @@
+(a) iii. Briefly explain why it is impossible to solve this problem using barging prevention.
+This is because one task cannot keep holding on to the mutex lock because we allow multiple inserts and removes at the same time.
+
+(b)
+• Include 4 timing results to validate the experiments.
+BUSY(without optimizer):
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./buffer 50 55 20000 30 10
+total: -1884351888
+2.19u 0.01s 0:02.27
+
+BUSY(with optimizer):
+@ubuntu1804-008% /usr/bin/time -f "%Uu %Ss %E" ./buffer 50 55 20000 30 10
+total: -1884351888
+1.91u 0.01s 0:01.96
+
+NOBUSY(without optimizer):
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %E" ./buffer 50 55 20000 30 10
+total: -1884351888
+2.48u 0.05s 0:02.57
+
+NOBUSY(with optimizer):
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %E" ./buffer 50 55 20000 30 10
+total: -1884351888
+2.29u 0.04s 0:02.33
+
+
+ii. State the performance difference (larger/smaller/by howmuch) between uniprocessor busy and nobusy
+waiting execution, without and with optimization.
+BUSY(with optimizer) is the fastest followed by BUSY(without optimizer), NOBUSY(without optimizer) is the third fastest
+NOBUSY(without optimizer) is the slowest. In gerneral BUSY is fater than NOBUSY, With optimier is faster than without.
+
+iii. Compare the busy and non-busy waiting versions of the program with respect to multiprocessor performance
+by repeating the above experiment with the -multi flag.
+• Include 4 timing results to validate the experiments.
+
+BUSY(without optimizer):
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %E" ./buffer 50 55 20000 30 10
+total: -1884351888
+86.97u 0.14s 0:21.77
+
+BUSY(with optimizer):
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %E" ./buffer 50 55 20000 30 10
+total: -1884351888
+85.30u 0.10s 0:21.37
+
+NOBUSY(without optimizer):
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %E" ./buffer 50 55 20000 30 10
+total: -1884351888
+108.80u 0.17s 0:27.25
+
+NOBUSY(with optimizer):
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %E" ./buffer 50 55 20000 30 10
+total: -1884351888
+104.73u 0.16s 0:26.24
+
+iv. State the performance difference (larger/smaller/by how much) between multiprocessor busy and
+nobusy waiting execution, without and with optimization.
+BUSY(with optimizer) is the fastest followed by BUSY(without optimizer) then NOBUSY(with optimizer). 
+NOBUSY(without optimizer) is the slowest. In gerneral BUSY is fater than NOBUSY, With optimier is faster than without.
+
+v. Speculate as to the reason for the performance difference between busy and non-busy execution.
+More checking and signalling is done in NOBUSY to ensure each task would wake up ready to continue their task. Hence
+more operations are done in the NOBUSY approach.
+
+vi. Speculate as to the reason for the performance difference between uniprocessor and multiprocessor
+execution.
+Runing with multiprocessors is much slower due to the cost of communication between processors.
