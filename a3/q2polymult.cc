@@ -6,6 +6,10 @@
 #include <uActor.h>
 #endif
 
+//void calculate(const poly_t & a, const poly_t & b, poly_t & c, const size_t delta, ){
+
+//}
+
 void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t delta ) {
 
 #if defined( CFOR )
@@ -13,7 +17,7 @@ void polymultiply( const poly_t & a, const poly_t & b, poly_t & c, const size_t 
         int index=s; 
         while(index < c.size){
             int total = 0;
-            for(int i=index<a.size? 0: index+1-a.size; i<a.size; ++i){
+            for(unsigned int i=index<a.size? 0: index+1-a.size; i<a.size; ++i){
                 //if(i+a.size-1 < index) continue;
                 if(i > index) break;
                 total += a.arr[i]*b.arr[index-i];
