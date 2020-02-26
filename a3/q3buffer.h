@@ -5,8 +5,10 @@ MPRNG mprng = MPRNG();
 template<typename T> class BoundedBuffer {
     const unsigned int size;
     unsigned int buff;
+    #ifdef NOBUSY 
     bool pwait;
     bool cwait;
+    #endif
     std::queue<T> queue;
     uOwnerLock mutex;
     uCondLock plock;
@@ -50,13 +52,15 @@ template<typename T>
 void BoundedBuffer<T>::insert( T elem ){
     mutex.acquire();
     if(pwait || buff == size){
-      pwait = true;
       plock.wait(mutex);
     }
     ++buff;
     queue.push(elem);
     if(clock.empty()) cwait = false;
-    else clock.signal();
+    else {
+      cwait = true;
+      clock.signal();
+    }
     mutex.release(); 
 }
 
@@ -64,14 +68,16 @@ template<typename T>
 T BoundedBuffer<T>::remove(){
     mutex.acquire();
     if(cwait || buff == 0){
-        cwait = true;
         clock.wait(mutex);
     }
     --buff;
     T item = queue.front();
     queue.pop();
     if(plock.empty()) pwait = false;
-    else plock.signal();
+    else {
+      pwait = true;
+      plock.signal();
+    }
     mutex.release();
     return item;
 }
