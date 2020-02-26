@@ -1,6 +1,6 @@
 OPT:= -multi # -O2
 PIMPL:=TASK
-BIMPL:=BUSY
+BIMPL:=NOBUSY
 TYPE:=int
 SENTINEL:=-1
 
