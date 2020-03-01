@@ -8,8 +8,8 @@ template<typename T> class BoundedBuffer {
     const unsigned int size;
     unsigned int buff;
     #ifdef NOBUSY
-    bool pwait;
-    bool cwait;
+    unsigned int pwait;
+    unsigned int cwait;
     #endif
     std::queue<T> queue;
     uOwnerLock mutex;
@@ -20,7 +20,7 @@ template<typename T> class BoundedBuffer {
     BoundedBuffer( const unsigned int size = 10 ): size{size}, buff{0} {}
   #endif
   #ifdef NOBUSY
-    BoundedBuffer( const unsigned int size = 10 ): size{size}, buff{0}, pwait{false}, cwait{false} {}
+    BoundedBuffer( const unsigned int size = 10 ): size{size}, buff{0}, pwait{0}, cwait{0} {}
   #endif
     void insert( T elem );
     T remove();
@@ -68,11 +68,10 @@ void BoundedBuffer<T>::insert( T elem ){
     //     block.signal(); // one in one out
     //     plock.wait(mutex);
     // }
-    if(pwait || buff == size){
-        pwait = true;
+    if(pwait > 0 || buff == size){
         plock.wait(mutex);
+        --pwait;
     }
-    if(plock.empty()) pwait = false;
     ++buff;
     queue.push(elem);
     // busy = !block.empty() || !clock.empty();
@@ -81,8 +80,7 @@ void BoundedBuffer<T>::insert( T elem ){
     // } else if (!block.empty()) {
     //     block.signal();
     // }
-    if(clock.empty()) cwait = false;
-    else clock.signal();
+    if(clock.signal()) ++cwait;
     mutex.release(); 
 }
 
@@ -99,11 +97,10 @@ T BoundedBuffer<T>::remove(){
     //     block.signal(); // one in one out
     //     clock.wait(mutex);
     // }
-    if(cwait || buff == 0){
-        cwait = true;
+    if(cwait > 0|| buff == 0){
         clock.wait(mutex);
+        --cwait;
     }
-    if(clock.empty()) cwait = false;
     --buff;
     T item = queue.front();
     queue.pop();
@@ -113,8 +110,7 @@ T BoundedBuffer<T>::remove(){
     // } else if (!block.empty()) {
     //     block.signal();
     // }
-    if(plock.empty()) pwait = false;
-    else plock.signal();
+    if(plock.signal()) ++pwait;
     mutex.release();
     return item;
 }
