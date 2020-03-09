@@ -8,7 +8,7 @@ _Task Voter {
     Printer & printer;
     const unsigned int id;
     unsigned int nvotes;
-    Ballot cast();
+    TallyVotes::Ballot cast();
     void main();
   public:
     enum States { Start = 'S', Vote = 'V', Block = 'B', Unblock = 'U', Barging = 'b',
