@@ -1,7 +1,7 @@
 #pragma once
 
-#include "voter.h"
-#include "tallyVotes.h"
+#include "q2voter.h"
+#include "q2tallyVotes.h"
 
 _Monitor Printer {
     const unsigned int Voters, Undefined;
