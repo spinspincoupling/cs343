@@ -40,7 +40,7 @@ int main( int argc, char * argv[] ) {
     uProcessor p[processors - 1];
     mprng.set_seed(seed);
     Printer printer(voters);
-    TallyVotes tallyVotes(voters, group, printer);
+    TallyVotes voteTallier(voters, group, printer);
     Voter * voterlist[voters];
     for(unsigned int i=0; i<voters; ++i){
         voterlist[i] = new Voter(i, votes, voteTallier, printer);
