@@ -5,7 +5,7 @@ CXX = u++					# compiler
 CXXFLAGS = -g -multi -O2 -std=c++11 -Wall -Wextra -MMD -D${IMPL} -D${OUTPUT} # compiler flags
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 
-OBJECTS = printer.o, q2tallyVotes.o, voter.o, q2main.o# list of object files for question 1 prefixed with "q1"
+OBJECTS = printer.o, q2tallyVotes.o, q2voter.o, q2main.o# list of object files for question 1 prefixed with "q1"
 EXEC = vote
 
 DEPENDS = ${OBJECTS:.o=.d}			# substitute ".o" with ".d"
