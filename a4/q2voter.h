@@ -2,6 +2,7 @@
 #define VOTER_H
 
 class TallyVotes;
+struct TallyVotes::Ballot;
 class Printer;
 _Task Voter {
     TallyVotes & voteTallier;

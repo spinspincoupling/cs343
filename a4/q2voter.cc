@@ -16,18 +16,18 @@ void Voter::main(){
     try {
         while(nvotes > 0){
         yield(mprng(19));
-        printer.print(id, State::Start)
+        printer.print(id, States::Start);
         yield(mprng(4));
         TallyVotes::Tour tour = voteTallier.vote(id, cast());
-        printer.print(id, State::Complete, tour);
+        printer.print(id, States::Complete, tour);
         yield(mprng(4));
-        printer.print(id, State::Going, tour);
+        printer.print(id, States::Going, tour);
         }
     }
     catch (TallyVotes::Failed &){
         printer.print(id, Failed);
     }
     voteTallier.done();
-    printer.print(id, State::Terminated);
+    printer.print(id, States::Terminated);
     
 }
