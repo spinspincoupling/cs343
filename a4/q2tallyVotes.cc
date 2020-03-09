@@ -11,13 +11,13 @@
 void TallyVotes::addVote(Ballot ballot){
     ++voters;
     pics += ballot.picture;
-    statues += ballot.statues;
+    statues += ballot.statue;
     shop += ballot.giftshop;
 }
 
 void TallyVotes::computeTour(){
     ++groupNum;
-    kind = statues > pics? TourKind.Statue : pics > shop? TourKind.Picture : TourKind.GiftShop;
+    kind = statues > pics? TourKind::Statue : pics > shop? TourKind::Picture : TourKind::GiftShop;
     pics = 0;
     statues = 0;
     shop = 0;
@@ -58,14 +58,14 @@ void TallyVotes::computeTour(){
         if(takeTour == group){
             takeTour = 0;
         }
-        Tour tour = Tour(kind, groupNum);
+        Tour tour(kind, groupNum);
         if(waitVote.signal()) ++barger;
         mutex.release();
         return tour;
 
     }
 
-    void done(){
+    void TallyVotes::done(){
         mutex.acquire();
         --voters;
         if(voters == group-1){ // quorum failure
