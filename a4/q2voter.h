@@ -1,15 +1,14 @@
 #ifndef VOTER_H
 #define VOTER_H
-
-class TallyVotes;
-struct TallyVotes::Ballot;
+#include "q2tallyVotes.h"
 class Printer;
+
 _Task Voter {
     TallyVotes & voteTallier;
     Printer & printer;
     const unsigned int id;
     unsigned int nvotes;
-    TallyVotes::Ballot cast();
+    Ballot cast();
     void main();
   public:
     enum States { Start = 'S', Vote = 'V', Block = 'B', Unblock = 'U', Barging = 'b',
