@@ -58,7 +58,7 @@ void TallyVotes::computeTour(){
         if(takeTour == group){
             takeTour = 0;
         }
-        Tour tour(kind, groupNum);
+        Tour tour = {kind, groupNum};
         if(waitVote.signal()) ++barger;
         mutex.release();
         return tour;
