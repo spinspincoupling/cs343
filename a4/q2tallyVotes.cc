@@ -1,0 +1,99 @@
+#include "q2tallyVotes.h"
+#if defined( BAR )
+#include <uBarrier.h>
+#endif
+#if defined( SEM )
+#include <uSemaphore.h>
+#endif
+#include "q2voter.h"
+
+TallyVotes::void addVote(Ballot ballot){
+    printer.print(id, Voter::State::Vote, ballot);
+    ++voters;
+    pics += ballot.picture;
+    statues += ballot.statues;
+    shop += ballot.giftshop;
+}
+
+void computeTour(){
+    ++groupNum;
+    kind = statues > pics? TourKind::Statue : pics > shop? TourKind::Picture : TourKind::GiftShop;
+    pics = 0;
+    statues = 0;
+    shop = 0;
+    groupMem = 0;
+}
+
+#if defined( MC )                    // mutex/condition solution
+    TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
+        mutex.acquire();
+        if(voters < group) { // quorum failure
+            mutex.release();
+            throw Fail();
+        }
+        if(barger > 0 || groupMem == group){ //barger
+            printer.print(id, Voter::State::Barging, barger);
+            waitVote.wait(mutex);
+            --barger;
+            if(voters < group) { // quorum failure
+                mutex.release();
+                throw Fail();
+            }
+        }
+        addVote(ballot);
+        if(groupMem >= group){ //formed a group
+            computeTour();
+            waitVoters.broadcast();
+        } else {
+            printer.print(id, Voter::State::Block, groupNum);
+            waitVoters.wait(mutex);
+            printer.print(id, Voter::State::Unblock, group-takeTour);
+        }
+        if(voters < group) { // quorum failure
+                mutex.release();
+                throw Fail();
+        }
+        ++takeTour;
+        if(takeTour == group){
+            takeTour = 0;
+        }
+        Tour tour = Tour(kind, groupNum);
+        if(waitVote.signal()) ++barger;
+        mutex.release();
+        return tour;
+
+    }
+
+    void done(){
+        mutex.acquire();
+        --voters;
+        if(voters == group-1){ // quorum failure
+            //groupMem = group;
+            waitVoters.broadcast();
+        }
+        mutex.release();
+    }
+#elif defined( SEM )                // semaphore solution
+    TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
+        Tour tour = Tour(kind, groupNum);
+        return tour;
+    }
+
+    void done(){
+        mutex.P();
+        --voters;
+        mutex.V();
+    }
+
+#elif defined( BAR )                // barrier solution
+    TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
+        Tour tour = Tour(kind, groupNum);
+        return tour;
+    }
+
+    void done(unsigned int id){
+    }
+
+#else
+    #error unsupported voter type
+#endif
