@@ -1,6 +1,7 @@
 #ifndef TALLYVOTE_H
 #define TALLYVOTE_H
 
+class Printer;
 #if defined( MC )                    // mutex/condition solution
 // includes for this kind of vote-tallier
 class TallyVotes {
@@ -28,9 +29,7 @@ _Cormonitor TallyVotes : public uBarrier {
     Printer &printer;
     unsigned int pics, statues, shop;
     unsigned int groupNum;
-    TourKind kind;
     unsigned barger;
-    void addVote(Ballot ballot);
   public:                            // common interface
     _Event Failed {};
     TallyVotes( unsigned int voters, unsigned int group, Printer & printer ):
@@ -44,6 +43,9 @@ _Cormonitor TallyVotes : public uBarrier {
         unsigned int id
     #endif
     );
+  private:
+    TourKind kind;
+    void addVote(Ballot ballot);
 };
 
 #endif

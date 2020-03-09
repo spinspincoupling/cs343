@@ -38,7 +38,7 @@ int main( int argc, char * argv[] ) {
         exit( EXIT_FAILURE );
     } // try
     uProcessor p[processors - 1];
-    mprng= MPRNG(seed);
+    mprng.set_seed(seed);
     Printer printer(voters);
     TallyVotes TallyVotes(voters, group, printer);
     Voter*[voters];
