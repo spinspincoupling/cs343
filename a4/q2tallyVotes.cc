@@ -7,7 +7,7 @@
 #endif
 #include "q2voter.h"
 
-TallyVotes::void addVote(Ballot ballot){
+void TallyVotes::addVote(Ballot ballot){
     printer.print(id, Voter::State::Vote, ballot);
     ++voters;
     pics += ballot.picture;
@@ -17,7 +17,7 @@ TallyVotes::void addVote(Ballot ballot){
 
 void computeTour(){
     ++groupNum;
-    kind = statues > pics? TourKind::Statue : pics > shop? TourKind::Picture : TourKind::GiftShop;
+    kind = statues > pics? TourKind.Statue : pics > shop? TourKind.Picture : TourKind.GiftShop;
     pics = 0;
     statues = 0;
     shop = 0;
@@ -32,7 +32,7 @@ void computeTour(){
             throw Fail();
         }
         if(barger > 0 || groupMem == group){ //barger
-            printer.print(id, Voter::State::Barging, barger);
+            printer.print(id, Voter::State.Barging, barger);
             waitVote.wait(mutex);
             --barger;
             if(voters < group) { // quorum failure
@@ -45,9 +45,9 @@ void computeTour(){
             computeTour();
             waitVoters.broadcast();
         } else {
-            printer.print(id, Voter::State::Block, groupNum);
+            printer.print(id, Voter::State.Block, groupNum);
             waitVoters.wait(mutex);
-            printer.print(id, Voter::State::Unblock, group-takeTour);
+            printer.print(id, Voter::State.Unblock, group-takeTour);
         }
         if(voters < group) { // quorum failure
                 mutex.release();
