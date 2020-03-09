@@ -1,5 +1,6 @@
 #include "q2voter.h"
 #include "q2tallyVotes.h"
+#include "printer.h"
 #include "MPRNG.h"
 
 extern MPRNG mprng;
