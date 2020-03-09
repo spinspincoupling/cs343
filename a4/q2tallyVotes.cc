@@ -6,16 +6,16 @@
 #include <uSemaphore.h>
 #endif
 #include "q2voter.h"
+#include "printer.h"
 
 void TallyVotes::addVote(Ballot ballot){
-    printer.print(id, Voter::State::Vote, ballot);
     ++voters;
     pics += ballot.picture;
     statues += ballot.statues;
     shop += ballot.giftshop;
 }
 
-void computeTour(){
+void TallyVotes::computeTour(){
     ++groupNum;
     kind = statues > pics? TourKind.Statue : pics > shop? TourKind.Picture : TourKind.GiftShop;
     pics = 0;
@@ -29,29 +29,30 @@ void computeTour(){
         mutex.acquire();
         if(voters < group) { // quorum failure
             mutex.release();
-            throw Fail();
+            throw Failed();
         }
         if(barger > 0 || groupMem == group){ //barger
-            printer.print(id, Voter::State.Barging, barger);
+            printer.print(id, Voter::States::Barging, barger);
             waitVote.wait(mutex);
             --barger;
             if(voters < group) { // quorum failure
                 mutex.release();
-                throw Fail();
+                throw Failed();
             }
         }
+        printer.print(id, Voter::States::Vote, ballot);
         addVote(ballot);
         if(groupMem >= group){ //formed a group
             computeTour();
             waitVoters.broadcast();
         } else {
-            printer.print(id, Voter::State.Block, groupNum);
+            printer.print(id, Voter::States::Block, groupNum);
             waitVoters.wait(mutex);
-            printer.print(id, Voter::State.Unblock, group-takeTour);
+            printer.print(id, Voter::States::Unblock, group-takeTour);
         }
         if(voters < group) { // quorum failure
                 mutex.release();
-                throw Fail();
+                throw Failed();
         }
         ++takeTour;
         if(takeTour == group){
