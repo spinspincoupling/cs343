@@ -40,12 +40,12 @@ int main( int argc, char * argv[] ) {
     uProcessor p[processors - 1];
     mprng.set_seed(seed);
     Printer printer(voters);
-    TallyVotes TallyVotes(voters, group, printer);
-    Voter*[voters];
+    TallyVotes tallyVotes(voters, group, printer);
+    Voter * voterlist[voters];
     for(unsigned int i=0; i<voters; ++i){
-        Voter[i] = new Voter(i, votes, voteTallier, printer);
+        voterlist[i] = new Voter(i, votes, voteTallier, printer);
     }
-    for(int i=0; i<voters; ++i){
-        delete Voter[i];
+    for(unsigned int i=0; i<voters; ++i){
+        delete voterlist[i];
     }
 }
