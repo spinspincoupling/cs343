@@ -7,6 +7,7 @@
 #endif
 #include "q2voter.h"
 #include "printer.h"
+#include <iostream>
 
 void TallyVotes::addVote(Ballot ballot){
     ++groupMem;
@@ -31,6 +32,7 @@ void TallyVotes::computeTour(){
             mutex.release();
             throw Failed();
         }
+        std::cout << signalled << std::endl;
         if(signalled > 0 || groupMem == group){ //barger
             ++barger;
             printer.print(id, Voter::States::Barging, barger);
