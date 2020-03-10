@@ -42,16 +42,14 @@ void TallyVotes::computeTour(){
         }
         printer.print(id, Voter::States::Vote, ballot);
         addVote(ballot);
-        Tour tour;
         if(groupMem >= group){ //formed a group
             computeTour();
             waitVoters.broadcast();
-            tour = {kind, groupNum};
-            printer.print(id, Voter::States::Complete, tour);
+            printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
         } else {
             printer.print(id, Voter::States::Block, groupMem);
             waitVoters.wait(mutex);
-            printer.print(id, Voter::States::Unblock, group-takeTour-1);
+            printer.print(id, Voter::States::Unblock, group-takeTour);
         }
         if(voters < group) { // quorum failure
                 mutex.release();
@@ -62,6 +60,7 @@ void TallyVotes::computeTour(){
             takeTour = 0;
         }
         if(waitVote.signal()) ++barger;
+        Tour tour = {kind, groupNum};
         mutex.release();
         return tour;
 
