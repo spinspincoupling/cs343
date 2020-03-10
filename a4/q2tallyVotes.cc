@@ -32,7 +32,6 @@ void TallyVotes::computeTour(){
             throw Failed();
         }
         if(barger > 0 || groupMem == group){ //barger
-            ++barger;
             printer.print(id, Voter::States::Barging, barger);
             waitVote.wait(mutex);
             --barger;
@@ -43,7 +42,7 @@ void TallyVotes::computeTour(){
         }
         printer.print(id, Voter::States::Vote, ballot);
         addVote(ballot);
-        if(groupMem >= group){ //formed a group
+        if(groupMem == group){ //formed a group
             computeTour();
             waitVoters.broadcast();
             printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
