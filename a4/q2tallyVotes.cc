@@ -47,7 +47,7 @@ void TallyVotes::computeTour(){
             computeTour();
             waitVoters.broadcast();
             tour = {kind, groupNum};
-            printer.print(id, States::Complete, tour);
+            printer.print(id, Voter::States::Complete, tour);
         } else {
             printer.print(id, Voter::States::Block, groupMem);
             waitVoters.wait(mutex);
