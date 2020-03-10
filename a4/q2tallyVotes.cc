@@ -31,10 +31,12 @@ void TallyVotes::computeTour(){
             mutex.release();
             throw Failed();
         }
-        if(barger > 0 || groupMem == group){ //barger
-            printer.print(id, Voter::States::Barging, 3);
+        if(signalled > 0 || groupMem == group){ //barger
+            ++barger;
+            printer.print(id, Voter::States::Barging, barger);
             waitVote.wait(mutex);
             --barger;
+            --signalled;
             if(voters < group) { // quorum failure
                 mutex.release();
                 throw Failed();
@@ -45,6 +47,7 @@ void TallyVotes::computeTour(){
         if(groupMem == group){ //formed a group
             computeTour();
             waitVoters.broadcast();
+            signalled += group-1;
             printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
         } else {
             printer.print(id, Voter::States::Block, groupMem);
@@ -61,7 +64,7 @@ void TallyVotes::computeTour(){
         if(takeTour == group){
             takeTour = 0;
         }
-        if(waitVote.signal()) ++barger;
+        if(waitVote.signal()) ++signalled;
         Tour tour = {kind, groupNum};
         mutex.release();
         return tour;
