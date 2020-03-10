@@ -1,7 +1,7 @@
 #ifndef VOTER_H
 #define VOTER_H
+#include "q2tallyVotes.h"
 class Printer;
-class TallyVotes;
 _Task Voter {
     TallyVotes & voteTallier;
     Printer & printer;
