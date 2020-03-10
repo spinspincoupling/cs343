@@ -11,6 +11,7 @@ class TallyVotes {
     uCondLock waitVote;
     unsigned int groupMem = 0;
     unsigned int takeTour = 0;
+    unsigned int waiting = 0;
 #elif defined( SEM )                // semaphore solution
 // includes for this kind of vote-tallier
 class TallyVotes {

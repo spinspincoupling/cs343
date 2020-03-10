@@ -48,8 +48,10 @@ void TallyVotes::computeTour(){
             printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
         } else {
             printer.print(id, Voter::States::Block, groupMem);
+            ++waiting;
             waitVoters.wait(mutex);
-            printer.print(id, Voter::States::Unblock, group-takeTour-1);
+            --waiting;
+            printer.print(id, Voter::States::Unblock, waiting);
         }
         if(voters < group) { // quorum failure
                 mutex.release();
