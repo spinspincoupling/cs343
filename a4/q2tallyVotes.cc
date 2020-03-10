@@ -49,7 +49,7 @@ void TallyVotes::computeTour(){
             computeTour();
             waitVoters.broadcast();
             signalled += group-1;
-            std::cout << signalled << std::endl;
+            //std::cout << signalled << std::endl;
             printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
         } else {
             printer.print(id, Voter::States::Block, groupMem);
