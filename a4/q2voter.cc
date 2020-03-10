@@ -19,7 +19,6 @@ void Voter::main(){
         printer.print(id, States::Start);
         yield(mprng(4));
         TallyVotes::Tour tour = voteTallier.vote(id, cast());
-        printer.print(id, States::Complete, tour);
         yield(mprng(4));
         printer.print(id, States::Going, tour);
         --nvotes;
