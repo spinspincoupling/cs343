@@ -22,7 +22,7 @@ void Voter::main(){
         printer.print(id, States::Complete, tour);
         yield(mprng(4));
         printer.print(id, States::Going, tour);
-        --nvotes
+        --nvotes;
         }
     }
     catch (TallyVotes::Failed &){
