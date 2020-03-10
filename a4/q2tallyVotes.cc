@@ -32,7 +32,7 @@ void TallyVotes::computeTour(){
             throw Failed();
         }
         if(barger > 0 || groupMem == group){ //barger
-            printer.print(id, Voter::States::Barging, barger);
+            printer.print(id, Voter::States::Barging, 3);
             waitVote.wait(mutex);
             --barger;
             if(voters < group) { // quorum failure
