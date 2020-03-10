@@ -49,7 +49,7 @@ void TallyVotes::computeTour(){
         } else {
             printer.print(id, Voter::States::Block, groupMem);
             waitVoters.wait(mutex);
-            printer.print(id, Voter::States::Unblock, group-takeTour);
+            printer.print(id, Voter::States::Unblock, group-takeTour-1);
         }
         if(voters < group) { // quorum failure
                 mutex.release();
