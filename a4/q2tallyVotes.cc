@@ -9,7 +9,7 @@
 #include "printer.h"
 
 void TallyVotes::addVote(Ballot ballot){
-    ++voters;
+    ++groupMem;
     pics += ballot.picture;
     statues += ballot.statue;
     shop += ballot.giftshop;
@@ -46,7 +46,7 @@ void TallyVotes::computeTour(){
             computeTour();
             waitVoters.broadcast();
         } else {
-            printer.print(id, Voter::States::Block, groupNum);
+            printer.print(id, Voter::States::Block, groupMem);
             waitVoters.wait(mutex);
             printer.print(id, Voter::States::Unblock, group-takeTour);
         }
