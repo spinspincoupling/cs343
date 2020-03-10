@@ -47,8 +47,8 @@ void TallyVotes::computeTour(){
         addVote(ballot);
         if(groupMem == group){ //formed a group
             computeTour();
-            waitVoters.broadcast();
             signalled += group-1;
+            waitVoters.broadcast();
             //std::cout << signalled << std::endl;
             printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
         } else {
