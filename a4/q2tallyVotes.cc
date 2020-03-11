@@ -92,7 +92,7 @@ void TallyVotes::computeTour(){
         grouping.P();
     }
 
-    TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Ballot ballot ){
+    TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
         enterVote.P();
         enterVote.P();
         if (voters < group) { // quorum failure
@@ -121,7 +121,7 @@ void TallyVotes::computeTour(){
             printer.print(id, Voter::States::Unblock, waiting);
         }
         --groupMem;
-        if(groupMem == 0) vote.V();
+        if(groupMem == 0) enterVote.V();
         else grouping.V();
         Tour tour = Tour(kind, groupNum);
         mutex.V();
