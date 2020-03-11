@@ -27,7 +27,11 @@ void Voter::main(){
     catch (TallyVotes::Failed &){
         printer.print(id, Failed);
     }
+    #if defined( BAR )
+    voteTallier.done(id);
+    #else
     voteTallier.done();
+    #endif
     printer.print(id, States::Terminated);
     
 }
