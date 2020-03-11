@@ -149,7 +149,7 @@ void TallyVotes::computeTour(){
     pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0}, formed{false} 
     {}
 
-    virtual void TallyVotes::last(){
+    void TallyVotes::last(){
         computeTour();
         uBarrier::reset(group);
     }

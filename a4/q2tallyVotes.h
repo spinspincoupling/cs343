@@ -52,6 +52,8 @@ _Cormonitor TallyVotes : public uBarrier {
     TourKind kind;
     void addVote(Ballot ballot);
     void computeTour();
+  protected:
+    virtual void last();
 };
 
 #endif
