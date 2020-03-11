@@ -32,6 +32,7 @@ void TallyVotes::computeTour(){
             mutex.release();
             throw Failed();
         }
+        std::cout << signalled << std::endl;
         if(signalled > 0 || groupMem == group){ //barger
             ++barger;
             printer.print(id, Voter::States::Barging, barger);
@@ -49,7 +50,7 @@ void TallyVotes::computeTour(){
             computeTour();
             signalled += group-1;
             waitVoters.broadcast();
-            //std::cout << signalled << std::endl;
+            std::cout << signalled << std::endl;
             printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
         } else {
             printer.print(id, Voter::States::Block, groupMem);
