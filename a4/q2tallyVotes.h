@@ -22,7 +22,7 @@ class TallyVotes {
     unsigned int groupMem;
     unsigned int waiting;
 #elif defined( BAR )                // barrier solution
-// includes for this kind of vote-tallier
+#include <uBarrier.h>
 _Cormonitor TallyVotes : public uBarrier {
     // private declarations for this kind of vote-tallier
 #else
@@ -35,6 +35,7 @@ _Cormonitor TallyVotes : public uBarrier {
     unsigned int pics, statues, shop;
     unsigned int groupNum;
     unsigned barger;
+    bool formed;
   public:                            // common interface
     _Event Failed {};
     TallyVotes( unsigned int voters, unsigned int group, Printer & printer );

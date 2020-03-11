@@ -1,7 +1,4 @@
 #include "q2tallyVotes.h"
-#if defined( BAR )
-#include <uBarrier.h>
-#endif
 #include "q2voter.h"
 #include "printer.h"
 #include <iostream>
@@ -20,12 +17,13 @@ void TallyVotes::computeTour(){
     statues = 0;
     shop = 0;
     groupMem = 0;
+    formed = true;
 }
 
 #if defined( MC )                    // mutex/condition solution
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
     :groupMem{0}, waiting{0}, signalled{0}, group{group}, voters{voters}, printer{printer}, 
-    pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0}
+    pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0}, formed(false)
     {}
 
     TallyVotes::Tour TallyVotes::vote(unsigned int id, Ballot ballot) {
@@ -60,7 +58,7 @@ void TallyVotes::computeTour(){
                 ++signalled;
             }
             waitVoters.wait(mutex);
-            if (voters < group) { // quorum failure
+            if (!formed) { // quorum failure
                 mutex.release();
                 throw Failed();
             }
@@ -68,6 +66,7 @@ void TallyVotes::computeTour(){
             printer.print(id, Voter::States::Unblock, waiting);
             --signalled;
         }
+        if(waiting == 0) formed = false;
         if (waitVote.signal()) {
             ++signalled;
         }
@@ -113,14 +112,17 @@ void TallyVotes::computeTour(){
             grouping.P();
             mutex.P();
             --waiting;
-            if (voters < group) { // quorum failure
+            if (!formed) { // quorum failure
                 if(waiting > 0) grouping.V();
                 mutex.V();
                 throw Failed();
             }
             printer.print(id, Voter::States::Unblock, waiting);
         }
-        if(waiting == 0) enterVote.V();
+        if(waiting == 0) {
+            enterVote.V();
+            formed = false;
+        }
         else grouping.V();
         Tour tour = Tour{kind, groupNum};
         mutex.V();
