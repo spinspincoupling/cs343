@@ -149,10 +149,6 @@ void TallyVotes::computeTour(){
     pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0}, formed{false} 
     {}
 
-    void TallyVotes::last(){
-        computeTour();
-    }
-
     TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
         if(voters < group){
             throw Failed();
@@ -167,13 +163,14 @@ void TallyVotes::computeTour(){
                 throw Failed();
             }
             --waiting;
-            printer.print(id, Voter::States::Block, waiting);
+            printer.print(id, Voter::States::Unblock, waiting);
             if(waiting == 0){
                 formed = false;
                 uBarrier::reset(group);
             }
         } else {
             uBarrier::block();
+            computeTour();
             printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
         }
         Tour tour = Tour{kind, groupNum};
