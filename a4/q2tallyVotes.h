@@ -18,7 +18,7 @@ class TallyVotes {
     // private declarations for this kind of vote-tallier
     uSemaphore mutex;
     uSemaphore grouping;
-    uSemaphore vote;
+    uSemaphore enterVote;
     unsigned int groupMem;
     unsigned int waiting;
 #elif defined( BAR )                // barrier solution

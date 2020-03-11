@@ -93,10 +93,10 @@ void TallyVotes::computeTour(){
     }
 
     TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Ballot ballot ){
-        vote.P();
-        mutex.P();
+        enterVote.P();
+        enterVote.P();
         if (voters < group) { // quorum failure
-            if(!vote.empty()) vote.V();
+            if(!enterVote.empty()) enterVote.V();
             mutex.V();
             throw Failed();
         }
@@ -108,7 +108,7 @@ void TallyVotes::computeTour(){
         } else {
             ++waiting;
             printer.print(id, Voter::States::Block, waiting);
-            vote.V();
+            enterVote.V();
             mutex.V();
             grouping.P();
             mutex.P();
@@ -135,8 +135,8 @@ void TallyVotes::computeTour(){
             if(!grouping.empty()){
                 grouping.V();
             }
-            if(!vote.empty()){
-                vote.V();
+            if(!enterVote.empty()){
+                enterVote.V();
             }
         }
         mutex.V();
