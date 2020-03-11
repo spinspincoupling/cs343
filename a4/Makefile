@@ -1,5 +1,5 @@
 IMPL:=MC
-OUTPUT:=OUTPUT
+OUTPUT:=NOOUTPUT
 
 CXX = u++					# compiler
 CXXFLAGS = -g -multi -O2 -std=c++11 -Wall -Wextra -MMD -D${IMPL} -D${OUTPUT} # compiler flags
