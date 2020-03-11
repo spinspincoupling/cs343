@@ -32,7 +32,7 @@ void TallyVotes::computeTour(){
             mutex.release();
             throw Failed();
         }
-        //std::cout << "first check" << signalled << std::endl;
+        //std::cout << "first check " << signalled << std::endl;
         if(signalled > 0){ //barger
             ++barger;
             printer.print(id, Voter::States::Barging, barger);
@@ -71,7 +71,7 @@ void TallyVotes::computeTour(){
         if(takeTour == group){
             takeTour = 0;
         }
-        if(waitVote.signal()) {++signalled; std::cout << signalled << std::endl;}
+        if(waitVote.signal()) {++signalled; std::cout << "signalled" << std::endl;}
         Tour tour = {kind, groupNum};
         mutex.release();
         return tour;
