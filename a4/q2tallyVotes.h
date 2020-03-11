@@ -21,11 +21,9 @@ class TallyVotes {
     uSemaphore grouping;
     uSemaphore enterVote;
     unsigned int groupMem;
-    unsigned int waiting;
 #elif defined( BAR )                // barrier solution
 #include <uBarrier.h>
 _Cormonitor TallyVotes : public uBarrier {
-    unsigned int waiting;
 #else
     #error unsupported voter type
 #endif
