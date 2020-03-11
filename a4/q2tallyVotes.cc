@@ -182,7 +182,7 @@ void TallyVotes::computeTour(){
 
     void TallyVotes::done(unsigned int id){
         --voters;
-        if(voters < group && uBarrier::waiters() < group){
+        if(voters < group && uBarrier::waiters() < group && !formed){
             printer.print(id, Voter::States::Done);
             uBarrier::block();
         }
