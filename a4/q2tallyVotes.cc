@@ -18,7 +18,7 @@ void TallyVotes::addVote(Ballot ballot){
 
 void TallyVotes::computeTour(){
     ++groupNum;
-    kind = statues > pics? TourKind::Statue : pics > shop? TourKind::Picture : TourKind::GiftShop;
+    kind = statues > pics && statues > shop? TourKind::Statue : pics > shop? TourKind::Picture : TourKind::GiftShop;
     pics = 0;
     statues = 0;
     shop = 0;
@@ -32,15 +32,12 @@ void TallyVotes::computeTour(){
             mutex.release();
             throw Failed();
         }
-        //std::cout << "first check " << signalled << std::endl;
-        if(signalled > 0){ //barger
+        if(signalled > 0){ //barging prevention
             ++barger;
             printer.print(id, Voter::States::Barging, barger);
             waitVote.wait(mutex);
             --barger;
-            //std::cout << "woke up from barger " << signalled << std::endl;
             --signalled;
-            //std::cout << "wake from barger" << std::endl;
             if(voters < group) { // quorum failure
                 mutex.release();
                 throw Failed();
@@ -52,12 +49,11 @@ void TallyVotes::computeTour(){
             computeTour();
             signalled += group-1;
             waitVoters.broadcast();
-            //std::cout << "signal group " << signalled << std::endl;
             printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
         } else {
             printer.print(id, Voter::States::Block, groupMem);
             ++waiting;
-            if(signalled == 0 && !waitVote.empty()){
+            if(signalled == 0 && !waitVote.empty()){ // in case signal is lost
                 waitVote.signal();
                 ++signalled;
             }
@@ -68,9 +64,7 @@ void TallyVotes::computeTour(){
             }
             --waiting;
             printer.print(id, Voter::States::Unblock, waiting);
-            //std::cout << "woke up from group " << signalled << std::endl;
             --signalled;
-            //std::cout << "awake from wait vote " << signalled << std::endl;
         }
         if(waitVote.signal()) {++signalled;}
         Tour tour = {kind, groupNum};
@@ -83,8 +77,6 @@ void TallyVotes::computeTour(){
         mutex.acquire();
         --voters;
         if(voters == group-1){ // quorum failure
-            //groupMem = group;
-            //std::cout << "detect failure" << std::endl;
             waitVoters.broadcast();
         }
         mutex.release();
