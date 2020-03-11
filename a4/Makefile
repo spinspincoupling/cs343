@@ -20,13 +20,13 @@ all : ${EXEC}					# build all executables
 
 ifeq (${LOCKIMPL},${IMPL})			# same implementation type as last time ?
 ${EXEC} : ${OBJECTS}
-	${CXX} ${CXXFLAGS} printer.o $^ -o $@
+	${CXX} ${CXXFLAGS} q2printer.o $^ -o $@
 else
 ifeq (${IMPL},)					# no implementation type specified ?
 # set type to previous type
 IMPL=${LOCKIMPL}
 ${EXEC} : ${OBJECTS}
-	${CXX} ${CXXFLAGS} printer.o $^ -o $@
+	${CXX} ${CXXFLAGS} q2printer.o $^ -o $@
 else						# implementation type has changed
 .PHONY : ${EXEC}
 ${EXEC} :
