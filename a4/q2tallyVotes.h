@@ -9,10 +9,9 @@ class TallyVotes {
     uOwnerLock mutex;
     uCondLock waitVoters;
     uCondLock waitVote;
-    unsigned int groupMem = 0;
-    unsigned int takeTour = 0;
-    unsigned int waiting = 0;
-    unsigned int signalled = 0;
+    unsigned int groupMem;
+    unsigned int waiting;
+    unsigned int signalled;
 #elif defined( SEM )                // semaphore solution
 // includes for this kind of vote-tallier
 class TallyVotes {
@@ -35,7 +34,11 @@ _Cormonitor TallyVotes : public uBarrier {
   public:                            // common interface
     _Event Failed {};
     TallyVotes( unsigned int voters, unsigned int group, Printer & printer ):
-    group{group}, voters{voters}, printer{printer}, pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0} {}
+    group{group}, voters{voters}, printer{printer}, pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0}
+    #if defined( MC )
+    , groupMem{0}, waiting{0}, signalled{0}
+    #endif
+    {}
     struct Ballot { unsigned int picture, statue, giftshop; };
     enum TourKind { Picture = 'p', Statue = 's', GiftShop = 'g' };
     struct Tour { TourKind tourkind; unsigned int groupno; };
