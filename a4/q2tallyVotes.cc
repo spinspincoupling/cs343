@@ -123,7 +123,7 @@ void TallyVotes::computeTour(){
         --groupMem;
         if(groupMem == 0) enterVote.V();
         else grouping.V();
-        Tour tour = Tour(kind, groupNum);
+        Tour tour = Tour{kind, groupNum};
         mutex.V();
         return tour;
     }
