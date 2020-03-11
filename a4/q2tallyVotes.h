@@ -33,12 +33,7 @@ _Cormonitor TallyVotes : public uBarrier {
     unsigned barger;
   public:                            // common interface
     _Event Failed {};
-    TallyVotes( unsigned int voters, unsigned int group, Printer & printer ):
-    group{group}, voters{voters}, printer{printer}, pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0}
-    #if defined( MC )
-    , groupMem{0}, waiting{0}, signalled{0}
-    #endif
-    {}
+    TallyVotes( unsigned int voters, unsigned int group, Printer & printer );
     struct Ballot { unsigned int picture, statue, giftshop; };
     enum TourKind { Picture = 'p', Statue = 's', GiftShop = 'g' };
     struct Tour { TourKind tourkind; unsigned int groupno; };
