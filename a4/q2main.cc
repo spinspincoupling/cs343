@@ -5,7 +5,6 @@
 #include "MPRNG.h"
 #include "q2tallyVotes.h"
 #include "q2voter.h"
-#include "printer.h"
 using namespace std;
 
 MPRNG mprng;
