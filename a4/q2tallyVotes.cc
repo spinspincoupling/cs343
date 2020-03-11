@@ -95,7 +95,10 @@ void TallyVotes::computeTour(){
         enterVote.P();
         mutex.P();
         if (voters < group) { // quorum failure
-            if(!enterVote.empty()) enterVote.V();
+            if(!enterVote.empty()){
+                enterVote.V();
+                std::cout << " v in failure" << std::endl;
+            } 
             mutex.V();
             throw Failed();
         }
