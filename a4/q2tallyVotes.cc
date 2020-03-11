@@ -120,8 +120,7 @@ void TallyVotes::computeTour(){
             }
             printer.print(id, Voter::States::Unblock, waiting);
         }
-        --groupMem;
-        if(groupMem == 0) enterVote.V();
+        if(waiting == 0) enterVote.V();
         else grouping.V();
         Tour tour = Tour{kind, groupNum};
         mutex.V();
