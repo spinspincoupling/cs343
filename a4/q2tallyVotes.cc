@@ -26,69 +26,59 @@ void TallyVotes::computeTour(){
 }
 
 #if defined( MC )                    // mutex/condition solution
-TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
-:groupMem{0}, waiting{0}, signalled{0}, group{group}, voters{voters}, printer{printer}, 
-pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0}
-{}
+    TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
+    :groupMem{0}, waiting{0}, signalled{0}, group{group}, voters{voters}, printer{printer}, 
+    pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0}
+    {}
 
-TallyVotes::Tour TallyVotes::vote(unsigned int id, Ballot ballot)
-{
-    mutex.acquire();
-    if (voters < group)
-    { // quorum failure
-        mutex.release();
-        throw Failed();
-    }
-    if (signalled > 0)
-    { //barging prevention
-        ++barger;
-        printer.print(id, Voter::States::Barging, barger);
-        waitVote.wait(mutex);
-        --barger;
-        --signalled;
-        if (voters < group)
-        { // quorum failure
+    TallyVotes::Tour TallyVotes::vote(unsigned int id, Ballot ballot) {
+        mutex.acquire();
+        if (voters < group) { // quorum failure
             mutex.release();
             throw Failed();
         }
-    }
-    printer.print(id, Voter::States::Vote, ballot);
-    addVote(ballot);
-    if (groupMem == group)
-    { //formed a group
-        computeTour();
-        signalled += group - 1;
-        waitVoters.broadcast();
-        printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
-    }
-    else
-    {
-        printer.print(id, Voter::States::Block, groupMem);
-        ++waiting;
-        if (signalled == 0 && !waitVote.empty())
-        { // in case signal is lost
-            waitVote.signal();
+        if (signalled > 0) { //barging prevention
+            ++barger;
+            printer.print(id, Voter::States::Barging, barger);
+            waitVote.wait(mutex);
+            --barger;
+            --signalled;
+            if (voters < group) { // quorum failure
+                mutex.release();
+                throw Failed();
+            }
+        }
+        printer.print(id, Voter::States::Vote, ballot);
+        addVote(ballot);
+        if (groupMem == group) { //formed a group
+            computeTour();
+            signalled += group - 1;
+            waitVoters.broadcast();
+            printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
+        } else {
+            printer.print(id, Voter::States::Block, groupMem);
+            ++waiting;
+            if (signalled == 0 && !waitVote.empty()) { // in case signal is lost
+                waitVote.signal();
+                ++signalled;
+            }
+            waitVoters.wait(mutex);
+            if (voters < group) { // quorum failure
+                mutex.release();
+                throw Failed();
+            }
+            --waiting;
+            printer.print(id, Voter::States::Unblock, waiting);
+            --signalled;
+        }
+        if (waitVote.signal()) {
             ++signalled;
         }
-        waitVoters.wait(mutex);
-        if (voters < group)
-        { // quorum failure
-            mutex.release();
-            throw Failed();
-        }
-        --waiting;
-        printer.print(id, Voter::States::Unblock, waiting);
-        --signalled;
-    }
-    if (waitVote.signal())
-    {
-        ++signalled;
-    }
-    Tour tour = {kind, groupNum};
-    mutex.release();
-    return tour;
+        Tour tour = {kind, groupNum};
+        mutex.release();
+        return tour;
 
-    }
+}
 
     void TallyVotes::done(){
         mutex.acquire();
@@ -99,14 +89,59 @@ TallyVotes::Tour TallyVotes::vote(unsigned int id, Ballot ballot)
         mutex.release();
     }
 #elif defined( SEM )                // semaphore solution
+    TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
+    :groupMem{0}, waiting{0}, group{group}, voters{voters}, printer{printer}, 
+    pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0} {
+        group.P();
+    }
+
     TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
+        vote.P();
+        mutex.P();
+        if (voters < group) { // quorum failure
+            if(!vote.empty()) vote.V();
+            mutex.V();
+            throw Failed();
+        }
+        printer.print(id, Voter::States::Vote, ballot);
+        addVote(ballot);
+        if (groupMem == group) { //formed a group
+            computeTour();
+            printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
+        } else {
+            ++waiting;
+            printer.print(id, Voter::States::Block, waiting);
+            vote.V();
+            mutex.V();
+            group.P();
+            mutex.P();
+            --waiting;
+            if (voters < group) { // quorum failure
+                if(waiting > 0) group.V();
+                mutex.V();
+                throw Failed();
+            }
+            printer.print(id, Voter::States::Unblock, waiting);
+        }
+        --groupMem;
+        if(groupMem == 0) vote.V();
+        else group.V();
         Tour tour = Tour(kind, groupNum);
+        mutex.V();
         return tour;
     }
 
     void done(){
         mutex.P();
         --voters;
+        if(voters == group-1){ // quorum failure
+            if(!group.empty()){
+                group.V();
+            }
+            if(!vote.empty()){
+                vote.V();
+            }
+        }
         mutex.V();
     }
 

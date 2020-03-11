@@ -17,6 +17,10 @@ class TallyVotes {
 class TallyVotes {
     // private declarations for this kind of vote-tallier
     uSemaphore & mutex;
+    uSemaphore & group;
+    uSemaphore & vote;
+    unsigned int groupMem;
+    unsigned int waiting;
 #elif defined( BAR )                // barrier solution
 // includes for this kind of vote-tallier
 _Cormonitor TallyVotes : public uBarrier {
