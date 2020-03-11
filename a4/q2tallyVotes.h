@@ -12,6 +12,7 @@ class TallyVotes {
     unsigned int groupMem;
     unsigned int waiting;
     unsigned int signalled;
+    unsigned int barger;
 #elif defined( SEM )                // semaphore solution
 #include <uSemaphore.h>
 class TallyVotes {
@@ -34,7 +35,7 @@ _Cormonitor TallyVotes : public uBarrier {
     Printer &printer;
     unsigned int pics, statues, shop;
     unsigned int groupNum;
-    unsigned barger;
+    unsigned int waiting;
     bool formed;
   public:                            // common interface
     _Event Failed {};

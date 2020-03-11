@@ -22,8 +22,8 @@ void TallyVotes::computeTour(){
 
 #if defined( MC )                    // mutex/condition solution
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
-    :groupMem{0}, waiting{0}, signalled{0}, group{group}, voters{voters}, printer{printer}, 
-    pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0}, formed{false}
+    :groupMem{0}, signalled{0}, barger{0}, group{group}, voters{voters}, printer{printer}, 
+    pics{0}, statues{0}, shop{0}, groupNum{0}, waiting{0}, formed{false}
     {}
 
     TallyVotes::Tour TallyVotes::vote(unsigned int id, Ballot ballot) {
@@ -86,8 +86,8 @@ void TallyVotes::computeTour(){
     }
 #elif defined( SEM )                // semaphore solution
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
-    :groupMem{0}, waiting{0}, group{group}, voters{voters}, printer{printer}, 
-    pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0},formed{false} {
+    :groupMem{0}, group{group}, voters{voters}, printer{printer}, 
+    pics{0}, statues{0}, shop{0}, groupNum{0}, waiting{0}, formed{false} {
         grouping.P();
     }
 
@@ -145,8 +145,8 @@ void TallyVotes::computeTour(){
 
 #elif defined( BAR )                // barrier solution
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
-    :uBarrier(group), waiting{0}, group{group}, voters{voters}, printer{printer}, 
-    pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0}, formed{false} 
+    :uBarrier(group), group{group}, voters{voters}, printer{printer}, 
+    pics{0}, statues{0}, shop{0}, groupNum{0}, waiting{0}, formed{false} 
     {}
 
     TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
