@@ -89,7 +89,7 @@ void TallyVotes::computeTour(){
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
     :groupMem{0}, waiting{0}, group{group}, voters{voters}, printer{printer}, 
     pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0} {
-        group.P();
+        grouping.P();
     }
 
     TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Ballot ballot ){
@@ -128,7 +128,7 @@ void TallyVotes::computeTour(){
         return tour;
     }
 
-    void done(){
+    void TallyVotes::done(){
         mutex.P();
         --voters;
         if(voters == group-1){ // quorum failure
