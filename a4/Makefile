@@ -1,4 +1,4 @@
-IMPL:=SEM
+IMPL:=BAR
 OUTPUT:=OUTPUT
 
 CXX = u++					# compiler
