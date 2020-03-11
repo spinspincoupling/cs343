@@ -33,7 +33,7 @@ void TallyVotes::computeTour(){
             throw Failed();
         }
         //std::cout << "first check " << signalled << std::endl;
-        if(signalled > 0){ //barger
+        if(signalled <= barger){ //barger
             ++barger;
             printer.print(id, Voter::States::Barging, barger);
             waitVote.wait(mutex);
