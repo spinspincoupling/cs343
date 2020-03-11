@@ -146,9 +146,8 @@ void TallyVotes::computeTour(){
 #elif defined( BAR )                // barrier solution
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
     :uBarrier(group), waiting{0}, group{group}, voters{voters}, printer{printer}, 
-    pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0}, formed{false} {
-        grouping.P();
-    }
+    pics{0}, statues{0}, shop{0}, groupNum{0}, barger{0}, formed{false} 
+    {}
 
     void TallyVotes::last(){
         computeTour();
@@ -161,7 +160,7 @@ void TallyVotes::computeTour(){
         }
         addVote(ballot);
         printer.print(id, Voter::States::Vote, ballot);
-        if(uBarrier::waiter() < group-1){
+        if(uBarrier::waiters() < group-1){
             ++waiting;
             printer.print(id, Voter::States::Block, waiting);
             uBarrier::block();
