@@ -33,7 +33,7 @@ void TallyVotes::computeTour(){
             throw Failed();
         }
         //std::cout << "first check " << signalled << std::endl;
-        if(signalled <= barger){ //barger
+        if(signalled > 0){ //barger
             ++barger;
             printer.print(id, Voter::States::Barging, barger);
             waitVote.wait(mutex);
@@ -57,6 +57,10 @@ void TallyVotes::computeTour(){
         } else {
             printer.print(id, Voter::States::Block, groupMem);
             ++waiting;
+            if(signalled == 0 && !waitVote.empty()){
+                waitVote.signal();
+                ++signalled;
+            }
             waitVoters.wait(mutex);
             if(voters < group) { // quorum failure
                 mutex.release();
