@@ -94,7 +94,7 @@ void TallyVotes::computeTour(){
 
     TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
         enterVote.P();
-        enterVote.P();
+        mutex.P();
         if (voters < group) { // quorum failure
             if(!enterVote.empty()) enterVote.V();
             mutex.V();
