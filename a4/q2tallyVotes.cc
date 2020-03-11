@@ -38,7 +38,7 @@ void TallyVotes::computeTour(){
             printer.print(id, Voter::States::Barging, barger);
             waitVote.wait(mutex);
             --barger;
-            //std::cout << "woke up from barger " << signalled << std::endl;
+            std::cout << "woke up from barger " << signalled << std::endl;
             --signalled;
             //std::cout << "wake from barger" << std::endl;
             if(voters < group) { // quorum failure
