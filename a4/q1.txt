@@ -1,0 +1,38 @@
+a)
+Internal without optimizer:
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %E" ./q1exec > /dev/null
+3.08u 0.81s 0:03.91
+
+Internal with optimizer:
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %E" ./q1exec > /dev/null
+3.02u 0.75s 0:03.82
+
+External without optimizer:
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %E" ./q1exec > /dev/null
+7.05u 0.89s 0:08.00
+
+External with optimizer:
+@ubuntu1804-004%  /usr/bin/time -f "%Uu %Ss %E" ./q1exec > /dev/null
+4.48u 0.87s 0:05.34
+
+b)
+Internal buffer is significantly faster than the external buffer.
+Internal buffer make use of the buffer in i/o stream hence it is handled more efficiently
+and number of syscalls is minimized.
+In the case of extrnal buffer, string concanations occur in the loop and resizing might occur.
+This make the process slower.
+
+c)
+There is an improvement in run time for internal buffer when optimizer is used but it is 
+not significant.
+On the other hand, there is a significant improvement in runtime when optimizer is used
+for external buffer.
+
+d)
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %E" ./q1exec > /dev/null
+2.13u 0.16s 0:02.31
+
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %E" ./q1exec > /dev/null
+5.96u 0.22s 0:06.21
+
+It makes both version faster.

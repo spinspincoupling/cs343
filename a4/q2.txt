@@ -1,0 +1,27 @@
+i)
+MC:
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./vote 100 10 10000 1003
+2.75u 0.04s 0:02.78r 32916kb
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./vote 100 10 10000 1003 2
+107.98u 0.21s 0:54.10r 32652kb
+
+SEM:
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./vote 100 10 10000 1003
+2.85u 0.05s 0:02.89r 32880kb
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./vote 100 10 10000 1003 2
+109.27u 0.25s 0:54.84r 32880kb
+
+BAR:
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./vote 100 10 10000 1003
+2.79u 0.04s 0:02.82r 32888kb
+@ubuntu1804-004% /usr/bin/time -f "%Uu %Ss %Er %Mkb" ./vote 100 10 10000 1003 2
+111.38u 0.20s 0:55.81r 33732kb
+
+ii. State the performance difference (larger/smaller/by how much) among the locks as the kernel threads
+increase.
+In gerneral, the run time increases dramatically when number of kernel threads increase.
+Condition lock implementation is the fastest among the three regradless number of kernal thread.
+Barrier implementation performs better if one thread is used but runtime is worst compared to 
+semaphore implementation.
+Semaphore implementaiton is the slowest in one thread environment but is better than Barrier in multi-thread
+environment.
