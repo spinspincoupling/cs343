@@ -113,11 +113,11 @@ void TallyVotes::computeTour(){
             printer.print(id, Voter::States::Block, waiting);
             vote.V();
             mutex.V();
-            group.P();
+            grouping.P();
             mutex.P();
             --waiting;
             if (voters < group) { // quorum failure
-                if(waiting > 0) group.V();
+                if(waiting > 0) grouping.V();
                 mutex.V();
                 throw Failed();
             }
@@ -125,7 +125,7 @@ void TallyVotes::computeTour(){
         }
         --groupMem;
         if(groupMem == 0) vote.V();
-        else group.V();
+        else grouping.V();
         Tour tour = Tour(kind, groupNum);
         mutex.V();
         return tour;
@@ -135,8 +135,8 @@ void TallyVotes::computeTour(){
         mutex.P();
         --voters;
         if(voters == group-1){ // quorum failure
-            if(!group.empty()){
-                group.V();
+            if(!grouping.empty()){
+                grouping.V();
             }
             if(!vote.empty()){
                 vote.V();

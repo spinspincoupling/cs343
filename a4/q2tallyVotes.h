@@ -17,7 +17,7 @@ class uSemaphore
 class TallyVotes {
     // private declarations for this kind of vote-tallier
     uSemaphore & mutex;
-    uSemaphore & group;
+    uSemaphore & grouping;
     uSemaphore & vote;
     unsigned int groupMem;
     unsigned int waiting;
