@@ -13,7 +13,7 @@ class TallyVotes {
     unsigned int waiting;
     unsigned int signalled;
 #elif defined( SEM )                // semaphore solution
-class uSemaphore
+class uSemaphore;
 class TallyVotes {
     // private declarations for this kind of vote-tallier
     uSemaphore & mutex;
