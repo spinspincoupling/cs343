@@ -58,21 +58,20 @@ void TallyVotes::computeTour(){
             printer.print(id, Voter::States::Block, groupMem);
             ++waiting;
             waitVoters.wait(mutex);
+            if(voters < group) { // quorum failure
+                mutex.release();
+                throw Failed();
+            }
             --waiting;
             printer.print(id, Voter::States::Unblock, waiting);
             --signalled;
             //std::cout << "awake from wait vote " << signalled << std::endl;
         }
-        if(voters < group) { // quorum failure
-                mutex.release();
-                throw Failed();
-        }
         ++takeTour;
         if(takeTour == group){
             takeTour = 0;
         }
-        if(waitVote.signal()) ++signalled;
-        //std::cout << signalled << std::endl;
+        if(waitVote.signal()) {++signalled; std::cout << signalled << std::endl;}
         Tour tour = {kind, groupNum};
         mutex.release();
         return tour;
