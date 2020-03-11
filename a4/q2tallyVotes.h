@@ -10,7 +10,6 @@ class TallyVotes {
     uCondLock waitVoters;
     uCondLock waitVote;
     unsigned int groupMem;
-    unsigned int waiting;
     unsigned int signalled;
     unsigned int barger;
 #elif defined( SEM )                // semaphore solution
