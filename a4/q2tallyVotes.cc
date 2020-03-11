@@ -64,7 +64,7 @@ void TallyVotes::computeTour(){
             }
             --waiting;
             printer.print(id, Voter::States::Unblock, waiting);
-            std::cout << "woke up from group " << signalled << std::endl;
+            //std::cout << "woke up from group " << signalled << std::endl;
             --signalled;
             //std::cout << "awake from wait vote " << signalled << std::endl;
         }
