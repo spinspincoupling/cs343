@@ -21,11 +21,11 @@ int main( int argc, char *argv[] ) {
         int intbuf[size];                               // internal-data buffer
         for ( int i = 0; i < size; i += 1 ) intbuf[i] = i;
         for ( int i = 0; i < size; i += 1 ) cout << intbuf[i] << ' '; // internal buffering
-        cout << endl;
+        cout << '\n';
 #elif defined( EXTERNAL )
         string strbuf;                                  // external-data buffer
         for ( int i = 0; i < size; i += 1 ) strbuf += to_string( i ) + ' '; // external buffering
-        cout << strbuf << endl;
+        cout << strbuf << '\n';
 #else
 #error unknown buffering style
 #endif
