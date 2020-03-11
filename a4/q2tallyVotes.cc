@@ -40,6 +40,7 @@ void TallyVotes::computeTour(){
             --barger;
             //std::cout << "woke up from barger " << signalled << std::endl;
             --signalled;
+            std::cout << "wake from barger" << std::endl;
             if(voters < group) { // quorum failure
                 mutex.release();
                 throw Failed();
@@ -83,6 +84,7 @@ void TallyVotes::computeTour(){
         --voters;
         if(voters == group-1){ // quorum failure
             //groupMem = group;
+            std::cout << "detect failure" << std::endl;
             waitVoters.broadcast();
         }
         mutex.release();
