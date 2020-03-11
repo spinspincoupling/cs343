@@ -151,7 +151,6 @@ void TallyVotes::computeTour(){
 
     void TallyVotes::last(){
         computeTour();
-        uBarrier::reset(group);
     }
 
     TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
@@ -171,6 +170,7 @@ void TallyVotes::computeTour(){
             printer.print(id, Voter::States::Block, waiting);
             if(waiting == 0){
                 formed = false;
+                uBarrier::reset(group);
             }
         } else {
             uBarrier::block();
