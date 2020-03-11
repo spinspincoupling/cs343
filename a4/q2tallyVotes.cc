@@ -44,9 +44,11 @@ void TallyVotes::computeTour(){
             }
         }
         printer.print(id, Voter::States::Vote, ballot);
+        ++groupMem;
         addVote(ballot);
         if (groupMem == group) { //formed a group
             computeTour();
+            groupMem = 0;
             signalled += group - 1;
             waitVoters.broadcast();
             printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
@@ -100,9 +102,11 @@ void TallyVotes::computeTour(){
             throw Failed();
         }
         printer.print(id, Voter::States::Vote, ballot);
+        ++groupMem;
         addVote(ballot);
         if (groupMem == group) { //formed a group
             computeTour();
+            groupMem = 0;
             printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
         } else {
             ++waiting;
