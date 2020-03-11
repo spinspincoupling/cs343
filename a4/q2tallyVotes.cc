@@ -71,7 +71,7 @@ void TallyVotes::computeTour(){
         if(takeTour == group){
             takeTour = 0;
         }
-        //if(waitVote.signal()) ++signalled;
+        if(waitVote.signal()) ++signalled;
         //std::cout << signalled << std::endl;
         Tour tour = {kind, groupNum};
         mutex.release();
