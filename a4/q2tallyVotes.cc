@@ -32,13 +32,13 @@ void TallyVotes::computeTour(){
             mutex.release();
             throw Failed();
         }
-        std::cout << signalled << std::endl;
+        std::cout << "first check" << signalled << std::endl;
         if(signalled > 0 || groupMem == group){ //barger
             ++barger;
             printer.print(id, Voter::States::Barging, barger);
             waitVote.wait(mutex);
             --barger;
-            std::cout << signalled << std::endl;
+            std::cout << "woke up from barger" << signalled << std::endl;
             --signalled;
             if(voters < group) { // quorum failure
                 mutex.release();
@@ -51,7 +51,7 @@ void TallyVotes::computeTour(){
             computeTour();
             signalled += group-1;
             waitVoters.broadcast();
-            std::cout << signalled << std::endl;
+            std::cout << "signal group" << signalled << std::endl;
             printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
         } else {
             printer.print(id, Voter::States::Block, groupMem);
@@ -60,7 +60,7 @@ void TallyVotes::computeTour(){
             --waiting;
             printer.print(id, Voter::States::Unblock, waiting);
             --signalled;
-            std::cout << signalled << std::endl;
+            std::cout << "awake from wait vote" << signalled << std::endl;
         }
         if(voters < group) { // quorum failure
                 mutex.release();
@@ -71,7 +71,7 @@ void TallyVotes::computeTour(){
             takeTour = 0;
         }
         if(waitVote.signal()) ++signalled;
-        std::cout << signalled << std::endl;
+        //std::cout << signalled << std::endl;
         Tour tour = {kind, groupNum};
         mutex.release();
         return tour;
