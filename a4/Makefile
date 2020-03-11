@@ -1,4 +1,4 @@
-IMPL:=BAR
+IMPL:=MC
 OUTPUT:=OUTPUT
 
 CXX = u++					# compiler
