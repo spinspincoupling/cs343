@@ -1,7 +1,11 @@
 #include "q2tallyVotes.h"
 #include "q2voter.h"
 #include "printer.h"
-#include <iostream>
+#ifdef NOOUTPUT
+#define PRINT( args... ) 
+#else
+#define PRINT( args... ) printer.print( args )
+#endif // NOOUTPUT
 
 void TallyVotes::addVote(Ballot ballot){
     //++groupMem;
@@ -34,7 +38,7 @@ void TallyVotes::computeTour(){
         }
         if (signalled > 0) { //barging prevention
             ++barger;
-            printer.print(id, Voter::States::Barging, barger);
+            PRINT(id, Voter::States::Barging, barger);
             waitVote.wait(mutex);
             --barger;
             --signalled;
@@ -43,7 +47,7 @@ void TallyVotes::computeTour(){
                 throw Failed();
             }
         }
-        printer.print(id, Voter::States::Vote, ballot);
+        PRINT(id, Voter::States::Vote, ballot);
         ++groupMem;
         addVote(ballot);
         if (groupMem == group) { //formed a group
@@ -51,9 +55,9 @@ void TallyVotes::computeTour(){
             groupMem = 0;
             signalled += group - 1;
             waitVoters.broadcast();
-            printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
+            PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
         } else {
-            printer.print(id, Voter::States::Block, groupMem);
+            PRINT(id, Voter::States::Block, groupMem);
             ++waiting;
             if (signalled == 0 && !waitVote.empty()) { // in case signal is lost
                 waitVote.signal();
@@ -65,7 +69,7 @@ void TallyVotes::computeTour(){
                 throw Failed();
             }
             --waiting;
-            printer.print(id, Voter::States::Unblock, waiting);
+            PRINT(id, Voter::States::Unblock, waiting);
             --signalled;
         }
         if(waiting == 0) formed = false;
@@ -101,16 +105,16 @@ void TallyVotes::computeTour(){
             mutex.V();
             throw Failed();
         }
-        printer.print(id, Voter::States::Vote, ballot);
+        PRINT(id, Voter::States::Vote, ballot);
         ++groupMem;
         addVote(ballot);
         if (groupMem == group) { //formed a group
             computeTour();
             groupMem = 0;
-            printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
+            PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
         } else {
             ++waiting;
-            printer.print(id, Voter::States::Block, waiting);
+            PRINT(id, Voter::States::Block, waiting);
             enterVote.V();
             mutex.V();
             grouping.P();
@@ -121,7 +125,7 @@ void TallyVotes::computeTour(){
                 mutex.V();
                 throw Failed();
             }
-            printer.print(id, Voter::States::Unblock, waiting);
+            PRINT(id, Voter::States::Unblock, waiting);
         }
         if(waiting == 0) {
             enterVote.V();
@@ -158,16 +162,16 @@ void TallyVotes::computeTour(){
             throw Failed();
         }
         addVote(ballot);
-        printer.print(id, Voter::States::Vote, ballot);
+        PRINT(id, Voter::States::Vote, ballot);
         if(uBarrier::waiters() < group-1){
             ++waiting;
-            printer.print(id, Voter::States::Block, waiting);
+            PRINT(id, Voter::States::Block, waiting);
             uBarrier::block();
             if(!formed){
                 throw Failed();
             }
             --waiting;
-            printer.print(id, Voter::States::Unblock, waiting);
+            PRINT(id, Voter::States::Unblock, waiting);
             if(waiting == 0){
                 formed = false;
                 uBarrier::reset(group);
@@ -175,7 +179,7 @@ void TallyVotes::computeTour(){
         } else {
             uBarrier::block();
             computeTour();
-            printer.print(id, Voter::States::Complete, Tour{kind, groupNum});
+            PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
         }
         Tour tour = Tour{kind, groupNum};
         return tour;
@@ -184,7 +188,7 @@ void TallyVotes::computeTour(){
     void TallyVotes::done(unsigned int id){
         --voters;
         if(voters < group && uBarrier::waiters() > 0){
-            printer.print(id, Voter::States::Done);
+            PRINT(id, Voter::States::Done);
             uBarrier::block();
         }
     }

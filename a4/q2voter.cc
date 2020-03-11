@@ -2,6 +2,11 @@
 #include "q2tallyVotes.h"
 #include "printer.h"
 #include "MPRNG.h"
+#ifdef NOOUTPUT
+#define PRINT( args... ) 
+#else
+#define PRINT( args... ) printer.print( args )
+#endif // NOOUTPUT
 
 extern MPRNG mprng;
 
@@ -16,22 +21,22 @@ void Voter::main(){
     try {
         while(nvotes > 0){
         yield(mprng(19));
-        printer.print(id, States::Start);
+        PRINT(id, States::Start);
         yield(mprng(4));
         TallyVotes::Tour tour = voteTallier.vote(id, cast());
         yield(mprng(4));
-        printer.print(id, States::Going, tour);
+        PRINT(id, States::Going, tour);
         --nvotes;
         }
     }
     catch (TallyVotes::Failed &){
-        printer.print(id, Failed);
+        PRINT(id, Failed);
     }
     #if defined( BAR )
     voteTallier.done(id);
     #else
     voteTallier.done();
     #endif
-    printer.print(id, States::Terminated);
+    PRINT(id, States::Terminated);
     
 }
