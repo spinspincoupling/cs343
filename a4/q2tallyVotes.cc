@@ -144,7 +144,7 @@ void TallyVotes::computeTour(){
 
 #elif defined( BAR )                // barrier solution
     TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
-        Tour tour = Tour(kind, groupNum);
+        Tour tour = Tour{kind, groupNum};
         return tour;
     }
 
