@@ -1,7 +1,12 @@
 #ifndef VOTER_H
 #define VOTER_H
 class Printer;
-class TallyVotes;
+#if defined( BAR )
+  _Cormonitor TallyVotes;
+#else
+  class TallyVotes;
+#endif
+
 _Task Voter {
     TallyVotes & voteTallier;
     Printer & printer;
