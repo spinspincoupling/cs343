@@ -38,6 +38,7 @@ void TallyVotes::computeTour(){
             printer.print(id, Voter::States::Barging, barger);
             waitVote.wait(mutex);
             --barger;
+            std::cout << signalled << std::endl;
             --signalled;
             if(voters < group) { // quorum failure
                 mutex.release();
@@ -59,6 +60,7 @@ void TallyVotes::computeTour(){
             --waiting;
             printer.print(id, Voter::States::Unblock, waiting);
             --signalled;
+            std::cout << signalled << std::endl;
         }
         if(voters < group) { // quorum failure
                 mutex.release();
@@ -69,6 +71,7 @@ void TallyVotes::computeTour(){
             takeTour = 0;
         }
         if(waitVote.signal()) ++signalled;
+        std::cout << signalled << std::endl;
         Tour tour = {kind, groupNum};
         mutex.release();
         return tour;
