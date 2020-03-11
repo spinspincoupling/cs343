@@ -36,9 +36,6 @@ _Cormonitor TallyVotes : public uBarrier {
     unsigned int groupNum;
     unsigned barger;
     bool formed;
-    TourKind kind;
-    void addVote(Ballot ballot);
-    void computeTour();
   public:                            // common interface
     _Event Failed {};
     TallyVotes( unsigned int voters, unsigned int group, Printer & printer );
@@ -51,6 +48,10 @@ _Cormonitor TallyVotes : public uBarrier {
         unsigned int id
     #endif
     );
+  private:
+    TourKind kind;
+    void addVote(Ballot ballot);
+    void computeTour();
 };
 
 #endif
