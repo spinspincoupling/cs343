@@ -13,12 +13,12 @@ class TallyVotes {
     unsigned int waiting;
     unsigned int signalled;
 #elif defined( SEM )                // semaphore solution
-class uSemaphore;
+#include <uSemaphore.h>
 class TallyVotes {
     // private declarations for this kind of vote-tallier
-    uSemaphore & mutex;
-    uSemaphore & grouping;
-    uSemaphore & vote;
+    uSemaphore mutex;
+    uSemaphore grouping;
+    uSemaphore vote;
     unsigned int groupMem;
     unsigned int waiting;
 #elif defined( BAR )                // barrier solution

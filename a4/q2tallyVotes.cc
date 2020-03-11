@@ -2,9 +2,6 @@
 #if defined( BAR )
 #include <uBarrier.h>
 #endif
-#if defined( SEM )
-#include <uSemaphore.h>
-#endif
 #include "q2voter.h"
 #include "printer.h"
 #include <iostream>
@@ -95,7 +92,7 @@ void TallyVotes::computeTour(){
         group.P();
     }
 
-    TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
+    TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Ballot ballot ){
         vote.P();
         mutex.P();
         if (voters < group) { // quorum failure
