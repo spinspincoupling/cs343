@@ -1,6 +1,7 @@
 #include "q2tallyVotes.h"
 #include "q2voter.h"
 #include "q2printer.h"
+#include <iostream>
 #include <climits>
 #ifdef NOOUTPUT
 #define PRINT( args... ) 
