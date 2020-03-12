@@ -30,7 +30,7 @@ void TallyVotes::computeTour(){
     {}
 
     TallyVotes::Tour TallyVotes::vote(unsigned int id, Ballot ballot) {
-        if(id == UINT_MAX) return;
+        if(id == UINT_MAX) return Tour{kind, groupNum};
         if(voters < group) throw Failed();
         PRINT(id, Voter::States::Vote, ballot);
         addVote(ballot);
@@ -55,7 +55,7 @@ void TallyVotes::computeTour(){
     void TallyVotes::done(){
         --voters;
         if(voters == group-1 && !formed){ // quorum failure
-            this.vote(UINT_MAX, Ballot{0});
+            this->vote(UINT_MAX, Ballot());
         }
     }
 
