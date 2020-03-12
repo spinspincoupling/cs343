@@ -6,15 +6,16 @@
 
 _Monitor Printer {
     const unsigned int Voters, Undefined;
-    unsigned int prev;					// previous inserter into the buffer
+    //const int Undefined;
+    //unsigned int prev;					// previous inserter into the buffer
     unsigned int cnt;					// number of filled buffer elements
     bool *written;
 
     // Defines information that needs to be tracked.
     struct Items {
-	unsigned int id;
-	Voter::States state;
-	union {
+	  unsigned int id;
+	  Voter::States state;
+	  union {
 	    TallyVotes::Ballot ballot;
 	    unsigned int numBlocked;
 	    TallyVotes::Tour tour;
