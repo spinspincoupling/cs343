@@ -3,7 +3,7 @@
 #include <climits>
 
 Printer::Printer( unsigned int voters )
-:Voters{voters}, Undefined{MAX_INT}, cnt{0}, written{new bool[voters]}, columns{new Items[voters]} {
+:Voters{voters}, Undefined{UINT_MAX}, cnt{0}, written{new bool[voters]}, columns{new Items[voters]} {
     for (unsigned int i=0; i<voters; ++i){
         written[i] = false;
     }
