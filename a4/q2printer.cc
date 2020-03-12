@@ -49,10 +49,10 @@ void Printer::printItem(Items item){
             std::cout << 'D';
             break;
         case Voter::States::Complete:
-            std::cout << "C " << item.tour.tourkind;
+            std::cout << "C " << static_cast<char>(item.tour.tourkind);
             break;
         case Voter::States::Going:
-            std:: cout << "G " << item.tour.tourkind << item.tour.groupno;
+            std:: cout << "G " << static_cast<char>(item.tour.tourkind) << ' ' << item.tour.groupno;
             break;
         case Voter::States::Failed:
             std::cout << 'X';
