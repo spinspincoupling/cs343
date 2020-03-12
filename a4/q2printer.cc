@@ -63,17 +63,16 @@ void Printer::printItem(Items item){
 }
 
 void Printer::flushBuffer(){
-    for(int i=0; i<Voters; ++i) {
+    for(unsigned int i=0; i<Voters; ++i) {
         if(written[i]){
             printItem(columns[i]);
             --cnt;
             written[i] = false;
-            if(cnt > 0) std::cout << '\t';
-            else {
+            if(cnt == 0) {
                 std::cout << std::endl;
                 break;
             }
-        }
+        } else std::cout '\t';
     }
 }
 
@@ -108,7 +107,7 @@ void Printer::print( unsigned int id, Voter::States state, TallyVotes::Tour tour
 }
 
 void Printer::print( unsigned int id, Voter::States state, unsigned int numBlocked ){
-    curr = Items{id, state, numBlocked};
+    curr = Items{id, state, .numBlocked=numBlocked};
     if(written[id]){
         flushBuffer();
     }
