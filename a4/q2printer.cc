@@ -72,6 +72,8 @@ void Printer::flushBuffer(){
             if(cnt == 0) {
                 std::cout << std::endl;
                 break;
+            } else {
+                std::cout << '\t';
             }
         } else std::cout << '\t';
     }
