@@ -2,7 +2,7 @@
 #include <iostream>
 
 Printer::Printer( unsigned int voters )
-:Voters{voters}, Undefined{MAX_INT}，cnt{0}, written{new bool[voters]} {
+:Voter{voters}, Undefined{0}, cnt{0}, written{new bool[voters]} {
     for (auto &f:written){
         f = false;
     }

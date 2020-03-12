@@ -5,8 +5,9 @@
 #include "q2tallyVotes.h"
 
 _Monitor Printer {
-    const unsigned int Voters, Undefined;
-    unsigned int prev;					// previous inserter into the buffer
+    const unsigned int Voters;
+    const int Undefined;
+    //unsigned int prev;					// previous inserter into the buffer
     unsigned int cnt;					// number of filled buffer elements
     bool *written;
 
