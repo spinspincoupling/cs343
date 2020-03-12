@@ -1,11 +1,10 @@
 #include "q2printer.h"
 #include <iostream>
-using namespace std;
 
 Printer::Printer( unsigned int voters )
 :Voters{voters}, Undefined{0}, cnt{0}, written{new bool[voters]} {
-    for (auto &f:written){
-        f = false;
+    for (int i=0; i<voters; ++i){
+        written[i] = false;
     }
     int i=0;
     for(; i<voters-1; ++i){
@@ -78,7 +77,7 @@ void Printer::flushBuffer(){
 }
 
 void Printer::print( unsigned int id, Voter::States state ){
-    curr = Items{id, state, .numBlocked=undefined};
+    curr = Items{id, state, .numBlocked=Undefined};
     if(written[id]){
         flushBuffer();
     }
