@@ -28,7 +28,7 @@ void TallyVotes::computeTour(){
     pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false}
     {}
 
-    void Tour TallyVotes::enterVote(){
+    void TallyVotes::enterVote(){
         if(formed) _Accept(leavingVote);
         if(voters < group){
             _Accept(enterVote);
@@ -36,7 +36,7 @@ void TallyVotes::computeTour(){
         }
     }
 
-    void Tour TallyVotes::leavingVote(){
+    void TallyVotes::leavingVote(){
         if(!formed) _Accept(enterVote);
         if(!formed){
             _Accept(leavingVote);
@@ -50,9 +50,9 @@ void TallyVotes::computeTour(){
         addVote(ballot);
         ++groupMem;
         if(groupMem < group){
-            PRINT(id, Voter::States::Block, waiting);
+            PRINT(id, Voter::States::Block, groupMem);
             leavingVote();
-            PRINT(id, Voter::States::Unblock, waiting);
+            PRINT(id, Voter::States::Unblock, groupMem);
             --groupMem;
             if(groupMem == 0) formed = false;
         } else {
