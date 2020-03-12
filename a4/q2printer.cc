@@ -2,11 +2,11 @@
 #include <iostream>
 
 Printer::Printer( unsigned int voters )
-:Voters{voters}, Undefined{0}, cnt{0}, written{new bool[voters]} {
-    for (int i=0; i<voters; ++i){
+:Voters{voters}, Undefined{0}, cnt{0}, written{new bool[voters]}, columns{new Items[voters]} {
+    for (unsigned int i=0; i<voters; ++i){
         written[i] = false;
     }
-    int i=0;
+    unsigned int i=0;
     for(; i<voters-1; ++i){
         std::cout << 'V' << i << '\t';
     }
@@ -24,6 +24,7 @@ Printer::~Printer(){
     std::cout << "*****************" << std::endl;
     std::cout << "All tours started" << std::endl;
     delete written;
+    delete columns;
 }
 
 void Printer::printItem(Items item){
