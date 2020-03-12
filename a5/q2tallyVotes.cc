@@ -1,6 +1,7 @@
 #include "q2tallyVotes.h"
 #include "q2voter.h"
 #include "q2printer.h"
+#include <climits>
 #ifdef NOOUTPUT
 #define PRINT( args... ) 
 #else
@@ -28,37 +29,23 @@ void TallyVotes::computeTour(){
     pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false}
     {}
 
-    void TallyVotes::enterVote(){
-        if(formed) _Accept(leavingVote);
-        if(voters < group){
-            _Accept(enterVote);
-            throw Failed();
-        }
-    }
-
-    void TallyVotes::leavingVote(){
-        if(!formed) _Accept(enterVote);
-        if(!formed){
-            _Accept(leavingVote);
-            throw Failed();
-        }
-    }
-
     TallyVotes::Tour TallyVotes::vote(unsigned int id, Ballot ballot) {
-        enterVote();
+        if(id == UINT_MAX) return;
+        if(voters < group) throw Failed();
         PRINT(id, Voter::States::Vote, ballot);
         addVote(ballot);
         ++groupMem;
         if(groupMem < group){
             PRINT(id, Voter::States::Block, groupMem);
-            leavingVote();
+            _Accept(vote);
             PRINT(id, Voter::States::Unblock, groupMem);
+            if(!formed) throw Failed();
             --groupMem;
             if(groupMem == 0) formed = false;
         } else {
             computeTour();
-            --groupMem;
             PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
+            --groupMem;
         }
         Tour tour = {kind, groupNum};
         return tour;
@@ -68,7 +55,7 @@ void TallyVotes::computeTour(){
     void TallyVotes::done(){
         --voters;
         if(voters == group-1 && !formed){ // quorum failure
-            _Accept(leavingVote);
+            this.vote(UINT_MAX, Ballot{0});
         }
     }
 

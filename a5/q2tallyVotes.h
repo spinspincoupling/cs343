@@ -7,8 +7,6 @@ class Printer;
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
     unsigned int groupMem;
-    void enterVote();
-    void leavingVote();
 #elif defined( INT )                         // internal scheduling monitor solution
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
