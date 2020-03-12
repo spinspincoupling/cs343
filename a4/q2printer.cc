@@ -1,8 +1,9 @@
 #include "q2printer.h"
 #include <iostream>
+#include <climits>
 
 Printer::Printer( unsigned int voters )
-:Voters{voters}, Undefined{0}, cnt{0}, written{new bool[voters]}, columns{new Items[voters]} {
+:Voters{voters}, Undefined{MAX_INT}, cnt{0}, written{new bool[voters]}, columns{new Items[voters]} {
     for (unsigned int i=0; i<voters; ++i){
         written[i] = false;
     }
@@ -72,7 +73,7 @@ void Printer::flushBuffer(){
                 std::cout << std::endl;
                 break;
             }
-        } else std::cout '\t';
+        } else std::cout << '\t';
     }
 }
 
