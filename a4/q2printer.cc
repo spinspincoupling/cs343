@@ -1,8 +1,9 @@
 #include "q2printer.h"
 #include <iostream>
+using namespace std;
 
 Printer::Printer( unsigned int voters )
-:Voter{voters}, Undefined{0}, cnt{0}, written{new bool[voters]} {
+:Voters{voters}, Undefined{0}, cnt{0}, written{new bool[voters]} {
     for (auto &f:written){
         f = false;
     }
@@ -62,7 +63,7 @@ void Printer::printItem(Items item){
 }
 
 void Printer::flushBuffer(){
-    for(int i=0; i<voters; ++i) {
+    for(int i=0; i<Voters; ++i) {
         if(written[i]){
             printItem(columns[i]);
             --cnt;
@@ -77,7 +78,7 @@ void Printer::flushBuffer(){
 }
 
 void Printer::print( unsigned int id, Voter::States state ){
-    curr = Items{id, state, undefined};
+    curr = Items{id, state, .numBlocked=undefined};
     if(written[id]){
         flushBuffer();
     }
@@ -87,7 +88,7 @@ void Printer::print( unsigned int id, Voter::States state ){
 }
     
 void Printer::print( unsigned int id, Voter::States state, TallyVotes::Ballot vote ){
-    curr = Items{id, state, vote};
+    curr = Items{id, state, .ballot=vote};
     if(written[id]){
         flushBuffer();
     }
@@ -97,7 +98,7 @@ void Printer::print( unsigned int id, Voter::States state, TallyVotes::Ballot vo
 }
     
 void Printer::print( unsigned int id, Voter::States state, TallyVotes::Tour tour ){
-    curr = Items{id, state, tour};
+    curr = Items{id, state, .tour=tour};
     if(written[id]){
         flushBuffer();
     }
