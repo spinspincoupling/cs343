@@ -6,7 +6,7 @@ class Printer;
 #if defined( EXT )                           // external scheduling monitor solution
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
-    groupMem;
+    unsigned int groupMem;
     void enterVote();
     void leavingVote();
 #elif defined( INT )                         // internal scheduling monitor solution
