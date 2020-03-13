@@ -41,9 +41,10 @@ void TallyVotes::computeTour(){
             bool wait = true;
             while (wait && voters >= group){
                 try{
-                    _Accept(done)
-                    or _Accept(vote);
+                    _Accept(done);
+                    or _Accept(vote){
                         wait = false;
+                    } 
                 } catch (uMutexFailure::RendezvousFailure &){
                     throw Failed();
                 }
