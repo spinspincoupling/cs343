@@ -54,15 +54,12 @@ void TallyVotes::computeTour(){
 
 }
 
-    void TallyVotes::writeVoters(){
-        --voters;
-    }
-
     void TallyVotes::done(){
+        --voters;
         if(voters < group && !formed){ // quorum failure
             this->vote(UINT_MAX, Ballot());
         }
-        writeVoters();
+        //writeVoters();
     }
 
 #elif defined( INT )                // semaphore solution
