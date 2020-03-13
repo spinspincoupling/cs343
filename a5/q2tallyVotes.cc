@@ -38,7 +38,8 @@ void TallyVotes::computeTour(){
         ++groupMem;
         if(groupMem < group){
             PRINT(id, Voter::States::Block, groupMem);
-            _Accept(vote,done);
+            _Accept(vote);
+            _Else _Accept(done);
             PRINT(id, Voter::States::Unblock, groupMem);
             if(!formed) throw Failed();
             --groupMem;

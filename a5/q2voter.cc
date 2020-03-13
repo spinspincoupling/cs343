@@ -32,11 +32,7 @@ void Voter::main(){
     catch (TallyVotes::Failed &){
         PRINT(id, Failed);
     }
-    #if defined( BAR )
-    voteTallier.done(id);
-    #else
     voteTallier.done();
-    #endif
     PRINT(id, States::Terminated);
     
 }
