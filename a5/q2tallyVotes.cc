@@ -40,8 +40,9 @@ void TallyVotes::computeTour(){
             PRINT(id, Voter::States::Block, groupMem);
             bool wait = true;
             while (wait && voters >= group){
-                _Accept(vote);
+                _Accept(vote){
                     wait = false;
+                }
                 or _Accept(done);
             }
             PRINT(id, Voter::States::Unblock, groupMem);
