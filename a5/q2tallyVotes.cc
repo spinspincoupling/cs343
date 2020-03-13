@@ -2,7 +2,6 @@
 #include "q2voter.h"
 #include "q2printer.h"
 #include <iostream>
-#include <climits>
 #ifdef NOOUTPUT
 #define PRINT( args... ) 
 #else
@@ -31,7 +30,6 @@ void TallyVotes::computeTour(){
     {}
 
     TallyVotes::Tour TallyVotes::vote(unsigned int id, Ballot ballot) {
-        if(id == UINT_MAX) return Tour{kind, groupNum};
         if(voters < group) throw Failed();
         PRINT(id, Voter::States::Vote, ballot);
         addVote(ballot);
@@ -49,9 +47,9 @@ void TallyVotes::computeTour(){
                     throw Failed();
                 }
             }
+            --groupMem;
             PRINT(id, Voter::States::Unblock, groupMem);
             if(!formed) throw Failed();
-            --groupMem;
             if(groupMem == 0) formed = false;
         } else {
             computeTour();
@@ -75,57 +73,35 @@ void TallyVotes::computeTour(){
     }
 
     TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
-        enterVote.P(); //barging avoidance
-        mutex.P();
-        if (voters < group) { // quorum failure
-            enterVote.V();
-            mutex.V();
-            throw Failed();
-        }
+        if(voters < group) throw Failed();
         PRINT(id, Voter::States::Vote, ballot);
-        ++groupMem;
         addVote(ballot);
-        if (groupMem == group) { //formed a group
-            computeTour();
-            groupMem = 0;
-            PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
-        } else {
-            ++waiting;
-            PRINT(id, Voter::States::Block, waiting);
-            enterVote.V(); //allow other voters to enter to form a group
-            mutex.V();
-            grouping.P(); // waiting for a group
-            mutex.P();
-            --waiting;
-            if (!formed) { // quorum failure
-                if(waiting > 0) grouping.V();
-                mutex.V();
+        ++groupMem;
+        if(groupMem < group){
+            PRINT(id, Voter::States::Block, groupMem);
+            grouping.wait();
+            --groupMem;
+            PRINT(id, Voter::States::Unblock, groupMem);
+            if(!formed) {
+                if(groupMem > 0) grouping.signal();
                 throw Failed();
             }
-            PRINT(id, Voter::States::Unblock, waiting);
+        } else {
+            computeTour();
+            PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
+            --groupMem;
         }
-        if(waiting == 0) { // let the new group come in
-            enterVote.V();
-            formed = false;
-        }
-        else grouping.V(); // let a group member come in
+        if(groupMem > 0) grouping.signal();
+        else formed = false;
         Tour tour = Tour{kind, groupNum};
-        mutex.V();
         return tour;
     }
 
     void TallyVotes::done(){
-        mutex.P();
         --voters;
-        if(voters == group-1){ // quorum failure
-            if(!grouping.empty()){
-                grouping.V();
-            }
-            if(!enterVote.empty()){
-                enterVote.V();
-            }
+        if(voters == group-1){ // may be quorum failure
+            grouping.signal();
         }
-        mutex.V();
     }
 
 #elif defined( INTB )                // barrier solution

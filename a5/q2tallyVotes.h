@@ -8,7 +8,8 @@ class Printer;
 _Monitor TallyVotes {
     unsigned int groupMem;
 #elif defined( INT )                         // internal scheduling monitor solution
-// includes for this kind of vote-tallier
+    unsigned int groupMem;
+    uCondition grouping;
 _Monitor TallyVotes {
     // private declarations for this kind of vote-tallier
 #elif defined( INTB )                        // internal scheduling monitor solution with barging
