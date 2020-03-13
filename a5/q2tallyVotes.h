@@ -7,6 +7,8 @@ class Printer;
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
     unsigned int groupMem;
+    bool *exited;
+    _Mutex void writeVoters();
 #elif defined( INT )                         // internal scheduling monitor solution
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
@@ -41,7 +43,10 @@ _Task TallyVotes {
     enum TourKind { Picture = 'p', Statue = 's', GiftShop = 'g' };
     struct Tour { TourKind tourkind; unsigned int groupno; };
     Tour vote( unsigned int id, Ballot ballot );
-    void done();
+    #if defined( EXT )
+     _Nomutex 
+     #endif 
+     void done();
   private:
     TourKind kind;
     void addVote(Ballot ballot);
