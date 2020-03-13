@@ -40,10 +40,13 @@ void TallyVotes::computeTour(){
             PRINT(id, Voter::States::Block, groupMem);
             bool wait = true;
             while (wait && voters >= group){
-                _Accept(vote){
-                    wait = false;
+                try{
+                    _Accept(done)
+                    or _Accept(vote);
+                        wait = false;
+                } catch (uMutexFailure::RendezvousFailure &){
+                    throw Failed();
                 }
-                or _Accept(done);
             }
             PRINT(id, Voter::States::Unblock, groupMem);
             if(!formed) throw Failed();
