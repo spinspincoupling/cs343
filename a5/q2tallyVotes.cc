@@ -39,6 +39,7 @@ void TallyVotes::computeTour(){
         if(groupMem < group){
             PRINT(id, Voter::States::Block, groupMem);
             _Accept(done);
+            if(voters < group) throw Failed();
             _Else _Accept(vote);
             PRINT(id, Voter::States::Unblock, groupMem);
             if(!formed) throw Failed();
@@ -56,9 +57,9 @@ void TallyVotes::computeTour(){
 
     void TallyVotes::done(){
         --voters;
-        if(voters < group && !formed){ // quorum failure
-            this->vote(UINT_MAX, Ballot());
-        }
+        //if(voters < group && !formed){ // quorum failure
+            //this->vote(UINT_MAX, Ballot());
+        //}
         //writeVoters();
     }
 
