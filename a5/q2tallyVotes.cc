@@ -55,9 +55,9 @@ void TallyVotes::computeTour(){
 
     void TallyVotes::done(){
         --voters;
-        //if(voters == group-1 && !formed){ // quorum failure
-        //    this->vote(UINT_MAX, Ballot());
-        //}
+        if(voters == group-1 && !formed){ // quorum failure
+            this->vote(UINT_MAX, Ballot());
+        }
     }
 
 #elif defined( INT )                // semaphore solution
