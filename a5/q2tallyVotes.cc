@@ -40,9 +40,9 @@ void TallyVotes::computeTour(){
             PRINT(id, Voter::States::Block, groupMem);
             bool wait = true;
             while (wait && voters >= group){
-                _Accept(done);
-                or _Accept(vote);
+                _Accept(vote);
                     wait = false;
+                or _Accept(done);
             }
             PRINT(id, Voter::States::Unblock, groupMem);
             if(!formed) throw Failed();
@@ -60,10 +60,6 @@ void TallyVotes::computeTour(){
 
     void TallyVotes::done(){
         --voters;
-        //if(voters < group && !formed){ // quorum failure
-            //this->vote(UINT_MAX, Ballot());
-        //}
-        //writeVoters();
     }
 
 #elif defined( INT )                // semaphore solution
