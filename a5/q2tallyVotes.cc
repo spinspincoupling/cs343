@@ -23,7 +23,7 @@ void TallyVotes::computeTour(){
     formed = true;
 }
 
-#if defined( EXT )                    // mutex/condition solution
+#if defined( EXT )                    // external scheduling solution
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
     :groupMem{0}, group{group}, voters{voters}, printer{printer}, 
     pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false}
@@ -65,11 +65,10 @@ void TallyVotes::computeTour(){
         --voters;
     }
 
-#elif defined( INT )                // semaphore solution
+#elif defined( INT )                // internal scheduling solution
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
     :groupMem{0}, group{group}, voters{voters}, printer{printer}, 
-    pics{0}, statues{0}, shop{0}, groupNum{0}, waiting{0}, formed{false} {
-        grouping.P();
+    pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false} {
     }
 
     TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
