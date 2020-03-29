@@ -2,7 +2,7 @@
 #define AUTOMATICSIGNAL_H
 #define AUTOMATIC_SIGNAL
     #include <vector>
-    std::vector<uCondition*> signalledQueue;
+    std::vector<uCondition*> signalledQueue; \
 
 #define WAITUNTIL( pred, before, after ) \
     if(!(pred)){ \
@@ -19,7 +19,7 @@
         delete signalledQueue[index]; \
         signalledQueue.erase(signalledQueue.begin()+index); \
         after; \
-    } \
+    } 
     
     
 #define EXIT() \
