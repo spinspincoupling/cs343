@@ -1,4 +1,4 @@
-IMPL:=INT
+IMPL:=EXT
 OUTPUT:=OUTPUT
 
 CXX = u++					# compiler
