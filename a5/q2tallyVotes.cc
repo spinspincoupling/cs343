@@ -157,11 +157,11 @@ void TallyVotes::computeTour(){
             ++voteWait;
             PRINT(id, Voter::States::Block, voteWait);
             wait();
+            --voteWait;
+            PRINT(id, Voter::States::Unblock, voteWait);
             if(!formed){
                 throw Failed();
             }
-            --voteWait;
-            PRINT(id, Voter::States::Unblock, voteWait);
         } else { // last one to form a complete group
             computeTour();
             PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
