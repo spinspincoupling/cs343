@@ -222,7 +222,7 @@ void TallyVotes::computeTour(){
             formed = false; //reset for new group
         }
         Tour tour = Tour{kind, groupNum};
-        std::cout << "call exit" << std::endl;
+        std::cout << id << " call exit" << std::endl;
         EXIT();
         return tour;
     }
