@@ -2,7 +2,8 @@
 #define AUTOMATICSIGNAL_H
 #include <vector>
 
-#define AUTOMATIC_SIGNAL std::vector<uCondition*> signalledQueue
+#define AUTOMATIC_SIGNAL std::vector<uCondition*> signalledQueue;
+        unsigned int current= 0
 
 #define WAITUNTIL( pred, before, after ) \
     if(!(pred)){ \
@@ -12,11 +13,13 @@
         signalledQueue.emplace_back(blocked); \
         signalledQueue[index]->wait(); \
         while(!(pred)){ \
-            if(index+1 < signalledQueue.size()) signalledQueue[index+1]->signal(); \
-            signalledQueue[index]->wait(); \
+            ++current; \
+            if(current+1 < signalledQueue.size()) signalledQueue[current]->signal(); \
+            signalledQueue[current-1]->wait(); \
         } \
-        delete signalledQueue[index]; \
-        signalledQueue.erase(signalledQueue.begin()+index); \
+        delete signalledQueue[current]; \
+        signalledQueue.erase(signalledQueue.begin()+current); \
+        current = 0; \
         after; \
     } 
     
