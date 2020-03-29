@@ -165,12 +165,12 @@ void TallyVotes::computeTour(){
             PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
             signalAll();
         }
+        Tour tour = Tour{kind, groupNum};
         if(voteWait == 0){
             ++groupNum;
             formed = false; //reset for new group
             signalAll(); // wake next group
         }
-        Tour tour = Tour{kind, groupNum};
         return tour;
     }
 
