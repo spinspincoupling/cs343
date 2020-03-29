@@ -1,6 +1,6 @@
 #define AUTOMATIC_SIGNAL
     #include <vector>
-    std::vector<&uCondition> signalled;
+    std::vector<uCondition> signalled;
 
 #define WAITUNTIL( pred, before, after ) \
     if(!(pred)){ \
