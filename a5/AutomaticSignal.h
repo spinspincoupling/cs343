@@ -7,7 +7,7 @@
 #define WAITUNTIL( pred, before, after ) \
     if(!(pred)){ \
         before; \
-        auto index = signalled.size(); \
+        auto index = signalledQueue.size(); \
         uCondition *blocked = new uCondition(); \
         blocked->wait(); \
         signalledQueue.emplace_back(blocked); \
