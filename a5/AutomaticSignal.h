@@ -14,18 +14,18 @@
         signalledQueue[index]->wait(); \
         while(!(pred)){ \
             ++current; \
-            if(current+1 < signalledQueue.size()) signalledQueue[current]->signal(); \
+            if(current < signalledQueue.size()) signalledQueue[current]->signal(); \
             signalledQueue[current-1]->wait(); \
         } \
         delete signalledQueue[current]; \
         signalledQueue.erase(signalledQueue.begin()+current); \
-        current = 0; \
         after; \
     } 
     
     
 #define EXIT() \
     if(signalledQueue.size() > 0){ \
+        current = 0;\
         signalledQueue[0]->signal(); \
     }
 
