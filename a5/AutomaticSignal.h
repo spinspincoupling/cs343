@@ -9,8 +9,8 @@
         before; \
         auto index = signalledQueue.size(); \
         uCondition *blocked = new uCondition(); \
-        blocked->wait(); \
         signalledQueue.emplace_back(blocked); \
+        signalledQueue[index]->wait(); \
         while(!(pred)){ \
             if(index+1 < signalledQueue.size()) signalledQueue[index+1]->signal(); \
             signalledQueue[index]->wait(); \
