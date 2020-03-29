@@ -7,7 +7,7 @@
         before; \
         auto index = signalled.size(); \
         signalled.emplace_back(uCondition()); \
-        signalled[index].wait();
+        signalled[index].wait(); \
         while(!(pred)){ \
             if(index+1 < signalled.size()) signalled[index+1].signal(); \
             signalled[index].wait(); \
