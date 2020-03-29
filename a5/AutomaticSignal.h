@@ -1,24 +1,23 @@
 #define AUTOMATIC_SIGNAL
     #include <vector>
-    struct Task{
-        condexpr expr;
-        uCondition &blocked;
-    };
-    std::Vector<Task> signalled;
+    std::vector<uCondition> signalled;
 
 #define WAITUNTIL( pred, before, after )
     if(!(pred)){
         before;
-        Task t{.expr=pred};
+        int index = signalled.size();
+        uCondition blocked;
         blocked.wait();
+        signalled.emplace_back(blocked;
+        while(!(pred)){
+            if(index+1 < signalled.size()) signalled[index+1].signal();
+            signalled[index].wait();
+        }
+        signalled.erase(index);
         after;
     }
     
-
 #define EXIT() // select next one to go if any one blocked
-    for(int i=0; i<signalled.size(); ++i){
-        if(signalled[i].expr){
-            signalled[i].blocked.signal();
-            signaled.erase(i);
-        }
+    if(signalled.size() > 0){
+        signalled[0].signal();
     }
