@@ -17,7 +17,7 @@
             signalledQueue[index]->wait(); \
         } \
         delete signalledQueue[index]; \
-        signalledQueue.erase(signalled.begin()+index); \
+        signalledQueue.erase(signalledQueue.begin()+index); \
         after; \
     } \
     
