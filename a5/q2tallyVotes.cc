@@ -219,6 +219,7 @@ void TallyVotes::computeTour(){
     }
 
     void TallyVotes::done(){
+        std::cout << "call done " << std::endl;
         --voters;
         EXIT();
     }
