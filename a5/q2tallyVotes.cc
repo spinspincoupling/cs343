@@ -185,20 +185,11 @@ void TallyVotes::computeTour(){
 
 #elif defined( AUTO )
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
-    :groupMem{0}, barger{0}, group{group}, voters{voters}, printer{printer}, 
+    :groupMem{0}, group{group}, voters{voters}, printer{printer}, 
     pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false} {
     }
 
     TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
-        if(voters < group){
-            EXIT();
-            throw Failed();
-        }
-        if(formed){
-            ++barger; 
-            WAITUNTIL(!formed || voters < group, 
-            PRINT(id, Voter::States::Barging, barger) , --barger);
-        }
         if(voters < group){
             EXIT();
             throw Failed();

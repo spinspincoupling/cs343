@@ -27,7 +27,6 @@ _Monitor TallyVotes {
 _Monitor TallyVotes {
     AUTOMATIC_SIGNAL;
     unsigned int groupMem;
-    unsigned int barger;
 #elif defined( TASK )                        // internal/external scheduling task solution
 _Task TallyVotes {
     // private declarations for this kind of vote-tallier
