@@ -1,6 +1,6 @@
-#define AUTOMATIC_SIGNAL
-    #include <vector>
-    std::vector<uCondition> signalled;
+#define AUTOMATIC_SIGNAL \
+    #include <vector> \
+    std::vector<uCondition> signalled; \
 
 #define WAITUNTIL( pred, before, after ) \
     if(!(pred)){ \
@@ -21,5 +21,5 @@
 #define EXIT() \
     if(signalled.size() > 0){ \
         signalled[0].signal(); \
-    } \
+    }
     
