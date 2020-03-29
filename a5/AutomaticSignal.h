@@ -2,23 +2,28 @@
 #define AUTOMATICSIGNAL_H
 #include <iostream>
 #define AUTOMATIC_SIGNAL \
-        uCondition blocked
+        uCondition blocked; \
+        unsigned int size; \
+        unsigned int count
 
 #define WAITUNTIL( pred, before, after ) \
     if(!(pred)){ \
         before; \
+        ++size; \
         blocked.wait(); \
         while(!(pred)){ \
-            if(!blocked.empty()) blocked.signal(); \
+            --count; \
+            if(count > 0 && !blocked.empty()) blocked.signal(); \
             blocked.wait(); \
         } \
+        --size; \
         after; \
     } 
     
     
 #define EXIT() \
+    count = size; \
     if(!blocked.empty()) blocked.signal(); \
-    else std::cout << "no block" << std::endl;
 
 #endif
     
