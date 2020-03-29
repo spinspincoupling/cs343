@@ -1,19 +1,19 @@
 #define AUTOMATIC_SIGNAL
     #include <vector>
-    std::vector<uCondition> signalled;
+    std::vector<&uCondition> signalled;
 
 #define WAITUNTIL( pred, before, after ) \
     if(!(pred)){ \
         before; \
-        int index = signalled.size(); \
+        auto index = signalled.size(); \
         uCondition blocked; \
         blocked.wait(); \
-        signalled.emplace_back(blocked; \
+        signalled.emplace_back(std::move(blocked)); \
         while(!(pred)){ \
             if(index+1 < signalled.size()) signalled[index+1].signal(); \
             signalled[index].wait(); \
         } \
-        signalled.erase(index); \
+        signalled.erase(signalled.begin()+index); \
         after; \
     } \
     
