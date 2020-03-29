@@ -45,6 +45,8 @@ void TallyVotes::computeTour(){
                         PRINT(id, Voter::States::Done);
                     }     
                 } catch (uMutexFailure::RendezvousFailure &){
+                    --groupMem;
+                    PRINT(id, Voter::States::Unblock, groupMem);
                     throw Failed();
                 }
             }
