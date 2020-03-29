@@ -3,7 +3,7 @@
 #include <iostream>
 #define AUTOMATIC_SIGNAL \
         uCondition blocked; \
-        unsigned int size; \
+        unsigned int size = 0; \
         unsigned int count
 
 #define WAITUNTIL( pred, before, after ) \
