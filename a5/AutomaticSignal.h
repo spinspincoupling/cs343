@@ -6,15 +6,15 @@
     if(!(pred)){ \
         before; \
         auto index = signalled.size(); \
-        uCondition blocked = new uCondition(); \
+        uCondition *blocked = new uCondition(); \
         blocked->wait(); \
-        signalled.emplace_back(blocked; \
+        signalled.emplace_back(blocked); \
         signalled[index]->wait(); \
         while(!(pred)){ \
             if(index+1 < signalled.size()) signalled[index+1]->signal(); \
             signalled[index]->wait(); \
         } \
-        delete sugnalled[index]; \
+        delete signalled[index]; \
         signalled.erase(signalled.begin()+index); \
         after; \
     } \
