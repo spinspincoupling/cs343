@@ -160,6 +160,7 @@ void TallyVotes::computeTour(){
         if(waiting == 0){
             ++groupNum;
             formed = false; //reset for new group
+            signalAll();
         }
         Tour tour = Tour{kind, groupNum};
         return tour;
