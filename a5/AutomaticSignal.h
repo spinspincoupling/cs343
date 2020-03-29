@@ -7,7 +7,7 @@
         before; \
         auto index = signalled.size(); \
         uCondition blocked = new uCondition(); \
-        blocked->wait();
+        blocked->wait(); \
         signalled.emplace_back(blocked; \
         signalled[index]->wait(); \
         while(!(pred)){ \
