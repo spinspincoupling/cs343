@@ -1,6 +1,6 @@
 #ifndef AUTOMATICSIGNAL_H
 #define AUTOMATICSIGNAL_H
-
+#include <iostream>
 #define AUTOMATIC_SIGNAL \
         uCondition blocked
 
@@ -18,6 +18,7 @@
     
 #define EXIT() \
     if(!blocked.empty()) blocked.signal(); \
+    else std::cout << "no block" << std::endl;
 
 #endif
     
