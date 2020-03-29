@@ -201,6 +201,7 @@ void TallyVotes::computeTour(){
             WAITUNTIL(formed || voters < group, PRINT(id, Voter::States::Block, groupMem) , --groupMem);
             PRINT(id, Voter::States::Unblock, groupMem);
             if(!formed){
+                std::cout << "detect fail" << std::endl;
                 EXIT();
                 throw Failed();
             } 
