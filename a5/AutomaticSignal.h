@@ -1,3 +1,5 @@
+#ifndef AUTOMATICSIGNAL_H
+#define AUTOMATICSIGNAL_H
 #define AUTOMATIC_SIGNAL
     #include <vector>
     std::vector<uCondition*> signalled;
@@ -24,4 +26,6 @@
     if(signalled.size() > 0){ \
         signalled[0]->signal(); \
     }
+
+#endif
     
