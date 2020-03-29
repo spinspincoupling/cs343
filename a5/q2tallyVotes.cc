@@ -204,6 +204,7 @@ void TallyVotes::computeTour(){
             throw Failed();
         }
         addVote(ballot);
+        PRINT(id, Voter::States::Vote, ballot);
         if(groupMem < group-1){
             ++groupMem;
             WAITUNTIL(formed || voters < group, PRINT(id, Voter::States::Block, groupMem) , --groupMem);
@@ -221,6 +222,7 @@ void TallyVotes::computeTour(){
             formed = false; //reset for new group
         }
         Tour tour = Tour{kind, groupNum};
+        std::cout << "call exit" << std::endl;
         EXIT();
         return tour;
     }
