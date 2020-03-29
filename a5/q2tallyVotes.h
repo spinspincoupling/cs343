@@ -15,7 +15,9 @@ _Monitor TallyVotes {
 #elif defined( INTB )                        // internal scheduling monitor solution with barging
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
-    // private declarations for this kind of vote-tallier
+    unsigned int groupMem;
+    unsigned int ticket;
+    unsigned int voted;
     uCondition bench;                        // only one condition variable (variable name may be changed)
     void wait();                             // barging version of wait
     void signalAll();                        // unblock all waiting tasks

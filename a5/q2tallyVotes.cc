@@ -15,7 +15,6 @@ void TallyVotes::addVote(Ballot ballot){
 }
 
 void TallyVotes::computeTour(){
-    ++groupNum;
     kind = statues > pics && statues > shop? TourKind::Statue : pics > shop? TourKind::Picture : TourKind::GiftShop;
     pics = 0;
     statues = 0;
@@ -39,10 +38,12 @@ void TallyVotes::computeTour(){
             bool wait = true;
             while (wait && voters >= group){
                 try{
-                    _Accept(done);
-                    or _Accept(vote){
+                    _Accept(vote){
                         wait = false;
-                    } 
+                    }
+                    or _Accept(done){
+                        PRINT(id, Voter::States::Done);
+                    }     
                 } catch (uMutexFailure::RendezvousFailure &){
                     throw Failed();
                 }
@@ -52,6 +53,7 @@ void TallyVotes::computeTour(){
             if(!formed) throw Failed();
             if(groupMem == 0) formed = false;
         } else {
+            ++groupNum;
             computeTour();
             PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
             --groupMem;
@@ -86,6 +88,7 @@ void TallyVotes::computeTour(){
                 throw Failed();
             }
         } else {
+            ++groupNum;
             computeTour();
             PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
             --groupMem;
@@ -103,11 +106,11 @@ void TallyVotes::computeTour(){
         }
     }
 
-#elif defined( INTB )                // barrier solution
+#elif defined( INTB )
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
-    :uBarrier(group), group{group}, voters{voters}, printer{printer}, 
-    pics{0}, statues{0}, shop{0}, groupNum{0}, waiting{0}, formed{false} 
-    {}
+    :groupMem{0}, ticket{0}, voted{0}, group{group}, voters{voters}, printer{printer}, 
+    pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false} {
+    }
 
     void TallyVotes::wait() {
         bench.wait();                            // wait until signalled
@@ -128,25 +131,35 @@ void TallyVotes::computeTour(){
         if(voters < group){
             throw Failed();
         }
+        unsigned int ticketNum = ticket;
+        if(groupMem == group-1){
+            groupMem = 0;
+            ++ticket;
+        } else {
+            ++groupMem;
+        }
+        while(ticketNum > groupNum){
+            wait();
+        }
         addVote(ballot);
         PRINT(id, Voter::States::Vote, ballot);
-        if(uBarrier::waiters() < group-1){ // waiting for a complete group
+        if(voted < group-1){ // waiting for a complete group
             ++waiting;
             PRINT(id, Voter::States::Block, waiting);
-            uBarrier::block();
+            wait();
             if(!formed){
                 throw Failed();
             }
             --waiting;
             PRINT(id, Voter::States::Unblock, waiting);
-            if(waiting == 0){
-                formed = false; //reset for new group
-                uBarrier::reset(group);
-            }
         } else { // last one to form a complete group
-            uBarrier::block();
             computeTour();
             PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
+            signalAll();
+        }
+        if(waiting == 0){
+            ++groupNum;
+            formed = false; //reset for new group
         }
         Tour tour = Tour{kind, groupNum};
         return tour;
@@ -154,9 +167,8 @@ void TallyVotes::computeTour(){
 
     void TallyVotes::done(){
         --voters;
-        if(voters < group && uBarrier::waiters() > 0){ //some one waiting for a group can never be formed
-            PRINT(id, Voter::States::Done);
-            uBarrier::block();
+        if(voters == group-1){ //quorum failure if there are waiting task
+            signalAll();
         }
     }
 
@@ -166,7 +178,7 @@ void TallyVotes::computeTour(){
 
     void TallyVotes::done(){
         --voters;
-        if(voters < group && uBarrier::waiters() > 0){ //some one waiting for a group can never be formed
+        if(voters < group){ //some one waiting for a group can never be formed
             PRINT(id, Voter::States::Done);
             uBarrier::block();
         }
@@ -178,7 +190,7 @@ void TallyVotes::computeTour(){
 
     void TallyVotes::done(){
         --voters;
-        if(voters < group && uBarrier::waiters() > 0){ //some one waiting for a group can never be formed
+        if(voters < group){ //some one waiting for a group can never be formed
             PRINT(id, Voter::States::Done);
             uBarrier::block();
         }
