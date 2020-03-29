@@ -108,7 +108,7 @@ void TallyVotes::computeTour(){
 
 #elif defined( INTB )
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
-    :groupMem{0}, ticket{0}, voted{0}, group{group}, voters{voters}, printer{printer}, 
+    :groupMem{0}, ticket{0}, voteWait{0}, barger{0}, group{group}, voters{voters}, printer{printer}, 
     pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false} {
     }
 
@@ -138,29 +138,37 @@ void TallyVotes::computeTour(){
         } else {
             ++groupMem;
         }
-        while(ticketNum > groupNum){
-            wait();
+        if(ticketNum > groupNum){// not serving this group, barger
+            ++barger;
+            PRINT(id, Voter::States::Barging, barger);
+            while(ticketNum > groupNum){
+                wait();
+            }
+            if(voters < group){
+                throw Failed();
+            }
+            --barger;
         }
         addVote(ballot);
         PRINT(id, Voter::States::Vote, ballot);
-        if(voted < group-1){ // waiting for a complete group
-            ++waiting;
-            PRINT(id, Voter::States::Block, waiting);
+        if(voteWait < group-1){ // waiting for a complete group
+            ++voteWait;
+            PRINT(id, Voter::States::Block, voteWait);
             wait();
             if(!formed){
                 throw Failed();
             }
-            --waiting;
-            PRINT(id, Voter::States::Unblock, waiting);
+            --voteWait;
+            PRINT(id, Voter::States::Unblock, voteWait);
         } else { // last one to form a complete group
             computeTour();
             PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
             signalAll();
         }
-        if(waiting == 0){
+        if(voteWait == 0){
             ++groupNum;
             formed = false; //reset for new group
-            signalAll();
+            signalAll(); // wake next group
         }
         Tour tour = Tour{kind, groupNum};
         return tour;

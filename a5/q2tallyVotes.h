@@ -17,7 +17,8 @@ _Monitor TallyVotes {
 _Monitor TallyVotes {
     unsigned int groupMem;
     unsigned int ticket;
-    unsigned int voted;
+    unsigned int voteWait;
+    unsigned int barger;
     uCondition bench;                        // only one condition variable (variable name may be changed)
     void wait();                             // barging version of wait
     void signalAll();                        // unblock all waiting tasks
