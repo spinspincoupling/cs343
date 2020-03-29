@@ -184,15 +184,50 @@ void TallyVotes::computeTour(){
     }
 
 #elif defined( AUTO )
+    TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
+    :groupMem{0}, barger{0}, group{group}, voters{voters}, printer{printer}, 
+    pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false} {
+    }
+
     TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
+        if(voters < group){
+            EXIT();
+            throw Failed();
+        }
+        if(formed){
+            ++barger; 
+            WAITUNTIL(!formed || voters < group, 
+            PRINT(id, Voter::States::Barging, barger) , --barger);
+        }
+        if(voters < group){
+            EXIT();
+            throw Failed();
+        }
+        addVote(ballot);
+        if(groupMem < group-1){
+            ++groupMem;
+            WAITUNTIL(formed || voters < group, PRINT(id, Voter::States::Block, groupMem) , --groupMem);
+            PRINT(id, Voter::States::Unblock, groupMem);
+            if(!formed){
+                EXIT();
+                throw Failed();
+            } 
+        } else {
+            ++groupNum;
+            computeTour();
+            PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
+        }
+        if(groupMem == 0){
+            formed = false; //reset for new group
+        }
+        Tour tour = Tour{kind, groupNum};
+        EXIT();
+        return tour;
     }
 
     void TallyVotes::done(){
         --voters;
-        if(voters < group){ //some one waiting for a group can never be formed
-            PRINT(id, Voter::States::Done);
-            uBarrier::block();
-        }
+        EXIT();
     }
 
 #elif defined( TASK )
