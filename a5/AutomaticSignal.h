@@ -2,8 +2,7 @@
 #define AUTOMATICSIGNAL_H
 #include <vector>
 
-#define AUTOMATIC_SIGNAL
-    std::vector<uCondition*> signalledQueue; \
+#define AUTOMATIC_SIGNAL std::vector<uCondition*> signalledQueue
 
 #define WAITUNTIL( pred, before, after ) \
     if(!(pred)){ \
