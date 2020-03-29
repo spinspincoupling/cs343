@@ -2,7 +2,7 @@
     #include <vector>
     std::vector<uCondition> signalled;
 
-#define WAITUNTIL( pred, before, after )
+#define WAITUNTIL( pred, before, after ) {
     if(!(pred)){
         before;
         int index = signalled.size();
@@ -16,8 +16,12 @@
         signalled.erase(index);
         after;
     }
+}
     
-#define EXIT() // select next one to go if any one blocked
+    
+#define EXIT() {
     if(signalled.size() > 0){
         signalled[0].signal();
     }
+}
+    
