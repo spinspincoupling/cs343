@@ -1,7 +1,8 @@
 #ifndef AUTOMATICSIGNAL_H
 #define AUTOMATICSIGNAL_H
+#include <vector>
+
 #define AUTOMATIC_SIGNAL
-    #include <vector>
     std::vector<uCondition*> signalledQueue; \
 
 #define WAITUNTIL( pred, before, after ) \
