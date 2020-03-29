@@ -7,7 +7,7 @@
 #define WAITUNTIL( pred, before, after ) \
     if(!(pred)){ \
         before; \
-        blocked.wait() \
+        blocked.wait(); \
         while(!(pred)){ \
             if(!blocked.empty()) blocked.signal(); \
             blocked.wait(); \
