@@ -273,7 +273,7 @@ void TallyVotes::computeTour(){
                     break;
                 } 
             } catch (uMutexFailure::RendezvousFailure &){
-                voted.signal();
+                if(!voted.empty()) voted.signalBlock();
             }
              
         }
