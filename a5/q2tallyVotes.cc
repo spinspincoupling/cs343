@@ -235,7 +235,7 @@ void TallyVotes::computeTour(){
         }
         addVote(ballot);
         PRINT(id, Voter::States::Vote, ballot);
-        PRINT(id, Voter::States::Block, groupMem);
+        PRINT(id, Voter::States::Block, groupMem+1);
         voted.wait();
         PRINT(id, Voter::States::Unblock, groupMem);
         if(voters < group){
@@ -259,6 +259,7 @@ void TallyVotes::computeTour(){
             } or _When(!formed) _Accept(vote){ //avoid barger
                 ++groupMem;
                 if(groupMem == group){
+                    ++groupNum;
                     computeTour();
                     PRINT(lastVoter, Voter::States::Complete, Tour{kind, groupNum});
                     while(groupMem > 0){
