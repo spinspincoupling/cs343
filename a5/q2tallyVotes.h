@@ -29,7 +29,10 @@ _Monitor TallyVotes {
     unsigned int groupMem;
 #elif defined( TASK )                        // internal/external scheduling task solution
 _Task TallyVotes {
-    // private declarations for this kind of vote-tallier
+    uCondition enter, voted;
+    unsigned int groupMem;
+    unsigned int lastVoter;
+    void main();
 #else
     #error unsupported voter type
 #endif

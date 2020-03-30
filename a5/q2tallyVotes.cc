@@ -223,15 +223,55 @@ void TallyVotes::computeTour(){
     }
 
 #elif defined( TASK )
+    TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
+    :groupMem{0}, group{group}, voters{voters}, printer{printer}, 
+    pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false} {
+    }
+
     TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
+        lastVoter = id;
+        if(voters < group){
+            throw Failed();
+        }
+        addVote(ballot);
+        PRINT(id, Voter::States::Vote, ballot);
+        PRINT(id, Voter::States::Block, groupMem);
+        voted.wait();
+        PRINT(id, Voter::States::Unblock, groupMem);
+        if(voters < group){
+            throw Failed();
+        }
+        Tour tour = Tour{kind, groupNum};
+        return tour;
     }
 
     void TallyVotes::done(){
         --voters;
-        if(voters < group){ //some one waiting for a group can never be formed
-            PRINT(id, Voter::States::Done);
-            uBarrier::block();
+    }
+
+    void TallyVotes::main(){
+        for(;;){
+             _Accept(done){
+                PRINT(lastVoter, Voter::States::Done);
+                if(voters == group-1){
+                    while (!voted.empty()) voted.signal();
+                }
+            } or _When(!formed) _Accept(vote){ //avoid barger
+                ++groupMem;
+                if(groupMem == group){
+                    computeTour();
+                    PRINT(lastVoter, Voter::States::Complete, Tour{kind, groupNum});
+                    while(groupMem > 0){
+                        --groupMem;
+                        voted.signalBlock();
+                    }
+                    formed = false;
+                }
+            } or _Accept(~TallyVotes){
+                break;
+            } 
         }
+        
     }
 #else
     #error unsupported voter type

@@ -1,6 +1,6 @@
 #ifndef AUTOMATICSIGNAL_H
 #define AUTOMATICSIGNAL_H
-#include <iostream>
+
 #define AUTOMATIC_SIGNAL \
         uCondition blocked; \
         unsigned int size = 0; \
@@ -12,8 +12,8 @@
         ++size; \
         blocked.wait(); \
         while(!(pred)){ \
-            --count; \
-            if(count > 0 && !blocked.empty()) blocked.signal(); \
+            --count; \  //fifo queue when scan all items, it should not signal
+            if(count > 0 && !blocked.empty()) blocked.signal(); \ 
             blocked.wait(); \
         } \
         --size; \
