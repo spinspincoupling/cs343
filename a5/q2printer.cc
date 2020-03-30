@@ -2,6 +2,11 @@
 #include <iostream>
 #include <climits>
 
+#ifdef NOOUTPUT
+Printer::Printer( unsigned int voters ){
+    (void) voters;
+}
+#else
 Printer::Printer( unsigned int voters )
 :Voters{voters}, Undefined{UINT_MAX}, cnt{0}, written{new bool[voters]}, columns{new Items[voters]} {
     for (unsigned int i=0; i<voters; ++i){
@@ -17,6 +22,7 @@ Printer::Printer( unsigned int voters )
     }
     std::cout << "*******" << std::endl;
 }
+#endif
 
 Printer::~Printer(){
     if(cnt > 0){
