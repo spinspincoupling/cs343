@@ -13,7 +13,7 @@
         blocked.wait(); \
         while(!(pred)){ \
             --count; \
-            if(count > 0 && !blocked.empty()) blocked.signal(); \ 
+            if(count > 0 && !blocked.empty()) blocked.signal(); \
             blocked.wait(); \
         } \
         --size; \
