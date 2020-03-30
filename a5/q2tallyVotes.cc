@@ -255,7 +255,10 @@ void TallyVotes::computeTour(){
                 _Accept(done){
                     PRINT(lastVoter, Voter::States::Done);
                     if(voters == group-1){
-                        if(!voted.empty()) voted.signalBlock();
+                        if(!voted.empty()) {
+                            --groupMem;
+                            voted.signalBlock();
+                        }
                     }
                 } or _When(!formed) _Accept(vote){ //avoid barger
                     ++groupMem;
@@ -273,7 +276,10 @@ void TallyVotes::computeTour(){
                     break;
                 } 
             } catch (uMutexFailure::RendezvousFailure &){
-                if(!voted.empty()) voted.signalBlock();
+                if(!voted.empty()){
+                    --groupMem;
+                    voted.signalBlock();
+                } 
             }
              
         }
