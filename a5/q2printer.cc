@@ -3,7 +3,7 @@
 #include <climits>
 
 #ifdef NOOUTPUT
-Printer::Printer( unsigned int voters ){
+Printer::Printer( unsigned int voters )
 :Voters{voters}, Undefined{UINT_MAX}, cnt{0}, written{new bool[voters]}, columns{new Items[voters]} {
 }
 #else
