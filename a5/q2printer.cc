@@ -22,7 +22,7 @@ Printer::Printer( unsigned int voters )
     }
     std::cout << "*******" << std::endl;
 }
-#endif
+
 
 Printer::~Printer(){
     if(cnt > 0){
@@ -33,6 +33,7 @@ Printer::~Printer(){
     delete written;
     delete columns;
 }
+#endif
 
 void Printer::printItem(Items item){
     switch(item.state){
