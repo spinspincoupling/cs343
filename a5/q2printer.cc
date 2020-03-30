@@ -6,6 +6,8 @@
 Printer::Printer( unsigned int voters )
 :Voters{voters}, Undefined{UINT_MAX}, cnt{0}, written{new bool[voters]}, columns{new Items[voters]} {
 }
+Printer::~Printer(){}
+
 #else
 Printer::Printer( unsigned int voters )
 :Voters{voters}, Undefined{UINT_MAX}, cnt{0}, written{new bool[voters]}, columns{new Items[voters]} {
