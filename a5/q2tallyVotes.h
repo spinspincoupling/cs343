@@ -6,16 +6,13 @@ class Printer;
 #if defined( EXT )                           // external scheduling monitor solution
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
-    unsigned int groupMem;
 #elif defined( INT )                         // internal scheduling monitor solution
 // includes for this kind of vote-tallier   
 _Monitor TallyVotes {
-    unsigned int groupMem;
     uCondition grouping;
 #elif defined( INTB )                        // internal scheduling monitor solution with barging
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
-    unsigned int groupMem;
     unsigned int ticket;
     unsigned int voteWait;
     unsigned int barger;
@@ -26,11 +23,9 @@ _Monitor TallyVotes {
 #include "AutomaticSignal.h"
 _Monitor TallyVotes {
     AUTOMATIC_SIGNAL;
-    unsigned int groupMem;
 #elif defined( TASK )                        // internal/external scheduling task solution
 _Task TallyVotes {
-    uCondition enter, voted;
-    unsigned int groupMem;
+    uCondition voted;
     unsigned int lastVoter;
     void main();
 #else
@@ -42,6 +37,7 @@ _Task TallyVotes {
     unsigned int pics, statues, shop;
     unsigned int groupNum;
     bool formed;
+    unsigned int groupMem;
   public:                                    // common interface
     _Event Failed {};
     TallyVotes( unsigned int voters, unsigned int group, Printer & printer );

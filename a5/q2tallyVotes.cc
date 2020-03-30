@@ -24,8 +24,8 @@ void TallyVotes::computeTour(){
 
 #if defined( EXT )                    // external scheduling solution
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
-    :groupMem{0}, group{group}, voters{voters}, printer{printer}, 
-    pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false}
+    :group{group}, voters{voters}, printer{printer}, 
+    pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false}, groupMem{0}
     {}
 
     TallyVotes::Tour TallyVotes::vote(unsigned int id, Ballot ballot) {
@@ -71,8 +71,8 @@ void TallyVotes::computeTour(){
 
 #elif defined( INT )                // internal scheduling solution
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
-    :groupMem{0}, group{group}, voters{voters}, printer{printer}, 
-    pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false} {
+    :group{group}, voters{voters}, printer{printer}, 
+    pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false}, groupMem{0} {
     }
 
     TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
@@ -110,8 +110,8 @@ void TallyVotes::computeTour(){
 
 #elif defined( INTB )
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
-    :groupMem{0}, ticket{1}, voteWait{0}, barger{0}, group{group}, voters{voters}, printer{printer}, 
-    pics{0}, statues{0}, shop{0}, groupNum{1}, formed{false} {
+    :ticket{1}, voteWait{0}, barger{0}, group{group}, voters{voters}, printer{printer}, 
+    pics{0}, statues{0}, shop{0}, groupNum{1}, formed{false}, groupMem{0} {
     }
 
     void TallyVotes::wait() {
@@ -185,8 +185,8 @@ void TallyVotes::computeTour(){
 
 #elif defined( AUTO )
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
-    :groupMem{0}, group{group}, voters{voters}, printer{printer}, 
-    pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false} {
+    :group{group}, voters{voters}, printer{printer}, 
+    pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false}, groupMem{0} {
     }
 
     TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
@@ -224,8 +224,8 @@ void TallyVotes::computeTour(){
 
 #elif defined( TASK )
     TallyVotes::TallyVotes(unsigned int voters, unsigned int group, Printer &printer) 
-    :groupMem{0}, group{group}, voters{voters}, printer{printer}, 
-    pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false} {
+    :group{group}, voters{voters}, printer{printer}, 
+    pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false}, groupMem{0} {
     }
 
     TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
