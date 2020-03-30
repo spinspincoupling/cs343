@@ -251,26 +251,30 @@ void TallyVotes::computeTour(){
 
     void TallyVotes::main(){
         for(;;){
-             _Accept(done){
-                PRINT(lastVoter, Voter::States::Done);
-                if(voters == group-1){
-                    while (!voted.empty()) voted.signal();
-                }
-            } or _When(!formed) _Accept(vote){ //avoid barger
-                ++groupMem;
-                if(groupMem == group){
-                    ++groupNum;
-                    computeTour();
-                    PRINT(lastVoter, Voter::States::Complete, Tour{kind, groupNum});
-                    while(groupMem > 0){
-                        --groupMem;
-                        voted.signalBlock();
+            try{
+                _Accept(done){
+                    PRINT(lastVoter, Voter::States::Done);
+                    if(voters == group-1){
+                        while (!voted.empty()) voted.signal();
                     }
-                    formed = false;
-                }
-            } or _Accept(~TallyVotes){
-                break;
-            } 
+                } or _When(!formed) _Accept(vote){ //avoid barger
+                    ++groupMem;
+                    if(groupMem == group){
+                        ++groupNum;
+                        computeTour();
+                        PRINT(lastVoter, Voter::States::Complete, Tour{kind, groupNum});
+                        while(groupMem > 0){
+                            --groupMem;
+                            voted.signalBlock();
+                        }
+                        formed = false;
+                    }
+                } or _Accept(~TallyVotes){
+                    break;
+                } 
+            } catch (uMutexFailure::RendezvousFailure &){//for the sake of not getting error msg from _accept
+            }
+             
         }
         
     }
