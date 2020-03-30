@@ -255,7 +255,7 @@ void TallyVotes::computeTour(){
                 _Accept(done){
                     PRINT(lastVoter, Voter::States::Done);
                     if(voters == group-1){
-                        voted.signal();
+                        if(!voted.empty()) voted.signalBlock();
                     }
                 } or _When(!formed) _Accept(vote){ //avoid barger
                     ++groupMem;
