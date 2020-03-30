@@ -39,7 +39,7 @@ int main( int argc, char * argv[] ) {
     } // try
     uProcessor p[processors - 1];
     mprng.set_seed(seed);
-    std::cout << "seed is " << seed << std::end;
+    std::cout << "seed is " << seed << std::endl;
     Printer printer(voters);
     TallyVotes voteTallier(voters, group, printer);
     Voter * voterlist[voters];
