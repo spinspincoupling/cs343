@@ -36,15 +36,15 @@ void TallyVotes::computeTour(){
         if(groupMem < group){
             PRINT(id, Voter::States::Block, groupMem);
             bool wait = true;
-            while (wait && voters >= group){
+            while (wait && voters >= group){//wait for another vote
                 try{
-                    _Accept(vote){
+                    _Accept(vote){ //successfully accept one vote, can proceed
                         wait = false;
                     }
                     or _Accept(done){
                         PRINT(id, Voter::States::Done);
                     }     
-                } catch (uMutexFailure::RendezvousFailure &){
+                } catch (uMutexFailure::RendezvousFailure &){ //if signaller throw, it also throw
                     --groupMem;
                     PRINT(id, Voter::States::Unblock, groupMem);
                     throw Failed();
@@ -52,9 +52,9 @@ void TallyVotes::computeTour(){
             }
             --groupMem;
             PRINT(id, Voter::States::Unblock, groupMem);
-            if(!formed) throw Failed();
+            if(!formed) throw Failed(); // if wake up but group not formed, quorum failure
             if(groupMem == 0) formed = false;
-        } else {
+        } else { // last one to form a group
             ++groupNum;
             computeTour();
             PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
@@ -75,18 +75,18 @@ void TallyVotes::computeTour(){
     pics{0}, statues{0}, shop{0}, groupNum{0}, formed{false}, groupMem{0} {
     }
 
-    TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
+    TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){//no barger
         if(voters < group) throw Failed();
         PRINT(id, Voter::States::Vote, ballot);
         addVote(ballot);
         ++groupMem;
         if(groupMem < group){
             PRINT(id, Voter::States::Block, groupMem);
-            grouping.wait();
+            grouping.wait(); //wait for more voters
             --groupMem;
             PRINT(id, Voter::States::Unblock, groupMem);
-            if(!formed) {
-                if(groupMem > 0) grouping.signal();
+            if(!formed) { //wake up but group not formed, quorum failure
+                if(groupMem > 0) grouping.signal(); //wake next onr to throw fail
                 throw Failed();
             }
         } else {
@@ -95,8 +95,8 @@ void TallyVotes::computeTour(){
             PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
             --groupMem;
         }
-        if(groupMem > 0) grouping.signal();
-        else formed = false;
+        if(groupMem > 0) grouping.signal(); //if there is someone waiting for voters, signal
+        else formed = false; // reset
         Tour tour = Tour{kind, groupNum};
         return tour;
     }
@@ -143,10 +143,10 @@ void TallyVotes::computeTour(){
         if(ticketNum > groupNum){// not serving this group, barger
             ++barger;
             PRINT(id, Voter::States::Barging, barger);
-            while(ticketNum > groupNum){
+            while(ticketNum > groupNum){ //if wake up wrongly, blocked
                 wait();
             }
-            if(voters < group){
+            if(voters < group){ // if serving but could not form a group
                 throw Failed();
             }
             --barger;
@@ -196,15 +196,15 @@ void TallyVotes::computeTour(){
         }
         addVote(ballot);
         PRINT(id, Voter::States::Vote, ballot);
-        if(groupMem < group-1){
+        if(groupMem < group-1){//need to wait for more voters
             ++groupMem;
             WAITUNTIL(formed || voters < group, PRINT(id, Voter::States::Block, groupMem) , --groupMem);
-            PRINT(id, Voter::States::Unblock, groupMem);
-            if(!formed){
+            PRINT(id, Voter::States::Unblock, groupMem); //wait until group formed or quorum failure
+            if(!formed){ // if wake up because of quorum failure
                 EXIT();
                 throw Failed();
             } 
-        } else {
+        } else { //formed group
             ++groupNum;
             computeTour();
             PRINT(id, Voter::States::Complete, Tour{kind, groupNum});
@@ -229,16 +229,16 @@ void TallyVotes::computeTour(){
     }
 
     TallyVotes::Tour TallyVotes::vote( unsigned int id, Ballot ballot ){
-        lastVoter = id;
-        if(voters < group){
+        lastVoter = id; //set last voters
+        if(voters < group){ //check quorum failure
             throw Failed();
         }
         addVote(ballot);
         PRINT(id, Voter::States::Vote, ballot);
         PRINT(id, Voter::States::Block, groupMem+1);
-        voted.wait();
+        voted.wait(); //wait for tallyvote to signal
         PRINT(id, Voter::States::Unblock, groupMem);
-        if(!formed){
+        if(!formed){ // if wake up due to quorum failure
             throw Failed();
         }
         Tour tour = Tour{kind, groupNum};
@@ -252,30 +252,30 @@ void TallyVotes::computeTour(){
     void TallyVotes::main(){
         for(;;){
             try{
-                _Accept(done){
-                    PRINT(lastVoter, Voter::States::Done);
+                _Accept(done){ //prioritize done so avoid waking up task due to quorum failure
+                    PRINT(lastVoter, Voter::States::Done); //wake up because of done
                     if(voters == group-1){
                         if(!voted.empty()) {
                             --groupMem;
-                            voted.signalBlock();
+                            voted.signalBlock();//to avoid infinite waiting, block itself
                         }
                     }
                 } or _When(!formed) _Accept(vote){ //avoid barger
                     ++groupMem;
-                    if(groupMem == group){
+                    if(groupMem == group){//last vote forms a group
                         ++groupNum;
                         computeTour();
                         PRINT(lastVoter, Voter::States::Complete, Tour{kind, groupNum});
                         while(groupMem > 0){
                             --groupMem;
-                            voted.signalBlock();
+                            voted.signalBlock();//to avoid infinite waiting, block itself
                         }
                         formed = false;
                     }
-                } or _Accept(~TallyVotes){
+                } or _Accept(~TallyVotes){//terminate if destructor call
                     break;
                 } 
-            } catch (uMutexFailure::RendezvousFailure &){
+            } catch (uMutexFailure::RendezvousFailure &){//if one throw, any blocked task need to wake up
                 if(!voted.empty()){
                     --groupMem;
                     voted.signalBlock();
