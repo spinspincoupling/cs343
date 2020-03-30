@@ -238,7 +238,7 @@ void TallyVotes::computeTour(){
         PRINT(id, Voter::States::Block, groupMem+1);
         voted.wait();
         PRINT(id, Voter::States::Unblock, groupMem);
-        if(voters < group){
+        if(!formed){
             throw Failed();
         }
         Tour tour = Tour{kind, groupNum};
@@ -272,7 +272,8 @@ void TallyVotes::computeTour(){
                 } or _Accept(~TallyVotes){
                     break;
                 } 
-            } catch (uMutexFailure::RendezvousFailure &){//for the sake of not getting error msg from _accept
+            } catch (uMutexFailure::RendezvousFailure &){
+                voted.signal();
             }
              
         }
