@@ -12,7 +12,7 @@
         ++size; \
         blocked.wait(); \
         while(!(pred)){ \
-            --count; \  //fifo queue when scan all items, it should not signal
+            --count; \
             if(count > 0 && !blocked.empty()) blocked.signal(); \ 
             blocked.wait(); \
         } \
