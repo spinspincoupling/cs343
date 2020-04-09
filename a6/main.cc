@@ -23,9 +23,9 @@ int main( int argc, char * argv[] ) {
     try {                                               // process command-line arguments
         switch ( argc ) {
           case 3: 
-                char *check;
-                seed = stoi( argv[2], check);
-                if ( seed <= 0 || *check != '\0') throw 1;
+                size_t endpos;
+                seed = stoi( argv[2], &endpos);
+                if ( seed <= 0 || argv[2][endpos] != '\0') throw 1;
           case 2: filename = argv[1];
           case 1: break;                               
           default: throw 1;
@@ -55,7 +55,7 @@ int main( int argc, char * argv[] ) {
     }
     Student *students[config.numStudents];
     for (unsigned int i=0; i<config.numStudents; ++i){
-        students[i] = Student(printer, nameServer, cardOffice, groupoff, i, config.numStops, config.stopCost, config.maxStudentDelay, config.maxStudentTrips);
+        students[i] = Student(printer, nameServer, office, groupoff, i, config.numStops, config.stopCost, config.maxStudentDelay, config.maxStudentTrips);
     }
     for(unsigned int i=0; i<config.numStudents; ++i){
         delete students[i];
