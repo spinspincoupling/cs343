@@ -19,25 +19,21 @@ using namespace std;
 
 int main( int argc, char * argv[] ) {
     unsigned int seed = getpid();
-    char defaultfile[] = "lrt.config";
-    char **filename; 
-    try {                                               // process command-line arguments
-        switch ( argc ) {
-          case 3: 
-                size_t endpos;
-                seed = stoi( argv[2], &endpos);
-                if ( seed <= 0 || argv[2][endpos] != '\0') throw 1;
-          case 2: filename = &(argv[1]); break;
-          case 1: filename =  &defaultfile; break;                               
-          default: throw 1;
-        } // switch
+    char defaultFile[] = "lrt.config";
+    try {        
+        if(argc > 3) throw 1;                               // process command-line arguments
+        else if(argc > 2){
+            size_t endpos;
+            seed = stoi( argv[2], &endpos);
+            if ( seed <= 0 || argv[2][endpos] != '\0') throw 1;
+        }
     } catch( ... ) {
         cerr << "Usage: " << argv[0] << " lrt [ config-file [ Seed > 0] ]" << endl;
         exit( EXIT_FAILURE );
     } // try
     mprng.set_seed(seed);
     ConfigParms config;
-    processConfigFile(*filename, config);
+    processConfigFile(argc>2? argv[2]:defaultFile, config);
     maxTripCost = config.stopCost * (config.numStops/2);
     Printer printer(config.numStudents, numTrains, config.numStops, config.numCouriers);
     Bank bank(config.numStudents);
