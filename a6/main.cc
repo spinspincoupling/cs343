@@ -57,12 +57,12 @@ int main( int argc, char * argv[] ) {
     for(unsigned int i=0; i<config.numStudents; ++i){
         delete students[i];
     }
+    timer.~Timer();
     for(unsigned int i=0; i<numTrains; ++i){
         delete trains[i];
     }
     for (unsigned int i=0; i<config.numStops; ++i){
         delete stops[i];
     }
-    timer.~Timer();
 
 }
