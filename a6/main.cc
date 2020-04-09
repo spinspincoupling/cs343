@@ -63,6 +63,6 @@ int main( int argc, char * argv[] ) {
     for (unsigned int i=0; i<config.numStops; ++i){
         delete stops[i];
     }
-    ~timer();
-    
+    timer.~Timer();
+
 }
