@@ -19,6 +19,7 @@ using namespace std;
 
 int main( int argc, char * argv[] ) {
     unsigned int seed = getpid();
+    char defaultfile[] = "lrt.config";
     char **filename; 
     try {                                               // process command-line arguments
         switch ( argc ) {
@@ -27,7 +28,7 @@ int main( int argc, char * argv[] ) {
                 seed = stoi( argv[2], &endpos);
                 if ( seed <= 0 || argv[2][endpos] != '\0') throw 1;
           case 2: filename = &(argv[1]); break;
-          case 1: *filename = "lrt.config"; break;                               
+          case 1: filename =  &defaultfile; break;                               
           default: throw 1;
         } // switch
     } catch( ... ) {
