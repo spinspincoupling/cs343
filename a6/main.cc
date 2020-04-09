@@ -19,15 +19,15 @@ using namespace std;
 
 int main( int argc, char * argv[] ) {
     unsigned int seed = getpid();
-    char *filename; 
+    char **filename; 
     try {                                               // process command-line arguments
         switch ( argc ) {
           case 3: 
                 size_t endpos;
                 seed = stoi( argv[2], &endpos);
                 if ( seed <= 0 || argv[2][endpos] != '\0') throw 1;
-          case 2: filename = argv[1]; break;
-          case 1: filename = "lrt.config"; break;                               
+          case 2: filename = &(argv[1]); break;
+          case 1: *filename = "lrt.config"; break;                               
           default: throw 1;
         } // switch
     } catch( ... ) {
@@ -36,7 +36,7 @@ int main( int argc, char * argv[] ) {
     } // try
     mprng.set_seed(seed);
     ConfigParms config;
-    processConfigFile(filename, config);
+    processConfigFile(*filename, config);
     maxTripCost = config.stopCost * (config.numStops/2);
     Printer printer(config.numStudents, numTrains, config.numStops, config.numCouriers);
     Bank bank(config.numStudents);
