@@ -33,7 +33,7 @@ int main( int argc, char * argv[] ) {
     } // try
     mprng.set_seed(seed);
     ConfigParms config;
-    processConfigFile(argc>2? argv[2]:defaultFile, config);
+    processConfigFile(argc>2? argv[1]:defaultFile, config);
     maxTripCost = config.stopCost * (config.numStops/2);
     Printer printer(config.numStudents, numTrains, config.numStops, config.numCouriers);
     Bank bank(config.numStudents);
@@ -63,4 +63,6 @@ int main( int argc, char * argv[] ) {
     for (unsigned int i=0; i<config.numStops; ++i){
         delete stops[i];
     }
+    ~timer();
+    
 }
