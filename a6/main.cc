@@ -39,9 +39,9 @@ int main( int argc, char * argv[] ) {
     Bank bank(config.numStudents);
     WATCardOffice office(printer, bank, config.numCouriers);
     Groupoff groupoff(printer, config.numStudents, maxTripCost, config.groupoffDelay);
-    Parent parent(printer, bank, config.numStudents, config.parentalDelay, maxTripCost);
+    Parent *parent = new Parent(printer, bank, config.numStudents, config.parentalDelay, maxTripCost);
     NameServer nameServer( printer, config.numStops, config.numStudents);
-    Timer timer(printer, nameServer, config.timerDelay);
+    Timer *timer = new Timer(printer, nameServer, config.timerDelay);
     TrainStop *stops[config.numStops];
     for (unsigned int i=0; i<config.numStops; ++i){
         stops[i] = new TrainStop(printer, nameServer, i, config.stopCost);
@@ -60,8 +60,8 @@ int main( int argc, char * argv[] ) {
     for(unsigned int i=0; i<numTrains; ++i){
         delete trains[i];
     }
-    parent.~Parent();
-    timer.~Timer();
+    delete parent;
+    delete timer;
     for (unsigned int i=0; i<config.numStops; ++i){
         delete stops[i];
     }
