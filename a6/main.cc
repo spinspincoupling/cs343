@@ -28,12 +28,12 @@ int main( int argc, char * argv[] ) {
             if ( seed <= 0 || argv[2][endpos] != '\0') throw 1;
         }
     } catch( ... ) {
-        cerr << "Usage: " << argv[0] << " lrt [ config-file [ Seed > 0] ]" << endl;
+        cerr << "Usage: " << argv[0] << " [ config-file [ Seed > 0] ]" << endl;
         exit( EXIT_FAILURE );
     } // try
     mprng.set_seed(seed);
     ConfigParms config;
-    processConfigFile(argc>2? argv[1]:defaultFile, config);
+    processConfigFile(argc>1? argv[1]:defaultFile, config);
     maxTripCost = config.stopCost * (config.numStops/2);
     Printer printer(config.numStudents, numTrains, config.numStops, config.numCouriers);
     Bank bank(config.numStudents);
