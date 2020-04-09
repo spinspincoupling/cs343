@@ -55,7 +55,7 @@ int main( int argc, char * argv[] ) {
     }
     Student *students[config.numStudents];
     for (unsigned int i=0; i<config.numStudents; ++i){
-        students[i] = Student(printer, nameServer, office, groupoff, i, config.numStops, config.stopCost, config.maxStudentDelay, config.maxStudentTrips);
+        students[i] = new Student(printer, nameServer, office, groupoff, i, config.numStops, config.stopCost, config.maxStudentDelay, config.maxStudentTrips);
     }
     for(unsigned int i=0; i<config.numStudents; ++i){
         delete students[i];
