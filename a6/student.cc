@@ -115,12 +115,14 @@ void Student::main(){
             prt.print(Printer::Kind::Student, id, 'D', end);
             stop->disembark(id);
         }
-    } catch (WATCardOffice::Lost &){
-        std::cout << "outer lost" << '\n';
-    }
+    } 
+    //catch(WATCardOffice::Lost &){
+    //    std::cout << "outer lost" << '\n';
+    //}
      catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }
+    watcard.reset();
     prt.print(Printer::Kind::Student, id, 'F'); //terminate
     
 }
