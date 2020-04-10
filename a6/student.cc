@@ -19,9 +19,10 @@ void Student::main(){
     prt.print( Printer::Kind::Student, id, 'S', numTrips);
     unsigned int end = mprng(numStops-1), start, distance, cost;
     Train::Direction dir;
-    bool buyTicket, useGiftcard, bought=false;
+    bool buyTicket;
     WATCard::FWATCard watcard = cardOffice.create(id, maxTripCost); // called by student
     WATCard::FWATCard giftcard = groupoff.giftCard();
+    WATCard *cardUsing;
     TrainStop *stop = nameServer.getStop(id, end);
     try{
         for(unsigned int i=0; i< numTrips; ++i){
@@ -51,34 +52,35 @@ void Student::main(){
             }
             if(buyTicket){ // giftcard over watcard
                 cost = distance*stopCost;
-                if(giftcard.available()){
-                    useGiftcard = true;
-                    stop->buy(distance, *giftcard);
-                    prt.print(Printer::Kind::Student, id, cost, (giftcard)->getBalance());
+                _Select(giftcard){
+                    cardUsing = giftcard;
+                    stop->buy(distance, *cardUsing);
+                    prt.print(Printer::Kind::Student, id, cost, cardUsing->getBalance());
                     giftcard.reset();
-                } else {
-                    useGiftcard = false;
-                    if(!watcard.available()) watcard();
-                    bought = false;
+                }
+                or _Select(watcard){
+                    cardUsing = watcard;
                     try{
-                        stop->buy(distance, *watcard);
+                        stop->buy(distance, cardUsing);
                     } catch(TrainStop::Funds &e) { //insufficent funds
                         watcard.reset();
-                        watcard = cardOffice.transfer(id, maxTripCost+e.amount, &watcard);
-                        stop->buy(distance, *(watcard()));
+                        watcard = cardOffice.transfer(id, maxTripCost+e.amount, watcard);
+                        cardUsing = watcard();
+                        stop->buy(distance, *cardUsing;
                     } catch (WATCardOffice::Lost &){ //lost watcard in transfer
                         watcard.reset();
                         watcard = cardOffice.create(id, maxTripCost);
                         prt.print(Printer::Kind::Student, id, 'L');
-                        stop->buy(distance, *(watcard()));
+                        cardUsing = watcard();
+                        stop->buy(distance, *cardUsing);
                     }
-                    prt.print(Printer::Kind::Student, id, cost, (watcard)->getBalance());
+                    prt.print(Printer::Kind::Student, id, cost, cardUsing->getBalance());
                 }
             } else prt.print(Printer::Kind::Student, id, 'f');
             prt.print(Printer::Kind::Student, id, 'W', start);
             Train *train = stop->wait(id, dir);
             prt.print(Printer::Kind::Student, id, 'E', train->getId());
-            stop = train->embark(id, end, useGiftcard? giftcard:watcard);
+            stop = train->embark(id, end, *cardUsing);
             prt.print(Printer::Kind::Student, id, 'D', end);
             stop->disembark(id);
         }
