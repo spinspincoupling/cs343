@@ -8,7 +8,7 @@ using namespace std;
 void processConfigFile( const char * configFile, ConfigParms & cparms ){
     try {
         unsigned int data[11];
-        bool written[11] = {0};
+        bool written[11] = { false };
         int count = 0;
         ifstream file;
         file.open(configFile);
@@ -22,32 +22,32 @@ void processConfigFile( const char * configFile, ConfigParms & cparms ){
             istringstream input(line);
             if(input >> name){
                 if(!(input >> num)) throw 2;
-                cout << "read number " << name << endl;
+                //cout << "read number " << name << endl;
                 ++count;
-                if(name == "stopCost"){
+                if(name == "StopCost"){
                     pos = 0;
-                } else if(name == "numStudents"){
+                } else if(name == "NumStudents"){
                     pos = 1;
-                } else if(name == "numStops"){
+                } else if(name == "NumStops"){
                     pos = 2;
-                } else if(name == "maxNumStudents"){
+                } else if(name == "MaxNumStudents"){
                     pos = 3;
-                } else if(name == "timerDelay"){
+                } else if(name == "TimerDelay"){
                     pos = 4;
-                } else if(name == "maxStudentDelay"){
+                } else if(name == "MaxStudentDelay"){
                     pos = 5;
-                } else if(name == "maxStudentTrips"){
+                } else if(name == "MaxStudentTrips"){
                     pos = 6;
-                } else if(name == "groupoffDelay"){
+                } else if(name == "GroupoffDelay"){
                     pos = 7;
-                } else if(name == "conductorDelay"){
+                } else if(name == "ConductorDelay"){
                     pos = 8;
-                } else if(name == "parentalDelay"){
+                } else if(name == "ParentalDelay"){
                     pos = 9;
-                } else if(name == "numCouriers"){
+                } else if(name == "NumCouriers"){
                    pos = 10;
                 } else throw 2;
-                cout << "correct type " << num << endl; 
+                //cout << "correct type " << num << endl; 
                 if(written[pos] == false){
                     written[pos] = true;
                     data[pos] = num;
