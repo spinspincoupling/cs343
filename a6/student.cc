@@ -21,6 +21,7 @@ void Student::main(){
     unsigned int end = mprng(numStops-1), start, distance, cost;
     Train::Direction dir;
     bool buyTicket, getcard, resumed = false;
+    WATCard::FWATCard watcard;
     //for(;;){ //loop until watward not lost
     //    try{
     //        watcard = cardOffice.create(id, maxTripCost);
@@ -33,7 +34,7 @@ void Student::main(){
     WATCard *cardUsing;
     TrainStop *stop = nameServer.getStop(id, end);
     try{
-        WATCard::FWATCard watcard = cardOffice.create(id, maxTripCost);
+        watcard = cardOffice.create(id, maxTripCost);
         if(resumed) std::cout << "pass create" << '\n';
         for(unsigned int i=0; i< numTrips; ++i){
             yield(mprng(maxStudentDelay));
