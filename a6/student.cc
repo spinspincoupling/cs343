@@ -55,18 +55,18 @@ void Student::main(){
                 _Select(giftcard){
                     cardUsing = giftcard;
                     stop->buy(distance, *cardUsing);
-                    prt.print(Printer::Kind::Student, id, cost, cardUsing->getBalance());
+                    prt.print(Printer::Kind::Student, id, 'G', cost, cardUsing->getBalance());
                     giftcard.reset();
                 }
                 or _Select(watcard){
                     cardUsing = watcard;
                     try{
-                        stop->buy(distance, cardUsing);
+                        stop->buy(distance, *cardUsing);
                     } catch(TrainStop::Funds &e) { //insufficent funds
                         watcard.reset();
                         watcard = cardOffice.transfer(id, maxTripCost+e.amount, watcard);
                         cardUsing = watcard();
-                        stop->buy(distance, *cardUsing;
+                        stop->buy(distance, *cardUsing);
                     } catch (WATCardOffice::Lost &){ //lost watcard in transfer
                         watcard.reset();
                         watcard = cardOffice.create(id, maxTripCost);
@@ -74,7 +74,7 @@ void Student::main(){
                         cardUsing = watcard();
                         stop->buy(distance, *cardUsing);
                     }
-                    prt.print(Printer::Kind::Student, id, cost, cardUsing->getBalance());
+                    prt.print(Printer::Kind::Student, id, 'B', cost, cardUsing->getBalance());
                 }
             } else prt.print(Printer::Kind::Student, id, 'f');
             prt.print(Printer::Kind::Student, id, 'W', start);
