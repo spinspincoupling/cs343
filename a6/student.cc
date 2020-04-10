@@ -7,6 +7,7 @@
 #include "MPRNG.h"
 #include "trainstop.h"
 #include <uFuture.h>
+#include <iostream>
 
 Student::Student( Printer & prt, NameServer & nameServer, WATCardOffice & cardOffice, Groupoff & groupoff, 
         unsigned int id, unsigned int numStops, unsigned int stopCost, unsigned int maxStudentDelay, unsigned int maxStudentTrips )
@@ -20,7 +21,6 @@ void Student::main(){
     unsigned int end = mprng(numStops-1), start, distance, cost;
     Train::Direction dir;
     bool buyTicket, getcard;
-    WATCard::FWATCard watcard = cardOffice.create(id, maxTripCost);
     //for(;;){ //loop until watward not lost
     //    try{
     //        watcard = cardOffice.create(id, maxTripCost);
@@ -33,6 +33,8 @@ void Student::main(){
     WATCard *cardUsing;
     TrainStop *stop = nameServer.getStop(id, end);
     try{
+        WATCard::FWATCard watcard = cardOffice.create(id, maxTripCost);
+        std::cout << "pass create" << '\n';
         for(unsigned int i=0; i< numTrips; ++i){
             yield(mprng(maxStudentDelay));
             start = end;
@@ -52,6 +54,7 @@ void Student::main(){
                 dir = Train::Direction::Clockwise;
                 distance = end-start;
             }
+            std::cout << "pass determine dir" << '\n';
             prt.print(Printer::Kind::Student, id, 'T', start, end, dir ==  Train::Direction::Clockwise? '<':'>');
             if(distance == 1){
                 buyTicket = mprng(1) == 0? false:true;
@@ -61,6 +64,7 @@ void Student::main(){
             if(buyTicket){ // giftcard over watcard
                 cost = distance*stopCost;
                 getcard = false;
+                std::cout << "before get card" << '\n';
                 while(!getcard){
                     try {
                         _Select(giftcard){
@@ -111,6 +115,8 @@ void Student::main(){
             prt.print(Printer::Kind::Student, id, 'D', end);
             stop->disembark(id);
         }
+    } catch (WATCardOffice::Lost &){
+        std::cout << "outer lost" << '\n';
     }
      catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
