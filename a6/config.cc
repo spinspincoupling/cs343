@@ -31,7 +31,7 @@ void processConfigFile( const char * configFile, ConfigParms & cparms ){
                     pos = 2;
                 } else if(name == "maxNumStudents"){
                     pos = 3;
-                } else if(name == "timerDelay":){
+                } else if(name == "timerDelay"){
                     pos = 4;
                 } else if(name == "maxStudentDelay"){
                     pos = 5;
