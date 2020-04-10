@@ -17,7 +17,6 @@
 #include "config.h"
 using namespace std;
 
-MPRNG mprng;
 unsigned int maxTripCost;
 
 int main( int argc, char * argv[] ) {
