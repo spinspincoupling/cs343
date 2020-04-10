@@ -76,7 +76,10 @@ void Student::main(){
                     }
                     prt.print(Printer::Kind::Student, id, 'B', cost, cardUsing->getBalance());
                 }
-            } else prt.print(Printer::Kind::Student, id, 'f');
+            } else {
+                prt.print(Printer::Kind::Student, id, 'f');
+                cardUsing = watcard();
+            }
             prt.print(Printer::Kind::Student, id, 'W', start);
             Train *train = stop->wait(id, dir);
             prt.print(Printer::Kind::Student, id, 'E', train->getId());
@@ -89,4 +92,7 @@ void Student::main(){
     }
     prt.print(Printer::Kind::Student, id, 'F'); //terminate
     
+}
+
+Student::~Student(){
 }
