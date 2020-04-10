@@ -101,7 +101,7 @@ void Student::main(){
                             getcard = true;
                             prt.print(Printer::Kind::Student, id, 'B', cost, cardUsing->getBalance());
                         }
-                    } catch(WATCardOffice::Lost &){
+                    } _CatchResume(WATCardOffice::Lost &){
                         prt.print(Printer::Kind::Student, id, 'L');
                         watcard.reset();
                         watcard = cardOffice.create(id, maxTripCost); //can throw
@@ -129,7 +129,6 @@ void Student::main(){
         watcard.reset();
         watcard = cardOffice.create(id, maxTripCost); //can throw
         cardUsing = watcard();
-        std::cout << "end resume" << '\n';
     }
      catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
