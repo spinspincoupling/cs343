@@ -118,9 +118,9 @@ void Student::main(){
         }
         watcard.reset();
     } 
-    //catch(WATCardOffice::Lost &){
-    //    std::cout << "outer lost" << '\n';
-    //}
+    _catchResume(WATCardOffice::Lost &){
+        std::cout << "outer lost" << '\n';
+    }
      catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }
