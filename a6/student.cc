@@ -121,7 +121,7 @@ void Student::main(){
         watcard.reset();
     } 
     _CatchResume(WATCardOffice::Lost &){
-        resume = true;
+        resumed = true;
         std::cout << "outer lost" << '\n';
     }
      catch(Train::Ejected &){ //terminate
