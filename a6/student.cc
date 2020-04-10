@@ -128,6 +128,7 @@ void Student::main(){
         prt.print(Printer::Kind::Student, id, 'L');
         watcard.reset();
         watcard = cardOffice.create(id, maxTripCost); //can throw
+        cardUsing = watcard();
     }
      catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
