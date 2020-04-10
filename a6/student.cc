@@ -100,7 +100,7 @@ void Student::main(){
                                 watcard = cardOffice.transfer(id, maxTripCost+e.amount, watcard); //can throw
                                 //cardUsing = watcard();
                                 stop->buy(distance, *cardUsing);
-                            } CatchResume (WATCardOffice::Lost &){ //lost watcard in transfer
+                    } _CatchResume (WATCardOffice::Lost &){ //lost watcard in transfer
                                 getcard = false;
                                 while(!getcard) {
                                     try {
