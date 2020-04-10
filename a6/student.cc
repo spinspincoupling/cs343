@@ -24,63 +24,64 @@ void Student::main(){
     WATCard::FWATCard giftcard = groupoff.giftCard();
     TrainStop *stop = nameServer.getStop(id, end);
     try{
-        for (int i=0; i< numTrips; ++i){
-        yield(mprng(maxStudentDelay));
-        start = end;
-        end = (start + mprng(numStops-2))%numStops; 
-        if(start > end){
-            if(start - end < numStops-start+end){ // anti-clockwise
-                dir = Train::Direction::CounterClockwise;
-                distance = start-end;
-            } else { //clockwise
-                dir = Train::Direction::Clockwise;
+        for(unsigned int i=0; i< numTrips; ++i){
+            yield(mprng(maxStudentDelay));
+            start = end;
+            end = (start + mprng(numStops-2))%numStops; 
+            if(start > end){
+                if(start - end < numStops-start+end){ // anti-clockwise
+                    dir = Train::Direction::CounterClockwise;
+                    distance = start-end;
+                } else { //clockwise
+                    dir = Train::Direction::Clockwise;
                 distance = numStops-start+end;
             }
-        } else if(end - start > numStops-end+start){ // anti-clockwise
-            dir = Train::Direction::CounterClockwise;
-            distance = numStops-end+start;
-        } else { //clockwise
-            dir = Train::Direction::Clockwise;
-            distance = end-start;
-        }
-        prt.print(Printer::Kind::Student, id, 'T', start, end, dir ==  Train::Direction::Clockwise? '<':'>');
-        if(distance == 1){
-            buyTicket = mprng(1) == 0? false:true;
-        } else {
-            buyTicket = mprng(9) < 3? false:true;
-        }
-        if(buyTicket){ // giftcard over watcard
-            cost = distance*stopCost;
-            if(giftcard.available()){
-                useGiftcard = true;
-                stop->buy(distance, *giftcard);
-                prt.print(Printer::Kind::Student, id, cost, giftcard->getBalance());
-                giftcard.reset();
-            } else {
-                useGiftcard = false;
-                if(!watcard.available()) watcard();
-                bought = false;
-                try{
-                    stop->buy(distance, *watcard);
-                } catch(TrainStop::Funds &e) { //insufficent funds
-                    watcard.reset();
-                    watcard = cardOffice.transfer(id, maxTripCost+e.amount, &watcard);
-                    stop->buy(distance, *(watcard()));
-                } catch (WATCardOffice::Lost &){ //lost watcard in transfer
-                    watcard.reset();
-                    watcard = cardOffice.create();
-                    prt.print(Printer::Kind::Student, id, 'L');
-                    stop->buy(distance, *(watcard()));
-                }
-                prt.print(Printer::Kind::Student, id, cost, watcard->getBalance());
+            } else if(end - start > numStops-end+start){ // anti-clockwise
+                dir = Train::Direction::CounterClockwise;
+                distance = numStops-end+start;
+            } else { //clockwise
+                dir = Train::Direction::Clockwise;
+                distance = end-start;
             }
-        } else prt.print(Printer::Kind::Student, id, 'f');
-        prt.print(Printer::Kind::Student, id, 'W', start);
-        Train *train = stop->wait(id, dir);
-        prt.print(Printer::Kind::Student, id, 'E', train->getId());
-        stop = train->embark(id, end, useGiftcard? giftcard:watcard);
-        prt.print(Printer::Kind::Student, id, 'D', end);
-        stop->disembark(id);
+            prt.print(Printer::Kind::Student, id, 'T', start, end, dir ==  Train::Direction::Clockwise? '<':'>');
+            if(distance == 1){
+                buyTicket = mprng(1) == 0? false:true;
+            } else {
+                buyTicket = mprng(9) < 3? false:true;
+            }
+            if(buyTicket){ // giftcard over watcard
+                cost = distance*stopCost;
+                if(giftcard.available()){
+                    useGiftcard = true;
+                    stop->buy(distance, *giftcard);
+                    prt.print(Printer::Kind::Student, id, cost, (giftcard)->getBalance());
+                    giftcard.reset();
+                } else {
+                    useGiftcard = false;
+                    if(!watcard.available()) watcard();
+                    bought = false;
+                    try{
+                        stop->buy(distance, *watcard);
+                    } catch(TrainStop::Funds &e) { //insufficent funds
+                        watcard.reset();
+                        watcard = cardOffice.transfer(id, maxTripCost+e.amount, &watcard);
+                        stop->buy(distance, *(watcard()));
+                    } catch (WATCardOffice::Lost &){ //lost watcard in transfer
+                        watcard.reset();
+                        watcard = cardOffice.create(id, maxTripCost);
+                        prt.print(Printer::Kind::Student, id, 'L');
+                        stop->buy(distance, *(watcard()));
+                    }
+                    prt.print(Printer::Kind::Student, id, cost, (watcard)->getBalance());
+                }
+            } else prt.print(Printer::Kind::Student, id, 'f');
+            prt.print(Printer::Kind::Student, id, 'W', start);
+            Train *train = stop->wait(id, dir);
+            prt.print(Printer::Kind::Student, id, 'E', train->getId());
+            stop = train->embark(id, end, useGiftcard? giftcard:watcard);
+            prt.print(Printer::Kind::Student, id, 'D', end);
+            stop->disembark(id);
+        }
     } catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }
