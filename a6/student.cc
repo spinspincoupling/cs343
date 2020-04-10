@@ -75,8 +75,8 @@ void Student::main(){
                             giftcard.reset();
                         }
                         or _Select(watcard){ //can throw
-                            if(resumed) std::cout << "in select watcard" << '\n';
                             cardUsing = watcard;
+                            if(resumed) std::cout << "in select watcard" << '\n';
                             try{
                                 stop->buy(distance, *cardUsing);
                             } catch(TrainStop::Funds &e) { //insufficent funds
@@ -116,6 +116,7 @@ void Student::main(){
             stop = train->embark(id, end, *cardUsing);
             prt.print(Printer::Kind::Student, id, 'D', end);
             stop->disembark(id);
+            if(resumed) std::cout << "before set resume to false" << '\n';
             resumed = false;
         }
         watcard.reset();
