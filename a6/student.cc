@@ -87,7 +87,7 @@ void Student::main(){
                                         watcard = cardOffice.create(id, maxTripCost); //can throw
                                         cardUsing = watcard();
                                         getcard = true;
-                                    } catch(WATCardOffice::Lost &)){
+                                    } catch(WATCardOffice::Lost &){
                                     }
                                 }
                                 stop->buy(distance, *cardUsing);
