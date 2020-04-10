@@ -75,7 +75,8 @@ void Student::main(){
                     giftcard.reset();
                 } else {
                     try{
-                        cardUsing = watcard();
+                        //cardUsing = watcard();
+                        if(resumed) std::cout << "before buy" << '\n';
                             stop->buy(distance, *cardUsing);
                             } catch(TrainStop::Funds &e) { //insufficent funds
                                 watcard.reset();
@@ -89,7 +90,7 @@ void Student::main(){
                                         prt.print(Printer::Kind::Student, id, 'L');
                                         watcard = cardOffice.create(id, maxTripCost); //can throw
                                         cardUsing = watcard();
-                                        getcard = true;
+                                        //getcard = true;
                                     } catch(WATCardOffice::Lost &){
                                     }
                                 }
@@ -119,7 +120,7 @@ void Student::main(){
         prt.print(Printer::Kind::Student, id, 'L');
         watcard.reset();
         watcard = cardOffice.create(id, maxTripCost); //can throw
-        //cardUsing = watcard();
+        cardUsing = watcard();
     }
      catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
