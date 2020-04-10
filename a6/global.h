@@ -19,7 +19,7 @@ _Monitor Bank;
 _Monitor MPRNG;
 extern MPRNG mprng;					// random-number generator
 const unsigned int numTrains = 2;
-unsigned int maxTripCost;
+extern unsigned int maxTripCost;
 
 
 // Local Variables: //
