@@ -75,6 +75,7 @@ void Student::main(){
                     getcard = false;
                     //while(!getcard){
                     try{
+                        std::cout << "first attempt to access" << '\n';
                         cardUsing = watcard();
                         if(resumed) std::cout << "before buy" << '\n';
                             stop->buy(distance, *cardUsing);
@@ -113,7 +114,8 @@ void Student::main(){
             if(resumed) std::cout << "before set resume to false" << '\n';
             resumed = false;
         }
-        watcard.reset();
+        delete watcard;
+        delete giftcard;
     } 
     //_CatchResume(WATCardOffice::Lost &){
     //    resumed = true;
