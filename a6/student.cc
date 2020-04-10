@@ -1,6 +1,6 @@
 #include "student.h"
 #include "train.h"
-#inlcude <uFuture.h>
+#include <uFuture.h>
 
 Student::Student( Printer & prt, NameServer & nameServer, WATCardOffice & cardOffice, Groupoff & groupoff, 
         unsigned int id, unsigned int numStops, unsigned int stopCost, unsigned int maxStudentDelay, unsigned int maxStudentTrips )
