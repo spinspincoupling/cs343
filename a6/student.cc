@@ -95,12 +95,8 @@ void Student::main(){
                         if(resumed) std::cout << "before buy" << '\n';
                             stop->buy(distance, *cardUsing);
                     //}
-                    } catch(TrainStop::Funds &e) { //insufficent funds
-                                watcard.reset();
-                                watcard = cardOffice.transfer(id, maxTripCost+e.amount, watcard); //can throw
-                                //cardUsing = watcard();
-                                stop->buy(distance, *cardUsing);
-                    } _CatchResume (WATCardOffice::Lost &){ //lost watcard in transfer
+                    }
+                    _CatchResume (WATCardOffice::Lost &){ //lost watcard in transfer
                                 getcard = false;
                                 while(!getcard) {
                                     try {
@@ -113,6 +109,24 @@ void Student::main(){
                                     }
                                 }
                                 //stop->buy(distance, *cardUsing);
+                    } catch(TrainStop::Funds &e) { //insufficent funds
+                                watcard.reset();
+                                watcard = cardOffice.transfer(id, maxTripCost+e.amount, watcard); //can throw
+                                cardUsing = watcard();
+                                stop->buy(distance, *cardUsing);
+                    } catch (WATCardOffice::Lost &){ //lost watcard in transfer
+                                getcard = false;
+                                while(!getcard) {
+                                    try {
+                                        watcard.reset();
+                                        prt.print(Printer::Kind::Student, id, 'L');
+                                        watcard = cardOffice.create(id, maxTripCost); //can throw
+                                        cardUsing = watcard();
+                                        getcard = true;
+                                    } catch(WATCardOffice::Lost &){
+                                    }
+                                }
+                                stop->buy(distance, *cardUsing);
                             }
                             //getcard = true;
                             prt.print(Printer::Kind::Student, id, 'B', cost, cardUsing->getBalance());
