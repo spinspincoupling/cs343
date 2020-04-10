@@ -23,42 +23,29 @@ void processConfigFile( const char * configFile, ConfigParms & cparms ){
             if(input >> name){
                 if(!(input >> num)) throw 2;
                 ++count;
-                switch(name){
-                    case "stopCost":
-                        pos = 0;
-                        break;
-                    case "numStudents":
-                        pos = 1;
-                        break;
-                    case "numStops":
-                        pos = 2;
-                        break;
-                    case "maxNumStudents":
-                        pos = 3;
-                        break;
-                    case "timerDelay":
-                        pos = 4;
-                        break;
-                    case "maxStudentDelay":
-                        pos = 5;
-                        break;
-                    case "maxStudentTrips":
-                        pos = 6;
-                        break;
-                    case "groupoffDelay":
-                        pos = 7;
-                        break;
-                    case "conductorDelay":
-                        pos = 8;
-                        break;
-                    case "parentalDelay":
-                        pos = 9;
-                        break;
-                    case "numCouriers":
-                        pos = 10;
-                        break;
-                    default throw 2;
-                }
+                if(name == "stopCost"){
+                    pos = 0;
+                } else if(name == "numStudents"){
+                    pos = 1;
+                } else if(name == "numStops"){
+                    pos = 2;
+                } else if(name == "maxNumStudents"){
+                    pos = 3;
+                } else if(name == "timerDelay":){
+                    pos = 4;
+                } else if(name == "maxStudentDelay"){
+                    pos = 5;
+                } else if(name == "maxStudentTrips"){
+                    pos = 6;
+                } else if(name == "groupoffDelay"){
+                    pos = 7;
+                } else if(name == "conductorDelay"){
+                    pos = 8;
+                } else if(name == "parentalDelay"){
+                    pos = 9;
+                } else if(name == "numCouriers"){
+                   pos = 10;
+                } else throw 2;
                 if(written[pos] == false){
                     written[pos] = true;
                     data[pos] = num;
