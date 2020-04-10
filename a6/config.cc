@@ -14,9 +14,8 @@ void processConfigFile( const char * configFile, ConfigParms & cparms ){
         file.open(configFile);
         string line, name;
         unsigned int num, pos;
-        for(;;){
+        while(getline(file, line)){
             if(count >  11) throw 1;
-            getline(file, line);
             istringstream buffer(line);
             getline(buffer, line, '#');
             istringstream input(line);
