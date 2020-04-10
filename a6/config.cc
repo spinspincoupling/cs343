@@ -15,14 +15,13 @@ void processConfigFile( const char * configFile, ConfigParms & cparms ){
         string line, name;
         unsigned int num, pos;
         while(getline(file, line)){
-            if(count >  11) throw 1;
             istringstream buffer(line);
             getline(buffer, line, '#');
             istringstream input(line);
             if(input >> name){
                 if(!(input >> num)) throw 2;
-                //cout << "read number " << name << endl;
                 ++count;
+                if(count >  11) throw 1;
                 if(name == "StopCost"){
                     pos = 0;
                 } else if(name == "NumStudents"){
@@ -46,7 +45,6 @@ void processConfigFile( const char * configFile, ConfigParms & cparms ){
                 } else if(name == "NumCouriers"){
                    pos = 10;
                 } else throw 2;
-                //cout << "correct type " << num << endl; 
                 if(written[pos] == false){
                     written[pos] = true;
                     data[pos] = num;
