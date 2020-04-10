@@ -1,10 +1,14 @@
 #include "student.h"
+#include "groupoff.h"
 #include "train.h"
+#include "printer.h"
+#include "nameserver.h"
+#include "cardoffice.h"
 #include <uFuture.h>
 
 Student::Student( Printer & prt, NameServer & nameServer, WATCardOffice & cardOffice, Groupoff & groupoff, 
         unsigned int id, unsigned int numStops, unsigned int stopCost, unsigned int maxStudentDelay, unsigned int maxStudentTrips )
-        :prt{prt}, nameServer{nameServer}, cardOffice{cardOffice}, Groupoff{Groupoff}, id{id},
+        :prt{prt}, nameServer{nameServer}, cardOffice{cardOffice}, Groupoff{groupoff}, id{id},
         numStops{numStops}, stopCost{stopCost}, maxStudentDelay{maxStudentDelay}, maxStudentTrips{maxStudentTrips}{
         }
 
