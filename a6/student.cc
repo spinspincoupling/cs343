@@ -124,6 +124,9 @@ void Student::main(){
     _CatchResume(WATCardOffice::Lost &){
         resumed = true;
         std::cout << "outer lost" << '\n';
+        prt.print(Printer::Kind::Student, id, 'L');
+        watcard.reset();
+        watcard = cardOffice.create(id, maxTripCost); //can throw
     }
      catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
