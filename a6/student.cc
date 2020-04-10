@@ -20,7 +20,7 @@ void Student::main(){
     prt.print( Printer::Kind::Student, id, 'S', numTrips);
     unsigned int end = mprng(numStops-1), start, distance, cost;
     Train::Direction dir;
-    bool buyTicket, getcard;
+    bool buyTicket, getcard, resumed = false;
     //for(;;){ //loop until watward not lost
     //    try{
     //        watcard = cardOffice.create(id, maxTripCost);
@@ -34,7 +34,7 @@ void Student::main(){
     TrainStop *stop = nameServer.getStop(id, end);
     try{
         WATCard::FWATCard watcard = cardOffice.create(id, maxTripCost);
-        //std::cout << "pass create" << '\n';
+        if(resumed) std::cout << "pass create" << '\n';
         for(unsigned int i=0; i< numTrips; ++i){
             yield(mprng(maxStudentDelay));
             start = end;
@@ -54,7 +54,7 @@ void Student::main(){
                 dir = Train::Direction::Clockwise;
                 distance = end-start;
             }
-            //std::cout << "pass determine dir" << '\n';
+            if(resumed) std::cout << "pass determine dir" << '\n';
             prt.print(Printer::Kind::Student, id, 'T', start, end, dir ==  Train::Direction::Clockwise? '<':'>');
             if(distance == 1){
                 buyTicket = mprng(1) == 0? false:true;
@@ -64,7 +64,7 @@ void Student::main(){
             if(buyTicket){ // giftcard over watcard
                 cost = distance*stopCost;
                 getcard = false;
-                //std::cout << "before get card" << '\n';
+                if(resumed) std::cout << "before get card" << '\n';
                 while(!getcard){
                     try {
                         _Select(giftcard){
@@ -75,6 +75,7 @@ void Student::main(){
                             giftcard.reset();
                         }
                         or _Select(watcard){ //can throw
+                            if(resumed) std::cout << "in select watcard" << '\n';
                             cardUsing = watcard;
                             try{
                                 stop->buy(distance, *cardUsing);
@@ -115,10 +116,12 @@ void Student::main(){
             stop = train->embark(id, end, *cardUsing);
             prt.print(Printer::Kind::Student, id, 'D', end);
             stop->disembark(id);
+            resumed = false;
         }
         watcard.reset();
     } 
     _CatchResume(WATCardOffice::Lost &){
+        resume = true;
         std::cout << "outer lost" << '\n';
     }
      catch(Train::Ejected &){ //terminate
