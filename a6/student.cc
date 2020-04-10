@@ -34,7 +34,7 @@ void Student::main(){
     TrainStop *stop = nameServer.getStop(id, end);
     try{
         WATCard::FWATCard watcard = cardOffice.create(id, maxTripCost);
-        std::cout << "pass create" << '\n';
+        //std::cout << "pass create" << '\n';
         for(unsigned int i=0; i< numTrips; ++i){
             yield(mprng(maxStudentDelay));
             start = end;
@@ -54,7 +54,7 @@ void Student::main(){
                 dir = Train::Direction::Clockwise;
                 distance = end-start;
             }
-            std::cout << "pass determine dir" << '\n';
+            //std::cout << "pass determine dir" << '\n';
             prt.print(Printer::Kind::Student, id, 'T', start, end, dir ==  Train::Direction::Clockwise? '<':'>');
             if(distance == 1){
                 buyTicket = mprng(1) == 0? false:true;
@@ -64,7 +64,7 @@ void Student::main(){
             if(buyTicket){ // giftcard over watcard
                 cost = distance*stopCost;
                 getcard = false;
-                std::cout << "before get card" << '\n';
+                //std::cout << "before get card" << '\n';
                 while(!getcard){
                     try {
                         _Select(giftcard){
@@ -102,6 +102,7 @@ void Student::main(){
                     } catch(WATCardOffice::Lost &){
                         prt.print(Printer::Kind::Student, id, 'L');
                         watcard.reset();
+                        watcard = cardOffice.create(id, maxTripCost); //can throw
                     }
                 }
             } else {
