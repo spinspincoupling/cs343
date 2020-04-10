@@ -20,7 +20,7 @@ void Student::main(){
     unsigned int end = mprng(numStops-1), start, distance, cost;
     Train::Direction dir;
     bool buyTicket, getcard;
-    WATCard::FWATCard watcard cardOffice.create(id, maxTripCost);
+    WATCard::FWATCard watcard = cardOffice.create(id, maxTripCost);
     //for(;;){ //loop until watward not lost
     //    try{
     //        watcard = cardOffice.create(id, maxTripCost);
