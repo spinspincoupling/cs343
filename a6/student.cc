@@ -129,6 +129,7 @@ void Student::main(){
         watcard.reset();
         watcard = cardOffice.create(id, maxTripCost); //can throw
         cardUsing = watcard();
+        std::cout << "end resume" << '\n';
     }
      catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
