@@ -8,7 +8,7 @@ using namespace std;
 void processConfigFile( const char * configFile, ConfigParms & cparms ){
     try {
         unsigned int data[11];
-        bool written[11] = {false};
+        bool written[11] = {0};
         int count = 0;
         ifstream file;
         file.open(configFile);
