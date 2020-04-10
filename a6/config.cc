@@ -22,6 +22,7 @@ void processConfigFile( const char * configFile, ConfigParms & cparms ){
             istringstream input(line);
             if(input >> name){
                 if(!(input >> num)) throw 2;
+                cout << "read number " << name << endl;
                 ++count;
                 if(name == "stopCost"){
                     pos = 0;
@@ -46,6 +47,7 @@ void processConfigFile( const char * configFile, ConfigParms & cparms ){
                 } else if(name == "numCouriers"){
                    pos = 10;
                 } else throw 2;
+                cout << "correct type " << num << endl; 
                 if(written[pos] == false){
                     written[pos] = true;
                     data[pos] = num;
