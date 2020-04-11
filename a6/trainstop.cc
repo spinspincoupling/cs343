@@ -20,9 +20,8 @@ void TrainStop::buy( unsigned int numStops, WATCard & card ){
     unsigned int cost = stopCost*numStops;
     unsigned int balance = card.getBalance();
     if(balance < cost){
-        //std::cout << "not enough fund!!" << '\n';
-        _Resume Funds(cost - balance);
-        uRendezvousAcceptor();
+        std::cout << "not enough fund!!" << '\n';
+        throw Funds(cost - balance);
     } else {
         card.withdraw(cost);
         prt.print(Printer::Kind::TrainStop, id, 'B', cost);
@@ -78,22 +77,25 @@ void TrainStop::main(){
     prt.print(Printer::Kind::TrainStop, id, 'S');
     nameServer.registerStop(id);
     for(;;) {
-        _Accept(~TrainStop){
-            break;
-        }
-        or _Accept(buy){
-            
-        }
-        or _Accept(wait){
-        }
-        or _Accept(disembark){
-        }
-        or _Accept(arrive){ 
-            _Accept(tick){ //wait for tick
-                train.signalBlock();
+        try{
+            _Accept(~TrainStop){
+                break;
             }
+            or _Accept(buy){
+            }
+            or _Accept(wait){
+            }
+            or _Accept(disembark){
+            }
+            or _Accept(arrive){ 
+                _Accept(tick){ //wait for tick
+                    train.signalBlock();
+                }
+            }
+            or _Accept(tick){
+            }
+        } catch (uMutexFailure::RendezvousFailure &){
         }
-        or _Accept(tick){
-        }
+        
     }
 }
