@@ -5,6 +5,7 @@
 #include "global.h"
 #include "MPRNG.h"
 #include <uFuture.h>
+#include <iostream>
 
 WATCardOffice::Courier::Courier(Printer &prt, Bank &bank, WATCardOffice *office, unsigned int id)
     :prt{prt}, bank{bank}, office{office}, id{id} {}
@@ -37,6 +38,7 @@ void WATCardOffice::Courier::main(){
                 prt.print(Printer::Kind::WATCardOfficeCourier, id, 'T', w->sid, w->amount);
                 w->result.delivery(watcard);
             }
+            std:cout << "delete task" << '\n';
             delete w;
         }
         
