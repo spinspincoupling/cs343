@@ -92,9 +92,9 @@ void Student::main(){
                         //cardUsing = watcard();
                         stop->buy(distance, *cardUsing);
                     } catch(TrainStop::Funds &e) { //insufficent funds
-                        std::cout << "not enough fund!!" << '\n';
-                        watcard.reset();
-                        watcard = cardOffice.transfer(id, maxTripCost+e.amount, watcard); //can throw
+                        std::cout << "enter not enough fund handler" << '\n';
+                        //watcard.reset();
+                        watcard = cardOffice.transfer(id, maxTripCost+e.amount, cardUsing); //can throw
                         cardUsing = watcard();
                         stop->buy(distance, *cardUsing);
                     } catch (WATCardOffice::Lost &){ //lost watcard in transfer

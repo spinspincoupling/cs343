@@ -20,8 +20,8 @@ void TrainStop::buy( unsigned int numStops, WATCard & card ){
     unsigned int cost = stopCost*numStops;
     unsigned int balance = card.getBalance();
     if(balance < cost){
-        std::cout << "not enough fund!!" << '\n';
-        //throw Funds(cost - balance);
+        //std::cout << "not enough fund!!" << '\n';
+        throw Funds(cost - balance);
     } else {
         card.withdraw(cost);
         prt.print(Printer::Kind::TrainStop, id, 'B', cost);
