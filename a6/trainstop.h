@@ -4,8 +4,13 @@
 #include "train.h"
 
 _Task TrainStop {
-	class PImpl; // *** Replace these two lines with your own implementation.
-	PImpl *pimpl;
+	Printer & prt;
+	NameServer & nameServer;
+	unsigned int id;
+	unsigned int stopCost;
+	uCondition clockwise, anticlockwise, train;
+	unsigned int wait0, wait1;
+	Train *arrived;
 
 	void main();
   public:
