@@ -67,7 +67,6 @@ void Student::main(){
             } else {
                 buyTicket = mprng(9) < 3? false:true;
             }
-             buyTicket = false;
             if(buyTicket){ // giftcard over watcard
                 cost = distance*stopCost;
                 if(giftcard.available()){
