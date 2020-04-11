@@ -33,12 +33,12 @@ void WATCardOffice::Courier::main(){
                     _Resume *e;
                 } _CatchResume(WATCardOffice::Lost &e) {
                     w->result.exception(&e);
+                    delete *e;
                 }
             } else {
                 prt.print(Printer::Kind::WATCardOfficeCourier, id, 'T', w->sid, w->amount);
                 w->result.delivery(watcard);
             }
-            std::cout << "delete task" << '\n';
             delete w;
         }
         
