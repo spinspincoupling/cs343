@@ -5,12 +5,31 @@
 
 _Monitor Printer;										// forward declarations
 _Monitor Bank;
-struct Job;
 
 _Task WATCardOffice {
-	class PImpl;
-	PImpl * pimpl;
-
+	struct Job {
+		unsigned int sid;
+		unsigned int amount;
+		WATCard *card;
+		WATCard::FWATCard result; // return future
+		Job(unsigned int sid, unsigned int amount, WATCard *card = nullptr) : sid{sid}, amount{amount}, card{card}
+		{}
+	};
+	_Task Courier {
+		Printer &prt;
+		Bank &bank;
+		WATCardOffice *office;
+		unsigned int id;
+		void main();
+		public:
+		Courier(Printer &prt, Bank &bank, WATCardOffice *office, unsigned int id);
+		~Courier();
+	};
+	Printer &prt;
+	Bank &bank;
+	unsigned int numCouriers;
+	std::list<Job*> workQueue;
+	uCondition waiting;
 	void main();
   public:
 	_Event Lost {};										// lost WATCard
