@@ -37,7 +37,7 @@ void Student::main(){
     Train::Direction dir;
     bool buyTicket, getcard = false, error = false;
     WATCard::FWATCard watcard;
-    //WATCard::FWATCard giftcard = groupoff.giftCard();
+    WATCard::FWATCard giftcard = groupoff.giftCard();
     WATCard *cardUsing;
     TrainStop *stop = nameServer.getStop(id, end);
     try{
