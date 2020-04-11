@@ -38,7 +38,7 @@ void WATCardOffice::Courier::main(){
                 prt.print(Printer::Kind::WATCardOfficeCourier, id, 'T', w->sid, w->amount);
                 w->result.delivery(watcard);
             }
-            std:cout << "delete task" << '\n';
+            std::cout << "delete task" << '\n';
             delete w;
         }
         
