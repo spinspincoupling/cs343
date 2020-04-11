@@ -35,7 +35,7 @@ void Student::main(){
     prt.print( Printer::Kind::Student, id, 'S', numTrips);
     unsigned int end = mprng(numStops-1), start, distance, cost;
     Train::Direction dir;
-    bool buyTicket, getcard, resumed = false;
+    bool buyTicket, getcard, resumed = false, error = false;
     WATCard::FWATCard watcard;
     //for(;;){ //loop until watward not lost
     //    try{
@@ -48,7 +48,7 @@ void Student::main(){
     WATCard::FWATCard giftcard = groupoff.giftCard();
     WATCard *cardUsing;
     TrainStop *stop = nameServer.getStop(id, end);
-    //try{
+    try{
         watcard = cardOffice.create(id, maxTripCost);
         if(resumed) std::cout << "pass create" << '\n';
         for(unsigned int i=0; i< numTrips; ++i){
@@ -77,6 +77,91 @@ void Student::main(){
             } else {
                 buyTicket = mprng(9) < 3? false:true;
             }
+            if(buyTicket){ // giftcard over watcard
+                cost = distance*stopCost;
+                //if(resumed) std::cout << "before get card" << '\n';
+                if(giftcard.available()){
+                    cardUsing = giftcard;
+                    //getcard = true;
+                    stop->buy(distance, *cardUsing);
+                    prt.print(Printer::Kind::Student, id, 'G', cost, cardUsing->getBalance());
+                    giftcard.reset();
+                } else {
+                    getcard = false;
+                    while(!getcard){
+                        //std::cout << "first attempt to access" << '\n';
+                        cardUsing = watcard();
+                        if(!error) getcard = true;
+                        else {
+                            watcard.reset();
+                            watcard = cardOffice.create(id, maxTripCost); //can throw
+                            error = false;
+                        }
+                    }
+                    try{
+                            //if(resumed) std::cout << "before buy" << '\n';
+                            stop->buy(distance, *cardUsing);
+                    //}
+                    }
+                    //_CatchResume (WATCardOffice::Lost &){ //lost watcard in transfer
+                    //            getcard = false;
+                    //            while(!getcard) {
+                    //                try {
+                    //                    watcard.reset();
+                    //                    prt.print(Printer::Kind::Student, id, 'L');
+                    //                    watcard = cardOffice.create(id, maxTripCost); //can throw
+                    //                    cardUsing = watcard();
+                    //                    getcard = true;
+                    //                } catch(WATCardOffice::Lost &){
+                    //                }
+                    //            }
+                    //            //stop->buy(distance, *cardUsing);
+                    } catch(TrainStop::Funds &e) { //insufficent funds
+                                watcard.reset();
+                                watcard = cardOffice.transfer(id, maxTripCost+e.amount, watcard); //can throw
+                                cardUsing = watcard();
+                                stop->buy(distance, *cardUsing);
+                    } catch (WATCardOffice::Lost &){ //lost watcard in transfer
+                                getcard = false;
+                                while(!getcard) {
+                                    try {
+                                        watcard.reset();
+                                        prt.print(Printer::Kind::Student, id, 'L');
+                                        watcard = cardOffice.create(id, maxTripCost); //can throw
+                                        cardUsing = watcard();
+                                        getcard = true;
+                                    } catch(WATCardOffice::Lost &){
+                                    }
+                                }
+                                stop->buy(distance, *cardUsing);
+                            }
+                            //getcard = true;
+                            prt.print(Printer::Kind::Student, id, 'B', cost, cardUsing->getBalance());
+                }
+            } else {
+                prt.print(Printer::Kind::Student, id, 'f');
+                cardUsing = watcard();
+            }
+            prt.print(Printer::Kind::Student, id, 'W', start);
+            Train *train = stop->wait(id, dir);
+            prt.print(Printer::Kind::Student, id, 'E', train->getId());
+            stop = train->embark(id, end, *cardUsing);
+            prt.print(Printer::Kind::Student, id, 'D', end);
+            stop->disembark(id);
+            if(resumed) std::cout << "before set resume to false" << '\n';
+            resumed = false;
+        }
+        //delete watcard;
+        //delete giftcard;
+    } 
+    _CatchResume(WATCardOffice::Lost &){
+        resumed = true;
+        error = true;
+        //std::cout << "outer lost" << '\n';
+        prt.print(Printer::Kind::Student, id, 'L');
+    }
+     catch(Train::Ejected &){ //terminate
+        prt.print(Printer::Kind::Student, id, 'e');
     }
     prt.print(Printer::Kind::Student, id, 'F'); //terminate
     
