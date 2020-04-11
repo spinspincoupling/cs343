@@ -24,6 +24,7 @@ _Task WATCardOffice {
 		public:
 		Courier(Printer &prt, Bank &bank, WATCardOffice *office, unsigned int id);
 		~Courier();
+		void stop() {}
 	};
 	Printer &prt;
 	Bank &bank;

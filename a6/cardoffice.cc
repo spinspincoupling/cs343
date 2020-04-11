@@ -16,7 +16,7 @@ WATCardOffice::Courier::~Courier(){
 void WATCardOffice::Courier::main(){
     prt.print(Printer::Kind::WATCardOfficeCourier, id, 'S');
     for(;;){
-        _Accept(~Courier){
+        _Accept(stop){
             break;
         } _Else{
             Job *w = office->requestWork();
@@ -27,7 +27,12 @@ void WATCardOffice::Courier::main(){
             watcard->deposit(w->amount);
             if(mprng(5) == 0){
                 prt.print(Printer::Kind::WATCardOfficeCourier, id, 'L', w->sid);
-                w->result.exception(new WATCardOffice::Lost());
+                try{
+                    WATCardOffice::Lost* e = new WATCardOffice::Lost();
+                    _Resume *e;
+                } _CatchResume(WATCardOffice::Lost &e) {
+                    w->result.exception(&e);
+                }
             } else {
                 prt.print(Printer::Kind::WATCardOfficeCourier, id, 'T', w->sid, w->amount);
                 w->result.delivery(watcard);
@@ -78,6 +83,9 @@ void WATCardOffice::main(){
     }
     for(;;){
         _Accept(~WATCardOffice){
+            for (auto &p:couriers){
+                p->stop();
+            }
             //while(!waiting.empty()){
             //    waiting.signalBlock();
             //}
