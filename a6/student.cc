@@ -109,7 +109,7 @@ void Student::main(){
                                 stop->buy(distance, *cardUsing);
                             }
                             prt.print(Printer::Kind::Student, id, 'B', cost, cardUsing->getBalance());
-                //}
+                }
             } else {
                 prt.print(Printer::Kind::Student, id, 'f');
                 while(!getcard){
