@@ -40,6 +40,7 @@ void Student::main(){
     WATCard::FWATCard giftcard = groupoff.giftCard();
     WATCard *cardUsing;
     TrainStop *stop = nameServer.getStop(id, end);
+    std::cout << maxTripCost << '\n';
     try{
         watcard = cardOffice.create(id, maxTripCost);
         for(unsigned int i=0; i< numTrips; ++i){
@@ -93,7 +94,7 @@ void Student::main(){
                         stop->buy(distance, *cardUsing);
                     } catch(TrainStop::Funds &e) { //insufficent funds
                         std::cout << "enter not enough fund handler" << '\n';
-                        delete watcard;
+                        watcard.reset();
                         watcard = cardOffice.transfer(id, maxTripCost+e.amount, cardUsing); //can throw
                         cardUsing = watcard();
                         stop->buy(distance, *cardUsing);
