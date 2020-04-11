@@ -36,13 +36,11 @@ void Student::main(){
     unsigned int end = mprng(numStops-1), start, distance, cost;
     Train::Direction dir;
     bool buyTicket, getcard = false, error = false;
-    WATCard::FWATCard watcard;
+    WATCard::FWATCard watcard = cardOffice.create(id, maxTripCost);
     WATCard::FWATCard giftcard = groupoff.giftCard();
     WATCard *cardUsing;
     TrainStop *stop = nameServer.getStop(id, end);
-    std::cout << maxTripCost << '\n';
     try{
-        watcard = cardOffice.create(id, maxTripCost);
         for(unsigned int i=0; i< numTrips; ++i){
             yield(mprng(maxStudentDelay));
             start = end;
@@ -70,51 +68,37 @@ void Student::main(){
                 buyTicket = mprng(9) < 3? false:true;
             }
             //std::cout << "before buy" << '\n';
-            if(buyTicket){ // giftcard over watcard
+            //if(buyTicket){ // giftcard over watcard
                 cost = distance*stopCost;
-                if(giftcard.available()){
-                    cardUsing = giftcard;
-                    stop->buy(distance, *cardUsing);
-                    prt.print(Printer::Kind::Student, id, 'G', cost, cardUsing->getBalance());
-                    giftcard.reset();
-                } else {
-                    //getcard = false;
-                    while(!getcard){
-                        //std::cout << "getting card" << '\n';
-                        cardUsing = watcard();
-                        if(!error) getcard = true;
-                        else {
-                            watcard.reset();
-                            watcard = cardOffice.create(id, maxTripCost); //can throw
-                            error = false;
+                for(;;){
+                    try{
+                        _Select(giftcard){
+                            cardUsing = giftcard;
+                            stop->buy(distance, *cardUsing);
+                            prt.print(Printer::Kind::Student, id, 'G', cost, cardUsing->getBalance());
+                            giftcard.reset();
+                            break;
                         }
-                    }
-                    try {
-                        //cardUsing = watcard();
-                        stop->buy(distance, *cardUsing);
-                    } catch(TrainStop::Funds &e) { //insufficent funds
+                        or _Select(watcard){
+                            cardUsing = watcard;
+                            if(buyTicket) {
+                                stop->buy(distance, *cardUsing);
+                                prt.print(Printer::Kind::Student, id, 'B', cost, cardUsing->getBalance());
+                            } else {
+                                prt.print(Printer::Kind::Student, id, 'f');
+                            }
+                            break;
+                        }
+                    } catch (TrainStop::Funds &e){
                         std::cout << "enter not enough fund handler" << '\n';
                         watcard.reset();
                         watcard = cardOffice.transfer(id, maxTripCost+e.amount, cardUsing); //can throw
-                        cardUsing = watcard();
-                        stop->buy(distance, *cardUsing);
-                    } catch (WATCardOffice::Lost &){ //lost watcard in transfer
-                                getcard = false;
-                                while(!getcard) {
-                                    try {
-                                        watcard.reset();
-                                        prt.print(Printer::Kind::Student, id, 'L');
-                                        watcard = cardOffice.create(id, maxTripCost); //can throw
-                                        cardUsing = watcard();
-                                        getcard = true;
-                                    } catch(WATCardOffice::Lost &){
-                                    }
-                                }
-                                stop->buy(distance, *cardUsing);
-                            }
-                            prt.print(Printer::Kind::Student, id, 'B', cost, cardUsing->getBalance());
+                    } catch (WATCardOffice::Lost &){
+                        watcard.reset();
+                        watcard = cardOffice.create(id, maxTripCost);
+                    }
                 }
-            } else {
+            /*} else {
                 prt.print(Printer::Kind::Student, id, 'f');
                 while(!getcard){
                     cardUsing = watcard();
@@ -125,7 +109,7 @@ void Student::main(){
                         error = false;
                     }
                 }
-            }
+            }*/
             prt.print(Printer::Kind::Student, id, 'W', start);
             Train *train = stop->wait(id, dir);
             prt.print(Printer::Kind::Student, id, 'E', train->getId());
