@@ -123,7 +123,7 @@ void Student::main(){
                 }
             }*/
             prt.print(Printer::Kind::Student, id, 'W', start);
-            Train *train = stop->wait(id, dir);
+            //Train *train = stop->wait(id, dir);
             prt.print(Printer::Kind::Student, id, 'E', train->getId());
             //stop = train->embark(id, end, *cardUsing);
             prt.print(Printer::Kind::Student, id, 'D', end);
