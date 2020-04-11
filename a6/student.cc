@@ -127,7 +127,7 @@ void Student::main(){
             prt.print(Printer::Kind::Student, id, 'E', train->getId());
             //stop = train->embark(id, end, *cardUsing);
             prt.print(Printer::Kind::Student, id, 'D', end);
-            stop->disembark(id);
+            //stop->disembark(id);
         }
     } _CatchResume(WATCardOffice::Lost &){
         error = true;
