@@ -35,7 +35,7 @@ void Student::main(){
     prt.print( Printer::Kind::Student, id, 'S', numTrips);
     unsigned int end = mprng(numStops-1), start, distance, cost;
     Train::Direction dir;
-    bool buyTicket, getcard, error = false;
+    bool buyTicket, getcard = false, error = false;
     WATCard::FWATCard watcard;
     WATCard::FWATCard giftcard = groupoff.giftCard();
     WATCard *cardUsing;
@@ -79,7 +79,7 @@ void Student::main(){
                     prt.print(Printer::Kind::Student, id, 'G', cost, cardUsing->getBalance());
                     giftcard.reset();
                 } else {
-                    getcard = false;
+                    //getcard = false;
                     while(!getcard){
                         //std::cout << "first attempt to access" << '\n';
                         cardUsing = watcard();
