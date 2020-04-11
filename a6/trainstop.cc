@@ -80,6 +80,8 @@ void TrainStop::main(){
         }
         or _Accept(wait){
         }
+        or _Accept(disembark){
+        }
         or _Accept(arrive){ 
             _Accept(tick){ //wait for tick
                 train.signalBlock();
