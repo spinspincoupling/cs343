@@ -21,7 +21,7 @@ void TrainStop::buy( unsigned int numStops, WATCard & card ){
     unsigned int balance = card.getBalance();
     if(balance < cost){
         //std::cout << "not enough fund!!" << '\n';
-        _Resume Funds(cost - balance) _At uThisTask();
+        throw Funds(cost - balance);
     } else {
         card.withdraw(cost);
         prt.print(Printer::Kind::TrainStop, id, 'B', cost);
@@ -80,6 +80,8 @@ void TrainStop::main(){
             break;
         }
         or _Accept(buy){
+            uBaseCoroutine* t = uRendezvousAcceptor();
+            if(t != nullptr) cout << "exeption occurred" << '\n';
         }
         or _Accept(wait){
         }
