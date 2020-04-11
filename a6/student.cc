@@ -140,7 +140,7 @@ void Student::main(){
     } catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }
-    delete watcard;
+    //delete watcard;
     prt.print(Printer::Kind::Student, id, 'F'); //terminate
     
 }
