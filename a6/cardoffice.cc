@@ -3,6 +3,7 @@
 #include "watcard.h"
 #include "bank.h"
 #include "global.h"
+#include "MPRNG.h"
 #include <uFuture.h>
 
 WATCardOffice::Courier::Courier(Printer &prt, Bank &bank, WATCardOffice *office, unsigned int id)
@@ -20,9 +21,9 @@ void WATCardOffice::Courier::main(){
         } _Else{
             Job *w = office->requestWork();
             if(w == nullptr) break;
-            prt.printer(Printer::Kind::WATCardOfficeCourier, id, 't', w->sid, w->amount);
-            bank->withdraw(w->sid, w->amount);
-            WatCard *watcard = w->card == nullptr? new WATCard() : w->card; //create or transfer
+            prt.print(Printer::Kind::WATCardOfficeCourier, id, 't', w->sid, w->amount);
+            bank.withdraw(w->sid, w->amount);
+            WATCard *watcard = w->card == nullptr? new WATCard() : w->card; //create or transfer
             watcard->deposit(w->amount);
             if(mprng(5) == 0){
                 prt.print(Printer::Kind::WATCardOfficeCourier, id, 'L', w->sid);
@@ -40,25 +41,25 @@ void WATCardOffice::Courier::main(){
 WATCardOffice::WATCardOffice( Printer & prt, Bank & bank, unsigned int numCouriers )
     :prt{prt}, bank{bank},numCouriers{numCouriers}{}
 
-WATCardOffice:~WATCardOffice(){
+WATCardOffice::~WATCardOffice(){
     prt.print(Printer::Kind::WATCardOffice, 'F');
 }
 
-WATCard::FWATCard create( unsigned int sid, unsigned int amount ){
+WATCard::FWATCard WATCardOffice::create( unsigned int sid, unsigned int amount ){
     Job *w = new Job(sid, amount);
     workQueue.push_back(w);
     prt.print(Printer::Kind::WATCardOffice, 'C', sid, amount);
     return w->result;
 }
 
-WATCard::FWATCard transfer( unsigned int sid, unsigned int amount, WATCard * card ){
+WATCard::FWATCard WATCardOffice::transfer( unsigned int sid, unsigned int amount, WATCard * card ){
     Job *w = new Job(sid, amonut, card);
     workQueue.push_back(w);
     prt.print(Printer::Kind::WATCardOffice, 'T', sid, amount);
     return w->result;
 }
 
-Job * requestWork(){
+WATCardOffice::Job * WATCardOffice::requestWork(){
     //if(workQueue.empty()){
     //    waiting.wait();
     //    if(workQueue.empty()) return nullptr;
@@ -73,7 +74,7 @@ void WATCardOffice::main(){
     prt.print(Printer::Kind::WATCardOffice, 'S');
     Courier* couriers[numCouriers];
     for(unsigned int i=0; i<numCouriers; ++i){
-        couriers[i] = new Courier(printer, bank, this, id);
+        couriers[i] = new Courier(printer, bank, this, i);
     }
     for(;;){
         _Accept(~WATCardOffice){
