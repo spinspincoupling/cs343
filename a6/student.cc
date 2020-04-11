@@ -86,6 +86,7 @@ void Student::main(){
                         }
                     }
                     try {
+                        std::cout << "buy!!!" << '\n';
                         stop->buy(distance, *cardUsing);
                     } catch(TrainStop::Funds &e) { //insufficent funds
                         std::cout << "not enough fund!!" << '\n';
@@ -130,6 +131,7 @@ void Student::main(){
         }
     } _CatchResume(WATCardOffice::Lost &){
         error = true;
+        getcard = false;
         prt.print(Printer::Kind::Student, id, 'L');
     } catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
