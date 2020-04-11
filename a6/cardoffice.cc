@@ -25,9 +25,7 @@ void WATCardOffice::Courier::main(){
             if(w == nullptr) break;
             prt.print(Printer::Kind::WATCardOfficeCourier, id, 't', w->sid, w->amount);
             bank.withdraw(w->sid, w->amount);
-            WATCard *watcard;
-            if(w->card == nullptr) watward = new WATCard();
-            else memcpy(watcard, w->card, sizeof(WATCard);
+            WATCard *watcard = w->card == nullptr? new WATCard():w->card;
             watcard->deposit(w->amount);
             if(mprng(5) == 0){
                 prt.print(Printer::Kind::WATCardOfficeCourier, id, 'L', w->sid);
