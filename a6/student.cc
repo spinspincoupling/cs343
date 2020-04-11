@@ -134,7 +134,7 @@ void Student::main(){
     } catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }
-    delete cardUsing;
+    watcard.reset();
     prt.print(Printer::Kind::Student, id, 'F'); //terminate
     
 }
