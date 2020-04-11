@@ -41,7 +41,7 @@ void Student::main(){
     WATCard *cardUsing;
     TrainStop *stop = nameServer.getStop(id, end);
     try{
-        //watcard = cardOffice.create(id, maxTripCost);
+        watcard = cardOffice.create(id, maxTripCost);
         for(unsigned int i=0; i< numTrips; ++i){
             yield(mprng(maxStudentDelay));
             start = end;
@@ -68,7 +68,7 @@ void Student::main(){
                 buyTicket = mprng(9) < 3? false:true;
             }
              buyTicket = false;
-            /*if(buyTicket){ // giftcard over watcard
+            if(buyTicket){ // giftcard over watcard
                 cost = distance*stopCost;
                 if(giftcard.available()){
                     cardUsing = giftcard;
@@ -121,13 +121,13 @@ void Student::main(){
                         error = false;
                     }
                 }
-            }*/
+            }
             prt.print(Printer::Kind::Student, id, 'W', start);
-            //Train *train = stop->wait(id, dir);
-            //prt.print(Printer::Kind::Student, id, 'E', train->getId());
-            //stop = train->embark(id, end, *cardUsing);
+            Train *train = stop->wait(id, dir);
+            prt.print(Printer::Kind::Student, id, 'E', train->getId());
+            stop = train->embark(id, end, *cardUsing);
             prt.print(Printer::Kind::Student, id, 'D', end);
-            //stop->disembark(id);
+            stop->disembark(id);
         }
     } _CatchResume(WATCardOffice::Lost &){
         error = true;
@@ -135,6 +135,7 @@ void Student::main(){
     } catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }
+    delete watcard;
     prt.print(Printer::Kind::Student, id, 'F'); //terminate
     
 }
