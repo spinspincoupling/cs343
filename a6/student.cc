@@ -46,7 +46,7 @@ void Student::main(){
             yield(mprng(maxStudentDelay));
             start = end;
             end = (start + mprng(1,numStops-1))%numStops; 
-            std::cout << "begin cycle" << '\n';
+            //std::cout << "begin cycle" << '\n';
             if(start > end){
                 if(start - end < numStops-start+end){ // anti-clockwise
                     dir = Train::Direction::CounterClockwise;
@@ -68,7 +68,7 @@ void Student::main(){
             } else {
                 buyTicket = mprng(9) < 3? false:true;
             }
-            std::cout << "before buy" << '\n';
+            //std::cout << "before buy" << '\n';
             if(buyTicket){ // giftcard over watcard
                 cost = distance*stopCost;
                 if(giftcard.available()){
@@ -76,10 +76,10 @@ void Student::main(){
                     stop->buy(distance, *cardUsing);
                     prt.print(Printer::Kind::Student, id, 'G', cost, cardUsing->getBalance());
                     giftcard.reset();
-                } //else {
+                } else {
                     //getcard = false;
-                    /*while(!getcard){
-                        std::cout << "getting card" << '\n';
+                    while(!getcard){
+                        //std::cout << "getting card" << '\n';
                         cardUsing = watcard();
                         if(!error) getcard = true;
                         else {
@@ -89,7 +89,7 @@ void Student::main(){
                         }
                     }
                     try {
-                        cardUsing = watcard();
+                        //cardUsing = watcard();
                         stop->buy(distance, *cardUsing);
                     } catch(TrainStop::Funds &e) { //insufficent funds
                         std::cout << "not enough fund!!" << '\n';
@@ -112,7 +112,7 @@ void Student::main(){
                                 stop->buy(distance, *cardUsing);
                             }
                             prt.print(Printer::Kind::Student, id, 'B', cost, cardUsing->getBalance());
-                }*/
+                }
             } else {
                 prt.print(Printer::Kind::Student, id, 'f');
                 while(!getcard){
@@ -130,7 +130,7 @@ void Student::main(){
             prt.print(Printer::Kind::Student, id, 'E', train->getId());
             stop = train->embark(id, end, *cardUsing);
             prt.print(Printer::Kind::Student, id, 'D', end);
-            std::cout << "before disembark" << '\n';
+            //std::cout << "before disembark" << '\n';
             stop->disembark(id);
         }
     } _CatchResume(WATCardOffice::Lost &){
