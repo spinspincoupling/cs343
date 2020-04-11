@@ -76,9 +76,9 @@ void Student::main(){
                     stop->buy(distance, *cardUsing);
                     prt.print(Printer::Kind::Student, id, 'G', cost, cardUsing->getBalance());
                     giftcard.reset();
-                } else {
+                } //else {
                     //getcard = false;
-                    while(!getcard){
+                    /*while(!getcard){
                         std::cout << "getting card" << '\n';
                         cardUsing = watcard();
                         if(!error) getcard = true;
@@ -112,7 +112,7 @@ void Student::main(){
                                 stop->buy(distance, *cardUsing);
                             }
                             prt.print(Printer::Kind::Student, id, 'B', cost, cardUsing->getBalance());
-                }
+                }*/
             } else {
                 prt.print(Printer::Kind::Student, id, 'f');
                 while(!getcard){
