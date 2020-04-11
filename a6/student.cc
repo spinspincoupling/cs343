@@ -37,7 +37,7 @@ void Student::main(){
     Train::Direction dir;
     bool buyTicket, getcard = false, error = false;
     WATCard::FWATCard watcard;
-    WATCard::FWATCard giftcard = groupoff.giftCard();
+    //WATCard::FWATCard giftcard = groupoff.giftCard();
     WATCard *cardUsing;
     TrainStop *stop = nameServer.getStop(id, end);
     try{
@@ -69,12 +69,12 @@ void Student::main(){
             }
             if(buyTicket){ // giftcard over watcard
                 cost = distance*stopCost;
-                if(giftcard.available()){
-                    cardUsing = giftcard;
-                    stop->buy(distance, *cardUsing);
-                    prt.print(Printer::Kind::Student, id, 'G', cost, cardUsing->getBalance());
-                    giftcard.reset();
-                } else {
+                //if(giftcard.available()){
+                //    cardUsing = giftcard;
+                //    stop->buy(distance, *cardUsing);
+                //    prt.print(Printer::Kind::Student, id, 'G', cost, cardUsing->getBalance());
+                //    giftcard.reset();
+                //} else {
                     //getcard = false;
                     while(!getcard){
                         cardUsing = watcard();
@@ -134,7 +134,6 @@ void Student::main(){
     } catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }
-    watcard.reset();
     prt.print(Printer::Kind::Student, id, 'F'); //terminate
     
 }
