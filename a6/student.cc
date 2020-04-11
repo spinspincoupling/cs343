@@ -92,7 +92,7 @@ void Student::main(){
                     watcard.reset();
                     watcard = cardOffice.transfer(id, maxTripCost+e.amount, cardUsing); //can throw
                 } catch (WATCardOffice::Lost &){
-                    std::cout << "catch lost inner" << '\n';
+                    //std::cout << "catch lost inner" << '\n';
                     watcard.reset();
                     watcard = cardOffice.create(id, maxTripCost);
                 }
@@ -106,10 +106,10 @@ void Student::main(){
             stop->disembark(id);
         }
     }
-    catch (WATCardOffice::Lost &){
+    /*catch (WATCardOffice::Lost &){
         watcard.reset();
         watcard = cardOffice.create(id, maxTripCost);
-    }
+    }*/
     catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }
