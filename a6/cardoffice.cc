@@ -33,7 +33,7 @@ void WATCardOffice::Courier::main(){
                     _Resume *e;
                 } _CatchResume(WATCardOffice::Lost &e) {
                     w->result.exception(&e);
-                    delete *e;
+                    delete (&e);
                 }
             } else {
                 prt.print(Printer::Kind::WATCardOfficeCourier, id, 'T', w->sid, w->amount);
