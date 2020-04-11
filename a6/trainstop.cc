@@ -18,6 +18,7 @@ unsigned int TrainStop::getId() const {
 
 void TrainStop::buy( unsigned int numStops, WATCard & card ){
     unsigned int cost = stopCost*numStops;
+    std::cout << "before use watcard" << '\n';
     unsigned int balance = card.getBalance();
     if(balance < cost){
         throw Funds(cost - balance);
