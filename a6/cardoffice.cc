@@ -31,7 +31,6 @@ void WATCardOffice::Courier::main(){
                 try{
                     WATCardOffice::Lost* e = new WATCardOffice::Lost();
                     _Resume *e;
-                    delete e;
                 } _CatchResume(WATCardOffice::Lost &e) {
                     w->result.exception(&e);
                 }

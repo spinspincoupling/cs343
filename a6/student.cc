@@ -80,7 +80,7 @@ void Student::main(){
                         cardUsing = watcard();
                         if(!error) getcard = true;
                         else {
-                            watcard.reset();
+                            delete watcard;
                             watcard = cardOffice.create(id, maxTripCost); //can throw
                             error = false;
                         }
