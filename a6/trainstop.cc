@@ -26,6 +26,7 @@ void TrainStop::buy( unsigned int numStops, WATCard & card ){
         card.withdraw(cost);
         prt.print(Printer::Kind::TrainStop, id, 'B', cost);
     }
+    uRendezvousAcceptor();
 }
 
 Train* TrainStop::wait( unsigned int studentId, Train::Direction direction ){
@@ -80,9 +81,7 @@ void TrainStop::main(){
             break;
         }
         or _Accept(buy){
-            //uBaseCoroutine *t = 
-            uRendezvousAcceptor();
-            //if(t != nullptr) std::cout << "exeption occurred" << '\n';
+            
         }
         or _Accept(wait){
         }
