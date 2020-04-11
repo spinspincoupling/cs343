@@ -17,7 +17,7 @@ _Task TrainStop {
 	_Event Funds {										// Thrown when there are insufficient funds on the card to buy a ticket.
 	  public:
 		unsigned int amount;
-		Funds( unsigned int amt );
+		Funds( unsigned int amt ):amount{amount}{}
 	};
 
 	TrainStop( Printer & prt, NameServer & nameServer, unsigned int id, unsigned int stopCost );
