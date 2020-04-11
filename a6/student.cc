@@ -43,18 +43,18 @@ void Student::main(){
     try{
         watcard = cardOffice.create(id, maxTripCost);
         for(unsigned int i=0; i< numTrips; ++i){
-            std::cout << "begin cycle" << '\n';
             yield(mprng(maxStudentDelay));
             start = end;
             end = (start + mprng(1,numStops-1))%numStops; 
+            std::cout << "begin cycle" << '\n';
             if(start > end){
                 if(start - end < numStops-start+end){ // anti-clockwise
                     dir = Train::Direction::CounterClockwise;
                     distance = start-end;
                 } else { //clockwise
                     dir = Train::Direction::Clockwise;
-                distance = numStops-start+end;
-            }
+                    distance = numStops-start+end;
+                }
             } else if(end - start > numStops-end+start){ // anti-clockwise
                 dir = Train::Direction::CounterClockwise;
                 distance = numStops-end+start;
