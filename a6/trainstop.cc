@@ -80,7 +80,7 @@ void TrainStop::main(){
             break;
         }
         or _Accept(buy){
-            uBaseCoroutine *t = uRendezvousAcceptor();
+            uSerialInstance *t = uRendezvousAcceptor();
             if(t != nullptr) std::cout << "exeption occurred" << '\n';
         }
         or _Accept(wait){
