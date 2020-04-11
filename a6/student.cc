@@ -90,7 +90,7 @@ void Student::main(){
                             break;
                         }
                     } catch (TrainStop::Funds &e){
-                        std::cout << "enter not enough fund handler" << '\n';
+                        //std::cout << "enter not enough fund handler" << '\n';
                         watcard.reset();
                         watcard = cardOffice.transfer(id, maxTripCost+e.amount, cardUsing); //can throw
                     } catch (WATCardOffice::Lost &){
@@ -118,10 +118,6 @@ void Student::main(){
             //std::cout << "before disembark" << '\n';
             stop->disembark(id);
         }
-    } _CatchResume(WATCardOffice::Lost &){
-        error = true;
-        getcard = false;
-        prt.print(Printer::Kind::Student, id, 'L');
     } catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }
