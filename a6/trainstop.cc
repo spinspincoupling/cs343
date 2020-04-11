@@ -21,12 +21,12 @@ void TrainStop::buy( unsigned int numStops, WATCard & card ){
     unsigned int balance = card.getBalance();
     if(balance < cost){
         //std::cout << "not enough fund!!" << '\n';
-        throw Funds(cost - balance);
+        _Resume Funds(cost - balance);
     } else {
         card.withdraw(cost);
         prt.print(Printer::Kind::TrainStop, id, 'B', cost);
     }
-    uRendezvousAcceptor();
+    //uRendezvousAcceptor();
 }
 
 Train* TrainStop::wait( unsigned int studentId, Train::Direction direction ){
