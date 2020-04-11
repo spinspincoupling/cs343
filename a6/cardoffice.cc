@@ -65,10 +65,10 @@ WATCard::FWATCard WATCardOffice::transfer( unsigned int sid, unsigned int amount
 }
 
 WATCardOffice::Job * WATCardOffice::requestWork(){
-    //if(workQueue.empty()){
-    //    waiting.wait();
-    //    if(workQueue.empty()) return nullptr;
-    //}
+    if(workQueue.empty()){
+        waiting.wait();
+        if(workQueue.empty()) return nullptr;
+    }
     Job *w = workQueue.front();
     workQueue.pop_front();
     prt.print(Printer::Kind::WATCardOffice, 'W');
@@ -86,20 +86,20 @@ void WATCardOffice::main(){
             for (auto &p:couriers){
                 p->stop();
             }
-            //while(!waiting.empty()){
-            //    waiting.signalBlock();
-            //}
+            while(!waiting.empty()){
+                waiting.signalBlock();
+            }
             for (auto &p:couriers){
                 delete p;
             }
             break;
         }
-        or _When(!workQueue.empty()) _Accept(requestWork){
+        or _Accept(requestWork){
         }
         or _Accept(create, transfer){
-            //if(!waiting.empty()){
-            //    waiting.signalBlock();
-            //}
+            if(!waiting.empty()){
+                waiting.signalBlock();
+            }
         }
     }
 }
