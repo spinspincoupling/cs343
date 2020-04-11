@@ -93,7 +93,7 @@ void Student::main(){
                         stop->buy(distance, *cardUsing);
                     } catch(TrainStop::Funds &e) { //insufficent funds
                         std::cout << "enter not enough fund handler" << '\n';
-                        //watcard.reset();
+                        watcard.reset();
                         watcard = cardOffice.transfer(id, maxTripCost+e.amount, cardUsing); //can throw
                         cardUsing = watcard();
                         stop->buy(distance, *cardUsing);
@@ -140,7 +140,7 @@ void Student::main(){
     } catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }
-    //delete watcard;
+    delete watcard;
     prt.print(Printer::Kind::Student, id, 'F'); //terminate
     
 }
