@@ -16,7 +16,7 @@ WATCardOffice::Courier::~Courier(){
 void WATCardOffice::Courier::main(){
     prt.print(Printer::Kind::WATCardOfficeCourier, id, 'S');
     for(;;){
-        _Accept(stop){
+        _Accept(~Courier){
             break;
         } _Else{
             Job *w = office->requestWork();
@@ -83,9 +83,9 @@ void WATCardOffice::main(){
     }
     for(;;){
         _Accept(~WATCardOffice){
-            for (auto &p:couriers){
-                p->stop();
-            }
+            //for (auto &p:couriers){
+            //    p->stop();
+            //}
             while(!waiting.empty()){
                 waiting.signalBlock();
             }
