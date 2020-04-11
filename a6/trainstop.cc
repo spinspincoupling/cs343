@@ -63,7 +63,7 @@ unsigned int TrainStop::arrive( unsigned int trainId, Train::Direction direction
             anticlockwise.signal();
         }
     }
-    std::cout << uThisTask().getName() << '\n;'
+    std::cout << uThisTask().getName() << '\n';
     arrived = (Train*) &(getCoroutine()); //should be caller instance
     train.wait();
     return signalled;
