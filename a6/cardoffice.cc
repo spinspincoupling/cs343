@@ -53,7 +53,7 @@ WATCard::FWATCard WATCardOffice::create( unsigned int sid, unsigned int amount )
 }
 
 WATCard::FWATCard WATCardOffice::transfer( unsigned int sid, unsigned int amount, WATCard * card ){
-    Job *w = new Job(sid, amonut, card);
+    Job *w = new Job(sid, amount, card);
     workQueue.push_back(w);
     prt.print(Printer::Kind::WATCardOffice, 'T', sid, amount);
     return w->result;
@@ -64,7 +64,7 @@ WATCardOffice::Job * WATCardOffice::requestWork(){
     //    waiting.wait();
     //    if(workQueue.empty()) return nullptr;
     //}
-    Job w = workQueue.front();
+    Job *w = workQueue.front();
     workQueue.pop_front();
     prt.print(Printer::Kind::WATCardOffice, 'W');
     return w;
@@ -74,7 +74,7 @@ void WATCardOffice::main(){
     prt.print(Printer::Kind::WATCardOffice, 'S');
     Courier* couriers[numCouriers];
     for(unsigned int i=0; i<numCouriers; ++i){
-        couriers[i] = new Courier(printer, bank, this, i);
+        couriers[i] = new Courier(prt, bank, this, i);
     }
     for(;;){
         _Accept(~WATCardOffice){
