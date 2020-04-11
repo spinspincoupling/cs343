@@ -89,10 +89,10 @@ void Student::main(){
                     }
                 } catch (TrainStop::Funds &e){
                     //std::cout << "enter not enough fund handler" << '\n';
-                    watcard.reset();
+                    //watcard.reset();
                     watcard = cardOffice.transfer(id, maxTripCost+e.amount, cardUsing); //can throw
                 } catch (WATCardOffice::Lost &){
-                    watcard.reset();
+                    //watcard.reset();
                     watcard = cardOffice.create(id, maxTripCost);
                 }
             }

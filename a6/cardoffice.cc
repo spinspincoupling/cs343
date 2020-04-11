@@ -30,14 +30,8 @@ void WATCardOffice::Courier::main(){
             if(mprng(5) == 0){
                 prt.print(Printer::Kind::WATCardOfficeCourier, id, 'L', w->sid);
                 w->result.exception(new WATCardOffice::Lost());
-                if(w->card == nullptr) delete watcard;
-                /*try{
-                    WATCardOffice::Lost* e = new WATCardOffice::Lost();
-                    _Resume *e;
-                } _CatchResume(WATCardOffice::Lost &e) {
-                    w->result.exception(&e);
-                    if(w->card == nullptr) delete watcard;
-                }*/
+                //if(w->card == nullptr) 
+                delete watcard;
             } else {
                 prt.print(Printer::Kind::WATCardOfficeCourier, id, 'T', w->sid, w->amount);
                 w->result.delivery(watcard);
