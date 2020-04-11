@@ -92,7 +92,6 @@ void Student::main(){
                     watcard.reset();
                     watcard = cardOffice.transfer(id, maxTripCost+e.amount, cardUsing); //can throw
                 } catch (WATCardOffice::Lost &){
-                    delete cardUsing;
                     watcard.reset();
                     watcard = cardOffice.create(id, maxTripCost);
                 }
