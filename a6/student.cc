@@ -46,6 +46,7 @@ void Student::main(){
             yield(mprng(maxStudentDelay));
             start = end;
             end = (start + mprng(1,numStops-1))%numStops; 
+            std::cout << "begin cycle" << '\n';
             if(start > end){
                 if(start - end < numStops-start+end){ // anti-clockwise
                     dir = Train::Direction::CounterClockwise;
@@ -67,6 +68,7 @@ void Student::main(){
             } else {
                 buyTicket = mprng(9) < 3? false:true;
             }
+            std::cout << "before buy" << '\n';
             if(buyTicket){ // giftcard over watcard
                 cost = distance*stopCost;
                 if(giftcard.available()){
@@ -127,6 +129,7 @@ void Student::main(){
             prt.print(Printer::Kind::Student, id, 'E', train->getId());
             stop = train->embark(id, end, *cardUsing);
             prt.print(Printer::Kind::Student, id, 'D', end);
+            std::cout << "before disembark" << '\n';
             stop->disembark(id);
         }
     } _CatchResume(WATCardOffice::Lost &){
