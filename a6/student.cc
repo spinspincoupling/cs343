@@ -42,7 +42,6 @@ void Student::main(){
     TrainStop *stop = nameServer.getStop(id, end);
     try{
         watcard = cardOffice.create(id, maxTripCost);
-        //if(resumed) std::cout << "pass create" << '\n';
         for(unsigned int i=0; i< numTrips; ++i){
             yield(mprng(maxStudentDelay));
             start = end;
@@ -62,7 +61,6 @@ void Student::main(){
                 dir = Train::Direction::Clockwise;
                 distance = end-start;
             }
-            //if(resumed) std::cout << "pass determine dir" << '\n';
             prt.print(Printer::Kind::Student, id, 'T', start, end, dir ==  Train::Direction::Clockwise? '<':'>');
             if(distance == 1){
                 buyTicket = mprng(1) == 0? false:true;
@@ -71,10 +69,8 @@ void Student::main(){
             }
             if(buyTicket){ // giftcard over watcard
                 cost = distance*stopCost;
-                //if(resumed) std::cout << "before get card" << '\n';
                 if(giftcard.available()){
                     cardUsing = giftcard;
-                    //getcard = true;
                     stop->buy(distance, *cardUsing);
                     prt.print(Printer::Kind::Student, id, 'G', cost, cardUsing->getBalance());
                     giftcard.reset();
@@ -89,7 +85,7 @@ void Student::main(){
                             error = false;
                         }
                     }
-                    try{
+                    try {
                         stop->buy(distance, *cardUsing);
                     } catch(TrainStop::Funds &e) { //insufficent funds
                         std::cout << "not enough fund!!" << '\n';
@@ -131,20 +127,14 @@ void Student::main(){
             stop = train->embark(id, end, *cardUsing);
             prt.print(Printer::Kind::Student, id, 'D', end);
             stop->disembark(id);
-            //if(resumed) std::cout << "before set resume to false" << '\n';
-            //resumed = false;
         }
-        //delete watcard;
-        //delete giftcard;
-    } 
-    _CatchResume(WATCardOffice::Lost &){
+    } _CatchResume(WATCardOffice::Lost &){
         error = true;
-        //std::cout << "outer lost" << '\n';
         prt.print(Printer::Kind::Student, id, 'L');
-    }
-     catch(Train::Ejected &){ //terminate
+    } catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }
+    delete cardUsing;
     prt.print(Printer::Kind::Student, id, 'F'); //terminate
     
 }
