@@ -32,10 +32,12 @@ Train* TrainStop::wait( unsigned int studentId, Train::Direction direction ){
         prt.print(Printer::Kind::TrainStop, id, 'W', studentId, '<');
         ++wait0;
         clockwise.wait();
+        --wait0;
     } else {
         prt.print(Printer::Kind::TrainStop, id, 'W', studentId, '>');
         ++wait1;
         anticlockwise.wait();
+        --wait1;
     }
     return arrived;
 }
