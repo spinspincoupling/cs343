@@ -79,6 +79,7 @@ void Student::main(){
                 } else {
                     //getcard = false;
                     while(!getcard){
+                        std::cout << "getting card" << '\n';
                         cardUsing = watcard();
                         if(!error) getcard = true;
                         else {
@@ -88,7 +89,7 @@ void Student::main(){
                         }
                     }
                     try {
-                        std::cout << "buy!!!" << '\n';
+                        cardUsing = watcard();
                         stop->buy(distance, *cardUsing);
                     } catch(TrainStop::Funds &e) { //insufficent funds
                         std::cout << "not enough fund!!" << '\n';
