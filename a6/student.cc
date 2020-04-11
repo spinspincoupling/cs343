@@ -81,7 +81,6 @@ void Student::main(){
                 } else {
                     //getcard = false;
                     while(!getcard){
-                        //std::cout << "first attempt to access" << '\n';
                         cardUsing = watcard();
                         if(!error) getcard = true;
                         else {
@@ -91,13 +90,13 @@ void Student::main(){
                         }
                     }
                     try{
-                            //if(resumed) std::cout << "before buy" << '\n';
-                            stop->buy(distance, *cardUsing);
+                        stop->buy(distance, *cardUsing);
                     } catch(TrainStop::Funds &e) { //insufficent funds
-                                watcard.reset();
-                                watcard = cardOffice.transfer(id, maxTripCost+e.amount, watcard); //can throw
-                                cardUsing = watcard();
-                                stop->buy(distance, *cardUsing);
+                        std::cout << "not enough fund!!" << '\n';
+                        watcard.reset();
+                        watcard = cardOffice.transfer(id, maxTripCost+e.amount, watcard); //can throw
+                        cardUsing = watcard();
+                        stop->buy(distance, *cardUsing);
                     } catch (WATCardOffice::Lost &){ //lost watcard in transfer
                                 getcard = false;
                                 while(!getcard) {
