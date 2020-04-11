@@ -35,7 +35,7 @@ void Student::main(){
     prt.print( Printer::Kind::Student, id, 'S', numTrips);
     unsigned int end = mprng(numStops-1), start, distance, cost;
     Train::Direction dir;
-    bool buyTicket, getcard = false, error = false;
+    bool buyTicket;
     WATCard::FWATCard watcard = cardOffice.create(id, maxTripCost);
     WATCard::FWATCard giftcard = groupoff.giftCard();
     WATCard *cardUsing;
@@ -92,7 +92,7 @@ void Student::main(){
                     watcard.reset();
                     watcard = cardOffice.transfer(id, maxTripCost+e.amount, cardUsing); //can throw
                 } catch (WATCardOffice::Lost &){
-                    delete watcard;
+                    watcard.reset();
                     watcard = cardOffice.create(id, maxTripCost);
                 }
             }
@@ -104,7 +104,12 @@ void Student::main(){
             //std::cout << "before disembark" << '\n';
             stop->disembark(id);
         }
-    } catch(Train::Ejected &){ //terminate
+    }
+    catch (WATCardOffice::Lost &){
+        watcard.reset();
+        watcard = cardOffice.create(id, maxTripCost);
+    }
+    catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }
     delete watcard;
