@@ -74,14 +74,14 @@ void TrainStop::main(){
         _Accept(~TrainStop){
             break;
         }
+        or _Accept(buy){
+        }
+        or _Accept(wait){
+        }
         or _Accept(arrive){ 
             _Accept(tick){ //wait for tick
                 train.signalBlock();
             }
-        }
-        or _Accept(wait){
-        }
-        or _Accept(buy){
         }
         or _Accept(tick){
         }
