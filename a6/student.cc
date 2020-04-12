@@ -9,21 +9,6 @@
 #include <uFuture.h>
 #include <iostream>
 
-//Student::CreateWatcard::CreateWatcard(Printer & prt, WATCardOffice & cardOffice):
-//    prt{prt}, cardOffice{cardOffice}{}
-//
-//void Student::CreateWatcard::main(){
-//    WATCard::FWATCard watcard = cardOffice.create(id, maxTripCost);
-//    for(;;){
-//        _Accept(~CreateWatcard){
-//            break;
-//        }
-//        or _Accept(getWatcard){
-//            avail.signalBlocked();
-//        }
-//    }
-//}
-
 Student::Student( Printer & prt, NameServer & nameServer, WATCardOffice & cardOffice, Groupoff & groupoff, 
     unsigned int id, unsigned int numStops, unsigned int stopCost, unsigned int maxStudentDelay, unsigned int maxStudentTrips )
     :prt{prt}, nameServer{nameServer}, cardOffice{cardOffice}, groupoff{groupoff}, id{id},
