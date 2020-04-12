@@ -17,6 +17,7 @@ void Conductor::main(){
         }
         _Else {
             yield(delay);
+            prt.print(Printer::Kind::Conductor, id, 'c');
             train->scanPassengers();
         }
     }
