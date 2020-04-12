@@ -4,8 +4,10 @@
 _Task Train;
 
 _Task Conductor {
-	class PImpl;
-	PImpl * pimpl;
+	Printer & prt;
+	unsigned int id;
+	Train * train;
+	unsigned int delay;
 
 	void main();
   public:

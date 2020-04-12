@@ -17,7 +17,7 @@ Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned 
 Train::~Train(){
     delete[] stops;
     delete[] counts;
-    std::cout << "destructor before delete conductor" << '\n';
+    //std::cout << "destructor before delete conductor" << '\n';
     delete conductor;
     prt.print(Printer::Kind::Train, id, 'F');
 }
@@ -34,6 +34,7 @@ TrainStop* Train::embark( unsigned int studentId, unsigned int destStop, WATCard
         stops[destStop].wait();
         if(current->getId() == destStop) break;
         if(!card.paidForTicket()){
+            prt.print(Printer::Kind::Conductor, id, 'e', studentId);
             throw Ejected();
             break;
         }
@@ -47,7 +48,7 @@ void Train::scanPassengers(){
     if(numStudents > 0){
         for(unsigned int i=0; i< numStops; ++i){
             for(int j=0; j<counts[i]; ++j){
-                stops[i].signal();
+                stops[i].signalBlock();
             }
         }
     }
@@ -90,7 +91,6 @@ void Train::main(){
                 }
                 stopId = (stopId+adder)%numStops;
                 current = trainStops[stopId];
-                if(id == 0) std::cout << "exit arrive" << '\n';
             }
         }catch (uMutexFailure::RendezvousFailure &){
         }
