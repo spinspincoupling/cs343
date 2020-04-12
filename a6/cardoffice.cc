@@ -86,8 +86,11 @@ void WATCardOffice::main(){
             /*while(!waiting.empty()){
                 waiting.signalBlock();
             }*/
+            for (unsigned int i=0; i<numCouriers; ++i){ //wait for courier to terminate
+                _Accept(requestWork); 
+            }
             for (unsigned int i=0; i<numCouriers; ++i){
-                _Accept(requestWork); //wait for courier to terminate
+                delete couriers[i];
             }
             break;
         }
