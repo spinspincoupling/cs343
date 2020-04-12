@@ -9,18 +9,19 @@
 #include <cstring>
 
 WATCardOffice::Courier::Courier(Printer &prt, Bank &bank, WATCardOffice *office, unsigned int id)
-    :prt{prt}, bank{bank}, office{office}, id{id} {}
+    :prt{prt}, bank{bank}, office{office}, id{id} {
+        prt.print(Printer::Kind::WATCardOfficeCourier, id, 'S');
+    }
 
 WATCardOffice::Courier::~Courier(){
     prt.print(Printer::Kind::WATCardOfficeCourier, id, 'F');
 }
 
 void WATCardOffice::Courier::main(){
-    prt.print(Printer::Kind::WATCardOfficeCourier, id, 'S');
     for(;;){
-        _Accept(~Courier){
-            break;
-        } _Else{
+        //_Accept(~Courier){
+        //    break;
+        //} _Else{
             Job *w = office->requestWork();
             if(w == nullptr) break;
             prt.print(Printer::Kind::WATCardOfficeCourier, id, 't', w->sid, w->amount);
@@ -37,7 +38,7 @@ void WATCardOffice::Courier::main(){
                 w->result.delivery(watcard);
             }
             delete w;
-        }
+       // }
         
     }
 }
