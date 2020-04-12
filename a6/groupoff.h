@@ -2,10 +2,15 @@
 
 #include "watcard.h"
 #include "printer.h"
+#include <list>
 
 _Task Groupoff {
-	class PImpl;
-	PImpl * pimpl;
+	Printer & prt;
+	unsigned int numStudents;
+	unsigned int maxTripCost;
+	unsigned int groupoffDelay;
+	int counter;
+	WATCard::FWATCard *futures;
 
 	void main();
   public:
