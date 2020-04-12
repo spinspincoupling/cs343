@@ -74,6 +74,7 @@ void Train::main(){
         //Conductor conductor(prt, id, this, conductorDelay);
         try{
             _Accept(~Train){
+                std::cout << "destructor called" << '\n';
                 break;
             }
             or _Accept(embark){//stravation??
