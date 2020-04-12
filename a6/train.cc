@@ -45,10 +45,10 @@ void Train::scanPassengers(){
 }
 
 void Train::main(){
-    const bool clockwise = id==0?;
+    const bool clockwise = (id==0);
     unsigned int stopId = clockwise? 0:(numStops+1)/2;
     prt.print(Printer::Kind::Train, id, 'S', stopId, clockwise? '<':'>');
-    TrainStop* trainStops[] = nameServer.getStopList(id);
+    TrainStop** trainStops = nameServer.getStopList(id);
     unsigned int adder;
     Direction dir;
     if(clockwise){
@@ -76,7 +76,7 @@ void Train::main(){
                 while(!stops[stopId].empty()){ //wake student to disembark
                     stops[stopId].signalBlock();
                 }
-                stopId = (stop+adder)%numStops;
+                stopId = (stopId+adder)%numStops;
                 current = trainStops[stopId];
             }
         }catch (uMutexFailure::RendezvousFailure &){
