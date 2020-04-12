@@ -8,7 +8,7 @@
 #include <iostream>
 
 Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned int maxNumStudents, unsigned int numStops )
-    :prt{prt}, nameServer{nameServer}, id{id}, maxNumStudents{maxNumStudents}, numStops{numStops}, numStudents{0},active{true} {
+    :prt{prt}, nameServer{nameServer}, id{id}, maxNumStudents{maxNumStudents}, numStops{numStops}, numStudents{0}{
         stops = new uCondition[numStops];
         counts = new int[numStops] {0};
         conductor = new Conductor(prt, id, this, conductorDelay);
@@ -75,28 +75,25 @@ void Train::main(){
         //Conductor conductor(prt, id, this, conductorDelay);
         try{
             _Accept(~Train){
-                active = false;
                 conductor->active = false;
-                //break;
+                _Accept(scanPassengers){
+                }
+                delete conductor;
+                break;
             }
             or _Accept(embark){//stravation??
             }
             or _Accept(scanPassengers){
             }
             _Else{
-                if(active){
-                    canTake = maxNumStudents-numStudents;
-                    prt.print(Printer::Kind::Train, id, 'A', stopId, canTake, numStudents);
-                    current->arrive(id, dir, canTake);
-                    while(!stops[stopId].empty()){ //wake student to disembark
-                        stops[stopId].signalBlock();
-                    }
-                    stopId = (stopId+adder)%numStops;
-                    current = trainStops[stopId];
-                } else {
-                    delete conductor;
-                    break;
+                canTake = maxNumStudents-numStudents;
+                prt.print(Printer::Kind::Train, id, 'A', stopId, canTake, numStudents);
+                current->arrive(id, dir, canTake);
+                while(!stops[stopId].empty()){ //wake student to disembark
+                    stops[stopId].signalBlock();
                 }
+                stopId = (stopId+adder)%numStops;
+                current = trainStops[stopId];
             }
         }catch (uMutexFailure::RendezvousFailure &){
         }
