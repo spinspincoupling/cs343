@@ -33,6 +33,7 @@ TrainStop* Train::embark( unsigned int studentId, unsigned int destStop, WATCard
     }
     --numStudents;
     --counts[destStop];
+    return current;
 }
 
 void Train::scanPassengers(){
@@ -44,10 +45,10 @@ void Train::scanPassengers(){
 }
 
 void Train::main(){
-    const bool clockwise = id==0?
+    const bool clockwise = id==0?;
     unsigned int stopId = clockwise? 0:(numStops+1)/2;
     prt.print(Printer::Kind::Train, id, 'S', stopId, clockwise? '<':'>');
-    TrainStop* trainStops[] = getStopList(id);
+    TrainStop* trainStops[] = nameServer.getStopList(id);
     unsigned int adder;
     Direction dir;
     if(clockwise){
@@ -55,7 +56,7 @@ void Train::main(){
         adder = 1;
         dir = Direction.Clockwise;
     } else {
-        current = trainStops[];
+        current = trainStops[stopId];
         adder = numStops-1;
         dir = Direction.CounterClockwise;
     }
@@ -72,7 +73,7 @@ void Train::main(){
             _Else{
                 prt.print(Printer::Kind::Train, id, 'A', stopId, numStudents);
                 current->arrive(id, dir, maxNumStudents-numStudents);
-                while(!stops.empty()){ //wake student to disembark
+                while(!stops[stopId].empty()){ //wake student to disembark
                     stops[stopId].signalBlock();
                 }
                 stopId = (stop+adder)%numStops;
