@@ -14,6 +14,7 @@ _Task Train {
 	unsigned int maxNumStudents;
 	unsigned int numStops;
 	unsigned int numStudents;
+	bool active;
 	uCondition *stops;
 	int *counts;
 	TrainStop *current;
