@@ -72,10 +72,11 @@ void Train::main(){
         adder = numStops-1;
         dir = Direction::CounterClockwise;
     }
-    
+    std::cout << "train before loop" << '\n';
     for(;;){
         try{
             _Accept(~Train){
+                std::cout << "train destructor" << '\n';
                 active = false;
                 _Accept(scanPassengers){
                     delete conductor;
