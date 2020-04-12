@@ -9,7 +9,7 @@ _Task Conductor {
 	unsigned int id;
 	Train * train;
 	unsigned int delay;
-	//bool active;
+	bool active;
 
 	void main();
   public:
