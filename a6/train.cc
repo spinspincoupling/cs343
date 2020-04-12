@@ -11,7 +11,7 @@ Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned 
     :prt{prt}, nameServer{nameServer}, id{id}, maxNumStudents{maxNumStudents}, numStops{numStops}, numStudents{0},active{true} {
         stops = new uCondition[numStops];
         counts = new int[numStops] {0};
-        //conductor = new Conductor(prt, id, this, conductorDelay);
+        conductor = new Conductor(prt, id, this, conductorDelay);
     }
 	
 Train::~Train(){
@@ -72,11 +72,11 @@ void Train::main(){
     }
     
     for(;;){
-        Conductor conductor(prt, id, this, conductorDelay);
+        //Conductor conductor(prt, id, this, conductorDelay);
         try{
             _Accept(~Train){
                 active = false;
-                //conductor.active = false;
+                conductor->active = false;
                 //break;
             }
             or _Accept(embark){//stravation??
@@ -93,7 +93,10 @@ void Train::main(){
                     }
                     stopId = (stopId+adder)%numStops;
                     current = trainStops[stopId];
-                } else break;
+                } else {
+                    delete conductor;
+                    break;
+                }
             }
         }catch (uMutexFailure::RendezvousFailure &){
         }
