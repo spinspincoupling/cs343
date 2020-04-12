@@ -11,8 +11,8 @@ Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned 
     }
 	
 Train::~Train(){
-    delete stops[];
-    delete counts[];
+    delete[] stops;
+    delete[] counts;
     prt.print(Printer::Kind::Train, id, 'F');
 }
 
