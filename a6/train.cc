@@ -76,6 +76,7 @@ void Train::main(){
         //Conductor conductor(prt, id, this, conductorDelay);
         try{
             _Accept(~Train){
+                conductor.active = false;
                 break;
             }
             or _Accept(embark){//stravation??
