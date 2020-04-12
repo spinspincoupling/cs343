@@ -15,10 +15,10 @@ Groupoff::Groupoff(Printer & prt, unsigned int numStudents, unsigned int maxTrip
 
 Groupoff::~Groupoff(){
     for(unsigned int i=0; i<numStudents; ++i){
-        if(!future[i].available){
-            future[i].cancel();
+        if(!futures[i].available){
+            futures[i].cancel();
         }
-        delete future[i];
+        delete futurse[i];
     }
     delete[] futures;
     prt.print(Printer::Kind::Groupoff, 'F');
