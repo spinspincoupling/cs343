@@ -24,7 +24,7 @@ void Student::main(){
     WATCard::FWATCard watcard = cardOffice.create(id, maxTripCost);
     WATCard::FWATCard giftcard = groupoff.giftCard();
     WATCard *cardUsing;
-    TrainStop *stop = nameServer.getStop(id, end);
+    TrainStop *stop;
     try{
         for(unsigned int i=0; i< numTrips; ++i){
             yield(mprng(maxStudentDelay));
@@ -47,6 +47,7 @@ void Student::main(){
                 distance = end-start;
             }
             prt.print(Printer::Kind::Student, id, 'T', start, end, dir ==  Train::Direction::Clockwise? '<':'>');
+            stop = nameServer.getStop(id, start);
             if(distance == 1){
                 buyTicket = mprng(1) == 0? false:true;
             } else {
