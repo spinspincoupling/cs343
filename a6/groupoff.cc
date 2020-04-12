@@ -14,6 +14,9 @@ Groupoff::Groupoff(Printer & prt, unsigned int numStudents, unsigned int maxTrip
 
 
 Groupoff::~Groupoff(){
+    for(auto &c:futures){
+        delete c;
+    }
     delete[] futures;
     prt.print(Printer::Kind::Groupoff, 'F');
 }
