@@ -51,7 +51,7 @@ void Train::scanPassengers(){
             }
         }
     } else {
-        throw 1;
+        conductor->active = true;
     }
     
 }

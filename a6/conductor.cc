@@ -12,8 +12,7 @@ Conductor::~Conductor(){
 
 void Conductor::main(){
     prt.print(Printer::Kind::Conductor, id, 'S');
-    try {
-        for(;;){
+    for(;;){
         _Accept(~Conductor){
             break;
         }
@@ -22,8 +21,5 @@ void Conductor::main(){
             prt.print(Printer::Kind::Conductor, id, 'c');
             train->scanPassengers();
         }
-    }
-    } catch (...){
-    }
-    
+    } 
 }
