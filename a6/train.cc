@@ -72,13 +72,15 @@ void Train::main(){
     }
     
     for(;;){
-        //Conductor conductor(prt, id, this, conductorDelay);
         try{
             _Accept(~Train){
-                conductor->active = false;
+                //conductor->active = false;
                 _Accept(scanPassengers){
+                    delete conductor;
                 }
-                delete conductor;
+                _Else{
+                    delete conductor;
+                }
                 break;
             }
             or _Accept(embark){//stravation??
