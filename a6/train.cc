@@ -50,8 +50,8 @@ void Train::scanPassengers(){
                 stops[i].signalBlock();
             }
         }
-    }else{
-        delete conductor;
+    } else {
+        throw 1;
     }
     
 }
