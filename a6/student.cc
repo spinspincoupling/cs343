@@ -54,7 +54,7 @@ void Student::main(){
             }
             cost = distance*stopCost;
             for(;;){
-                try{
+                //try{
                     _Select(giftcard){ //giftcard over watcard
                         cardUsing = giftcard;
                         stop->buy(distance, *cardUsing);
@@ -63,6 +63,7 @@ void Student::main(){
                         break;
                     }
                     or _Select(watcard){
+                    try{
                         cardUsing = watcard;
                         if(buyTicket) {
                             stop->buy(distance, *cardUsing);
@@ -71,8 +72,7 @@ void Student::main(){
                             prt.print(Printer::Kind::Student, id, 'f');
                         }
                         break;
-                    }
-                } catch (TrainStop::Funds &e){
+                    }catch (TrainStop::Funds &e){
                     //std::cout << "enter not enough fund handler" << '\n';
                     //watcard.reset();
                     watcard = cardOffice.transfer(id, maxTripCost+e.amount, cardUsing); //can throw
@@ -81,6 +81,7 @@ void Student::main(){
                     prt.print(Printer::Kind::Student, id, 'L');
                     watcard = cardOffice.create(id, maxTripCost);
                 }
+                } 
             }
             prt.print(Printer::Kind::Student, id, 'W', start);
             Train *train = stop->wait(id, dir);
