@@ -16,7 +16,7 @@ Groupoff::Groupoff(Printer & prt, unsigned int numStudents, unsigned int maxTrip
 
 Groupoff::~Groupoff(){
     for(unsigned int i=0; i<numStudents; ++i){
-        if(!futures[i].available()) std::cout << "not avail!!" << '\n';
+        future[i]();
     }
     for(unsigned int i=0; i<numStudents; ++i){
         delete futures[i];
