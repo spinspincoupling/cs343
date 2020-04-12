@@ -3,6 +3,7 @@
 #include "MPRNG.h"
 #include "watcard.h"
 #include <algorithm>
+#include "iostream"
 
 extern MPRNG mprng;
 
@@ -15,9 +16,9 @@ Groupoff::Groupoff(Printer & prt, unsigned int numStudents, unsigned int maxTrip
 
 Groupoff::~Groupoff(){
     for(unsigned int i=0; i<numStudents; ++i){
-        if(!futures[i].available()){
-            futures[i].cancel();
-        }
+        if(!futures[i].available()) cout << "not avail!!" << '\n';
+    }
+    for(unsigned int i=0; i<numStudents; ++i){
         delete futures[i];
     }
     delete[] futures;
@@ -43,7 +44,7 @@ void Groupoff::main(){
             WATCard* card = new WATCard();
             card->deposit(maxTripCost);
             lucky = mprng(counter); //random select
-            std::swap(futures[lucky], futures[counter]);
+            std::swap(futures[lucky], futures[counter]); //cannot because copy!!
             futures[counter].delivery(card);
             prt.print(Printer::Kind::Groupoff, 'D', maxTripCost);
             --counter;
