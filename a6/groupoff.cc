@@ -18,7 +18,7 @@ Groupoff::~Groupoff(){
         if(!futures[i].available()){
             futures[i].cancel();
         }
-        delete futurse[i];
+        delete futures[i];
     }
     delete[] futures;
     prt.print(Printer::Kind::Groupoff, 'F');
