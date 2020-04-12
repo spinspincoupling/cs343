@@ -76,14 +76,13 @@ void Train::main(){
     for(;;){
         try{
             _Accept(~Train){
-                //conductor->active = false;
                 active = false;
                 _Accept(scanPassengers){
                     delete conductor;
                 }
                 break;
             }
-            or _Accept(embark){//stravation??
+            or _Accept(embark){
             }
             or _Accept(scanPassengers){
             }
@@ -97,7 +96,7 @@ void Train::main(){
                 stopId = (stopId+adder)%numStops;
                 current = trainStops[stopId];
             }
-        }catch (uMutexFailure::RendezvousFailure &){
+        }catch (uMutexFailure::RendezvousFailure &){ // in case throw ejected
         }
         
     }
