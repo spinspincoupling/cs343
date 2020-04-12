@@ -19,7 +19,7 @@ Groupoff::~Groupoff(){
         futures[i]();
     }*/
     for(unsigned int i=0; i<numStudents; ++i){
-        delete futures[i]();
+        futures[i].cancel();
     }
     delete[] futures;
     prt.print(Printer::Kind::Groupoff, 'F');
