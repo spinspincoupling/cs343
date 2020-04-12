@@ -44,7 +44,7 @@ TrainStop* Train::embark( unsigned int studentId, unsigned int destStop, WATCard
 void Train::scanPassengers(){
     for(unsigned int i=0; i< numStops; ++i){
         for(int j=0; j<counts[i]; ++j){
-            stops[j].signalBlock();
+            stops[j].signal();
         }
     }
 }
