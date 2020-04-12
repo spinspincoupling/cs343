@@ -12,13 +12,13 @@ NameServer::~NameServer(){
 }
 
 void NameServer::registerStop( unsigned int trainStopId ){
-    prt.print(Printer::Kind::NameServer, 'R', transStopId);
+    prt.print(Printer::Kind::NameServer, 'R', trainStopId);
     stopLits[trainStopId] = static_cast<TrainStop*>(&uThisTask());
 }
 
 TrainStop* NameServer::getStop( unsigned int studentId, unsigned int trainStopId ){
     prt.print(Printer::Kind::NameServer, 'T', studentId, trainStopId);
-    return stopLits[transStopId];
+    return stopLits[trainStopId];
 }
 
 TrainStop** NameServer::getStopList(){
@@ -35,7 +35,7 @@ unsigned int NameServer::getNumStops(){
     return numStops;
 }
 
-void main(){
+void NameServer::main(){
     prt.print(Printer::Kind::NameServer, 'S');
     for(unsigned int i=0; i<numStops; ++i){
         _Accept(registerStop);
