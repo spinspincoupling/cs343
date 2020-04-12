@@ -44,19 +44,22 @@ void Train::scanPassengers(){
 }
 
 void Train::main(){
-    prt.print(Printer::Kind::Train, id, 'S');
+    const bool clockwise = id==0?
+    unsigned int stopId = clockwise? 0:(numStops+1)/2;
+    prt.print(Printer::Kind::Train, id, 'S', stopId, clockwise? '<':'>');
     TrainStop* trainStops[] = getStopList(id);
-    unsigned int adder, stopId;
+    unsigned int adder;
     Direction dir;
-    if(id == 0){
+    if(clockwise){
         current = trainStops[0];
         adder = 1;
         dir = Direction.Clockwise;
     } else {
-        current = trainStops[(numStops+1)/2];
+        current = trainStops[];
         adder = numStops-1;
         dir = Direction.CounterClockwise;
     }
+    
     for(;;){
         try{
             _Accept(~Train){
@@ -67,12 +70,13 @@ void Train::main(){
             or _Accept(scanPassengers){
             }
             _Else{
-                stopId = current->getId();
                 prt.print(Printer::Kind::Train, id, 'A', stopId, numStudents);
                 current->arrive(id, dir, maxNumStudents-numStudents);
                 while(!stops.empty()){ //wake student to disembark
                     stops[stopId].signalBlock();
                 }
+                stopId = (stop+adder)%numStops;
+                current = trainStops[stopId];
             }
         }catch (uMutexFailure::RendezvousFailure &){
         }
