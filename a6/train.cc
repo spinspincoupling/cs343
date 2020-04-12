@@ -77,6 +77,7 @@ void Train::main(){
         try{
             _Accept(~Train){
                 //conductor->active = false;
+                active = false;
                 _Accept(scanPassengers){
                     delete conductor;
                 }
