@@ -86,7 +86,7 @@ void Train::main(){
                 }
                 stopId = (stopId+adder)%numStops;
                 current = trainStops[stopId];
-                std::cout << "exit arrive" << '\n';
+                if(id == 0) std::cout << "exit arrive" << '\n';
             }
         }catch (uMutexFailure::RendezvousFailure &){
         }
