@@ -6,10 +6,7 @@
 #include <iostream>
 
 TrainStop::TrainStop( Printer & prt, NameServer & nameServer, unsigned int id, unsigned int stopCost )
-    :prt{prt}, nameServer{nameServer}, id{id}, stopCost{stopCost}, wait0{0}, wait1{0} {
-        prt.print(Printer::Kind::TrainStop, id, 'S');
-        nameServer.registerStop(id);
-    }
+    :prt{prt}, nameServer{nameServer}, id{id}, stopCost{stopCost}, wait0{0}, wait1{0} {}
 
 TrainStop::~TrainStop(){
     prt.print(Printer::Kind::TrainStop, id, 'F');
@@ -82,13 +79,15 @@ unsigned int TrainStop::arrive( unsigned int trainId, Train::Direction direction
         for(unsigned int i=0; i<signalled1; ++i){
             anticlockwise.signal();
         }
-        arrived1 = (Train*) &(uThisTask());//static_cast<Train*>(&uThisTask()); // //should be caller instance
+        arrived1 = (Train*) &(uThisTask()); //should be caller instance
         train1.wait();
         return signalled1;
     }
 }
 
 void TrainStop::main(){
+    prt.print(Printer::Kind::TrainStop, id, 'S');
+    nameServer.registerStop(id);
     for(;;) {
         try{
             _Accept(~TrainStop){
@@ -100,7 +99,7 @@ void TrainStop::main(){
             }
             or _Accept(disembark){
             }
-            or _Accept(arrive){
+            or _Accept(arrive){ 
             }
             or _Accept(tick){
                 if(!train0.empty()) train0.signalBlock();
