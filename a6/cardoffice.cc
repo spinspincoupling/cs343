@@ -19,9 +19,6 @@ WATCardOffice::Courier::~Courier(){
 
 void WATCardOffice::Courier::main(){
     for(;;){
-        //_Accept(~Courier){
-        //    break;
-        //} _Else{
             Job *w = office->requestWork();
             if(w == nullptr) break;
             prt.print(Printer::Kind::WATCardOfficeCourier, id, 't', w->sid, w->amount);
@@ -38,8 +35,6 @@ void WATCardOffice::Courier::main(){
                 w->result.delivery(watcard);
             }
             delete w;
-       // }
-        
     }
 }
 

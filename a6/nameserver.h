@@ -5,8 +5,10 @@ _Task VendingMachine;
 _Task TrainStop;
 
 _Task NameServer {
-	class PImpl;
-	PImpl * pimpl;
+	Printer & prt;
+	unsigned int numStops;
+	unsigned int numStudents;
+	TrainStop **stopLits;
 	
 	void main();
   public:
