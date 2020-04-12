@@ -10,13 +10,13 @@ Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned 
     :prt{prt}, nameServer{nameServer}, id{id}, maxNumStudents{maxNumStudents}, numStops{numStops}, numStudents{0} {
         stops = new uCondition[numStops];
         counts = new int[numStops];
-        conductor = new Conductor(prt, id, this, conductorDelay);
+        //conductor = new Conductor(prt, id, this, conductorDelay);
     }
 	
 Train::~Train(){
     delete[] stops;
     delete[] counts;
-    delete conductor;
+    //delete conductor;
     prt.print(Printer::Kind::Train, id, 'F');
 }
 
@@ -44,7 +44,7 @@ TrainStop* Train::embark( unsigned int studentId, unsigned int destStop, WATCard
 void Train::scanPassengers(){
     for(unsigned int i=0; i< numStops; ++i){
         for(int j=0; j<counts[i]; ++j){
-            stops[j].signalBlock();
+            stops[j].signal();
         }
     }
 }
