@@ -2,6 +2,7 @@
 #include "printer.h"
 #include "MPRNG.h"
 #include "bank.h"
+#include "global.h"
 
 Parent::Parent( Printer & prt, Bank & bank, unsigned int numStudents, unsigned int parentalDelay, unsigned int maxTripCost )
     :prt{prt}, bank{bank}, numStudents{numStudents}, parentalDelay{parentalDelay}, maxTripCost{maxTripCost} {
