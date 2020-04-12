@@ -63,7 +63,6 @@ void Train::main(){
     TrainStop** trainStops = nameServer.getStopList(id);
     unsigned int adder, canTake;
     Direction dir;
-    std::cout << "train here" << '\n';
     if(clockwise){
         current = trainStops[0];
         adder = 1;
@@ -76,7 +75,6 @@ void Train::main(){
     for(;;){
         try{
             _Accept(~Train){
-                std::cout << "train destructor" << '\n';
                 active = false;
                 _Accept(scanPassengers){
                     delete conductor;
