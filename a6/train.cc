@@ -3,6 +3,8 @@
 #include "MPRNG.h"
 #include "printer.h"
 #include "nameserver.h"
+#include "conductor.h"
+#include "global.h"
 
 Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned int maxNumStudents, unsigned int numStops )
     :prt{prt}, nameServer{nameServer}, id{id}, maxNumStudents{maxNumStudents}, numStops{numStops}, numStudents{0} {
@@ -62,6 +64,7 @@ void Train::main(){
     }
     
     for(;;){
+        Conductor conductor(prt, id, this, conductorDelay);
         try{
             _Accept(~Train){
                 break;

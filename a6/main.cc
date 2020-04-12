@@ -18,6 +18,7 @@
 using namespace std;
 
 unsigned int maxTripCost;
+unsigned int conductorDelay;
 
 int main( int argc, char * argv[] ) {
     unsigned int seed = getpid();
@@ -38,6 +39,7 @@ int main( int argc, char * argv[] ) {
     ConfigParms config;
     processConfigFile(argc>1? argv[1]:defaultFile, config);
     maxTripCost = config.stopCost * (config.numStops/2);
+    conductorDelay = config.conductorDelay;
     Printer printer(config.numStudents, numTrains, config.numStops, config.numCouriers);
     Bank bank(config.numStudents);
     WATCardOffice office(printer, bank, config.numCouriers);
