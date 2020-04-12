@@ -54,11 +54,11 @@ void Train::main(){
     if(clockwise){
         current = trainStops[0];
         adder = 1;
-        dir = Direction.Clockwise;
+        dir = Direction::Clockwise;
     } else {
         current = trainStops[stopId];
         adder = numStops-1;
-        dir = Direction.CounterClockwise;
+        dir = Direction::CounterClockwise;
     }
     
     for(;;){
