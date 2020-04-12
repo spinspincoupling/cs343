@@ -78,6 +78,7 @@ void Student::main(){
                     watcard = cardOffice.transfer(id, maxTripCost+e.amount, cardUsing); //can throw
                 } catch (WATCardOffice::Lost &){
                     //watcard.reset();
+                    prt.print(Printer::Kind::Student, id, 'L');
                     watcard = cardOffice.create(id, maxTripCost);
                 }
             }
