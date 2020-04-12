@@ -17,8 +17,8 @@ Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned 
 Train::~Train(){
     delete[] stops;
     delete[] counts;
-    //std::cout << "destructor before delete conductor" << '\n';
     delete conductor;
+    std::cout << "destructor after delete conductor" << '\n';
     prt.print(Printer::Kind::Train, id, 'F');
 }
 
