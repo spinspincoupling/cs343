@@ -4,6 +4,8 @@
 #include "watcard.h"
 #include <algorithm>
 
+extern MPRNG mprng;
+
 Groupoff::Groupoff(Printer & prt, unsigned int numStudents, unsigned int maxTripCost, unsigned int groupoffDelay)
     :prt{prt}, numStudents{numStudents}, maxTripCost{maxTripCost}, groupoffDelay{groupoffDelay}, counter{-1} {
         prt.print(Printer::Kind::Groupoff, 'S');
@@ -33,10 +35,10 @@ void Groupoff::main(){
         _Else{
             yield(groupoffDelay);
             WATCard* card = new WATCard();
-            card.deposit(maxTripCost);
+            card->deposit(maxTripCost);
             lucky = mprng(counter); //random select
             std::swap(futures[lucky], futures[counter]);
-            future[counter].delivery(card);
+            futures[counter].delivery(card);
             prt.print(Printer::Kind::Groupoff, 'D', maxTripCost);
             --counter;
         }
