@@ -5,6 +5,7 @@
 #include "nameserver.h"
 #include "conductor.h"
 #include "global.h"
+#include <iostream>
 
 Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned int maxNumStudents, unsigned int numStops )
     :prt{prt}, nameServer{nameServer}, id{id}, maxNumStudents{maxNumStudents}, numStops{numStops}, numStudents{0} {
@@ -85,6 +86,7 @@ void Train::main(){
                 }
                 stopId = (stopId+adder)%numStops;
                 current = trainStops[stopId];
+                std::cout << "exit arrive" << '\n';
             }
         }catch (uMutexFailure::RendezvousFailure &){
         }
