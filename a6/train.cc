@@ -10,7 +10,7 @@
 Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned int maxNumStudents, unsigned int numStops )
     :prt{prt}, nameServer{nameServer}, id{id}, maxNumStudents{maxNumStudents}, numStops{numStops}, numStudents{0} {
         stops = new uCondition[numStops];
-        counts = new int[numStops];
+        counts = new int[numStops] {0};
         conductor = new Conductor(prt, id, this, conductorDelay);
     }
 	
@@ -43,11 +43,14 @@ TrainStop* Train::embark( unsigned int studentId, unsigned int destStop, WATCard
 }
 
 void Train::scanPassengers(){
-    for(unsigned int i=0; i< numStops; ++i){
-        for(int j=0; j<counts[i]; ++j){
-            if(!stops[i].empty()) stops[i].signal();
+    if(numStudents > 0){
+        for(unsigned int i=0; i< numStops; ++i){
+            for(int j=0; j<counts[i]; ++j){
+                stops[i].signal();
+            }
         }
     }
+    
 }
 
 void Train::main(){
