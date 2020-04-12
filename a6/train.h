@@ -8,8 +8,15 @@ _Task Train {
 	_Event Ejected {};						// Exception raised at student without ticket
 
   private:
-  	class PImpl;
-  	PImpl *pimpl;
+  	Printer &prt;
+	NameServer &nameServer;
+	unsigned int id;
+	unsigned int maxNumStudents;
+	unsigned int numStops;
+	unsigned int numStudents;
+	uCondition *stops;
+	int *counts;
+	TrainStop *current;
 
 	void main();
   public:
