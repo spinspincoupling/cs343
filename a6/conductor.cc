@@ -15,6 +15,7 @@ void Conductor::main(){
     prt.print(Printer::Kind::Conductor, id, 'S');
     for(;;){
         _Accept(~Conductor){
+            std::cout << "breaking out of conductor destructor" << '\n';
             break;
         }
         _Else {
@@ -23,5 +24,4 @@ void Conductor::main(){
             train->scanPassengers();
         }
     }
-    std::cout << "breaking out of conductor destructor" << '\n';
 }
