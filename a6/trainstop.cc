@@ -65,7 +65,7 @@ unsigned int TrainStop::arrive( unsigned int trainId, Train::Direction direction
     if(direction == Train::Direction::Clockwise){
         limit0 = maxNumStudents;
         prt.print(Printer::Kind::TrainStop, id, 'A', trainId, maxNumStudents, wait0);
-        signalled = maxNumStudents > wait0 ? wait0:maxNumStudents;
+        signalled0 = maxNumStudents > wait0 ? wait0:maxNumStudents;
         for(unsigned int i=0; i<signalled0; ++i){
             clockwise.signal();
         }
@@ -75,8 +75,8 @@ unsigned int TrainStop::arrive( unsigned int trainId, Train::Direction direction
     } else {
         limit1 = maxNumStudents;
         prt.print(Printer::Kind::TrainStop, id, 'A', trainId, maxNumStudents, wait1);
-        signalled = maxNumStudents > wait1 ? wait1:maxNumStudents;
-        for(unsigned int i=0; i<signalled0; ++i){
+        signalled1 = maxNumStudents > wait1 ? wait1:maxNumStudents;
+        for(unsigned int i=0; i<signalled1; ++i){
             anticlockwise.signal();
         }
         arrived1 = (Train*) &(uThisTask()); //should be caller instance

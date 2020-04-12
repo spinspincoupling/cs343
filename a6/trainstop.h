@@ -10,7 +10,7 @@ _Task TrainStop {
 	unsigned int stopCost;
 	uCondition clockwise, anticlockwise, train0, train1;
 	unsigned int wait0, wait1, limit0, limit1, signalled0, signalled1;
-	Train *arrived0, arrived1;
+	Train *arrived0, *arrived1;
 
 	void main();
   public:
