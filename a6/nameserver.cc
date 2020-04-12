@@ -1,5 +1,6 @@
 #include "nameserver.h"
 #include "printer.h"
+#include "trainstop.h"
 
 NameServer::NameServer( Printer & prt, unsigned int numStops, unsigned int numStudents )
     :prt{prt}, numStops{numStops}, numStudents{numStudents}{
