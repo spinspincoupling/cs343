@@ -72,7 +72,7 @@ unsigned int TrainStop::arrive( unsigned int trainId, Train::Direction direction
         for(unsigned int i=0; i<signalled0; ++i){
             clockwise.signal();
         }
-        arrived0 = static_cast<Train*>(&uThisTask()); //should be caller instance
+        arrived0 = (Train*) &(uThisTask()); //should be caller instance
         train0.wait();
         return signalled0;
     } else {
@@ -82,7 +82,7 @@ unsigned int TrainStop::arrive( unsigned int trainId, Train::Direction direction
         for(unsigned int i=0; i<signalled1; ++i){
             anticlockwise.signal();
         }
-        arrived1 = static_cast<Train*>(&uThisTask()); //(Train*) &(uThisTask()); //should be caller instance
+        arrived1 = (Train*) &(uThisTask());//static_cast<Train*>(&uThisTask()); // //should be caller instance
         train1.wait();
         return signalled1;
     }
