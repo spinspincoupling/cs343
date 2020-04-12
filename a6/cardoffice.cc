@@ -11,7 +11,7 @@
 WATCardOffice::Courier::Courier(Printer &prt, Bank &bank, WATCardOffice *office, unsigned int id)
     :prt{prt}, bank{bank}, office{office}, id{id} {
         prt.print(Printer::Kind::WATCardOfficeCourier, id, 'S');
-    }
+}
 
 WATCardOffice::Courier::~Courier(){
     prt.print(Printer::Kind::WATCardOfficeCourier, id, 'F');

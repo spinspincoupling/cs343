@@ -1,8 +1,9 @@
 #pragma once
 
 _Monitor Bank {
-	class PImpl; // *** Replace these two lines with your own implementation.
-	PImpl * pimpl;
+	unsigned int numStudents;
+	unsigned int *accounts;
+	uCondition* fund;
 
   public:
 	Bank( unsigned int numStudents );

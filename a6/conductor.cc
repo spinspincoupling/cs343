@@ -12,16 +12,6 @@ Conductor::~Conductor(){
 
 void Conductor::main(){
     prt.print(Printer::Kind::Conductor, id, 'S');
-    /*for(;;){
-        _Accept(~Conductor){
-            break;
-        }
-        _Else{
-            yield(delay);
-            prt.print(Printer::Kind::Conductor, id, 'c');
-            train->scanPassengers();
-        }
-    }*/
     while(active){
         yield(delay);
         prt.print(Printer::Kind::Conductor, id, 'c');

@@ -5,7 +5,7 @@
 NameServer::NameServer( Printer & prt, unsigned int numStops, unsigned int numStudents )
     :prt{prt}, numStops{numStops}, numStudents{numStudents}{
         stopLits = new TrainStop*[numStops];
-    }
+}
 
 NameServer::~NameServer(){
     delete[] stopLits;

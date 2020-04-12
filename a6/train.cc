@@ -12,7 +12,7 @@ Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned 
         stops = new uCondition[numStops];
         counts = new int[numStops] {0};
         conductor = new Conductor(prt, id, this, conductorDelay);
-    }
+}
 	
 Train::~Train(){
     delete[] stops;
