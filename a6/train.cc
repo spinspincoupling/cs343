@@ -49,7 +49,7 @@ void Train::main(){
     unsigned int stopId = clockwise? 0:(numStops+1)/2;
     prt.print(Printer::Kind::Train, id, 'S', stopId, clockwise? '<':'>');
     TrainStop** trainStops = nameServer.getStopList(id);
-    unsigned int adder;
+    unsigned int adder, canTake;
     Direction dir;
     if(clockwise){
         current = trainStops[0];
@@ -71,8 +71,9 @@ void Train::main(){
             or _Accept(scanPassengers){
             }
             _Else{
-                prt.print(Printer::Kind::Train, id, 'A', stopId, numStudents);
-                current->arrive(id, dir, maxNumStudents-numStudents);
+                canTake = maxNumStudents-numStudents;
+                prt.print(Printer::Kind::Train, id, 'A', stopId, canTake, numStudents);
+                current->arrive(id, dir, canTake);
                 while(!stops[stopId].empty()){ //wake student to disembark
                     stops[stopId].signalBlock();
                 }
