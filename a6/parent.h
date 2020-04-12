@@ -4,9 +4,12 @@ _Monitor Printer;										// forward declarations
 _Monitor Bank;
 
 _Task Parent {
-	class PImpl;
-	PImpl * pimpl;
-
+	Printer & prt;
+	Bank & bank;
+	unsigned int numStudents;
+	unsigned int parentalDelay;
+	unsigned int maxTripCost;
+	
 	void main();
   public:
 	Parent( Printer & prt, Bank & bank, unsigned int numStudents, unsigned int parentalDelay, unsigned int maxTripCost );
