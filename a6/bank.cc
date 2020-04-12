@@ -10,12 +10,12 @@ Bank::~Bank(){
     delete[] fund;
 }
 
-Bank::void deposit( unsigned int id, unsigned int amount ){
+void Bank::deposit( unsigned int id, unsigned int amount ){
     accounts[id] += amount;
     if(!fund[id].empty()) fund[id].signal();
 }
 
-Bank::void withdraw( unsigned int id, unsigned int amount ){
+void Bank::withdraw( unsigned int id, unsigned int amount ){
     while(accounts[id] < amount){
         fund[id].wait();
     }
