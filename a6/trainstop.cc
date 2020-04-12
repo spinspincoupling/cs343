@@ -32,16 +32,25 @@ void TrainStop::buy( unsigned int numStops, WATCard & card ){
 Train* TrainStop::wait( unsigned int studentId, Train::Direction direction ){
     if(direction == Train::Direction::Clockwise){
         prt.print(Printer::Kind::TrainStop, id, 'W', studentId, '<');
-        ++wait0;
-        clockwise.wait();
-        --wait0;
+        if(!train0.empty() && signalled0 < limit0) {
+            ++signalled0;  
+        } else {
+            ++wait0;
+            clockwise.wait();
+            --wait0;
+        }
+        return arrived0;
     } else {
         prt.print(Printer::Kind::TrainStop, id, 'W', studentId, '>');
-        ++wait1;
-        anticlockwise.wait();
-        --wait1;
+        if(!train1.empty() && signalled1 < limit1) {
+            ++signalled1;
+        }else {
+            ++wait1;
+            anticlockwise.wait();
+            --wait1;
+        }
+        return arrived1; 
     }
-    return arrived;
 }
 
 void TrainStop::disembark( unsigned int studentId ){
@@ -53,24 +62,27 @@ void TrainStop::tick(){
 }
 
 unsigned int TrainStop::arrive( unsigned int trainId, Train::Direction direction, unsigned int maxNumStudents ){
-    unsigned int signalled;
     if(direction == Train::Direction::Clockwise){
+        limit0 = maxNumStudents;
         prt.print(Printer::Kind::TrainStop, id, 'A', trainId, maxNumStudents, wait0);
         signalled = maxNumStudents > wait0 ? wait0:maxNumStudents;
-        for(unsigned int i=0; i<signalled; ++i){
+        for(unsigned int i=0; i<signalled0; ++i){
             clockwise.signal();
         }
+        arrived0 = (Train*) &(uThisTask()); //should be caller instance
+        train0.wait();
+        return signalled0;
     } else {
+        limit1 = maxNumStudents;
         prt.print(Printer::Kind::TrainStop, id, 'A', trainId, maxNumStudents, wait1);
         signalled = maxNumStudents > wait1 ? wait1:maxNumStudents;
-        for(unsigned int i=0; i<signalled; ++i){
+        for(unsigned int i=0; i<signalled0; ++i){
             anticlockwise.signal();
         }
+        arrived1 = (Train*) &(uThisTask()); //should be caller instance
+        train1.wait();
+        return signalled1;
     }
-    //std::cout << uThisTask().getName() << '\n';
-    arrived = (Train*) &(uThisTask()); //should be caller instance
-    train.wait();
-    return signalled;
 }
 
 void TrainStop::main(){
@@ -88,11 +100,10 @@ void TrainStop::main(){
             or _Accept(disembark){
             }
             or _Accept(arrive){ 
-                _Accept(tick){ //wait for tick
-                    train.signalBlock();
-                }
             }
             or _Accept(tick){
+                if(!train0.empty()) train0.signalBlock();
+                if(!train1.empty()) train1.signalBlock();
             }
         } catch (uMutexFailure::RendezvousFailure &){
         }
