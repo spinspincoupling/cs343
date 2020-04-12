@@ -17,6 +17,7 @@ _Task Train {
 	uCondition *stops;
 	int *counts;
 	TrainStop *current;
+	Conductor *conductor;
 
 	void main();
   public:
