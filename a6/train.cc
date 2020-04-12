@@ -17,6 +17,7 @@ Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned 
 Train::~Train(){
     delete[] stops;
     delete[] counts;
+    std::cout << "destructor before delete conductor" << '\n';
     delete conductor;
     prt.print(Printer::Kind::Train, id, 'F');
 }
@@ -74,7 +75,6 @@ void Train::main(){
         //Conductor conductor(prt, id, this, conductorDelay);
         try{
             _Accept(~Train){
-                std::cout << "destructor called" << '\n';
                 break;
             }
             or _Accept(embark){//stravation??
