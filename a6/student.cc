@@ -85,15 +85,14 @@ void Student::main(){
             Train *train = stop->wait(id, dir);
             prt.print(Printer::Kind::Student, id, 'E', train->getId());
             stop = train->embark(id, end, *cardUsing);
-            prt.print(Printer::Kind::Student, id, 'D', end);
-            //std::cout << "before disembark" << '\n';
             stop->disembark(id);
+            prt.print(Printer::Kind::Student, id, 'D', end);
         }
     }
-    /*catch (WATCardOffice::Lost &){
-        watcard.reset();
+    catch (WATCardOffice::Lost &){
+        //watcard.reset();
         watcard = cardOffice.create(id, maxTripCost);
-    }*/
+    }
     catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }
