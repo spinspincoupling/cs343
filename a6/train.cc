@@ -73,11 +73,11 @@ void Train::main(){
     }
     
     for(;;){
-        Conductor conductor(prt, id, this, conductorDelay);
+        //Conductor conductor(prt, id, this, conductorDelay);
         try{
             _Accept(~Train){
                 active = false;
-                conductor.active = false;
+                //conductor.active = false;
                 //break;
             }
             or _Accept(embark){//stravation??
