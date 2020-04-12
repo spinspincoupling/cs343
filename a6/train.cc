@@ -18,7 +18,6 @@ Train::~Train(){
     delete[] stops;
     delete[] counts;
     //delete conductor;
-    std::cout << "destructor after delete conductor" << '\n';
     prt.print(Printer::Kind::Train, id, 'F');
 }
 
@@ -73,7 +72,7 @@ void Train::main(){
     }
     
     for(;;){
-        //Conductor conductor(prt, id, this, conductorDelay);
+        Conductor conductor(prt, id, this, conductorDelay);
         try{
             _Accept(~Train){
                 active = false;
