@@ -64,7 +64,7 @@ void Train::main(){
     }
     
     for(;;){
-        Conductor conductor(prt, id, this, conductorDelay);
+        //Conductor conductor(prt, id, this, conductorDelay);
         try{
             _Accept(~Train){
                 break;
