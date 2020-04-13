@@ -53,7 +53,7 @@ void Train::scanPassengers(){
             }
         }
     } else {
-        throw 1;
+        throw Ejected();
     } 
 }
 
