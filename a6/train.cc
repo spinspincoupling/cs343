@@ -74,6 +74,7 @@ void Train::main(){
                 active = false;
                 //try{
                     _Accept(scanPassengers){
+                        uRendezvousAcceptor();
                         delete conductor;
                     }
                 //} catch (...){ //notify conductor

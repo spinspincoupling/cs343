@@ -28,7 +28,6 @@ void WATCardOffice::Courier::main(){
             if(mprng(5) == 0){
                 prt.print(Printer::Kind::WATCardOfficeCourier, id, 'L', w->sid);
                 w->result.exception(new WATCardOffice::Lost());
-                //if(w->card == nullptr) 
                 delete watcard;
             } else {
                 prt.print(Printer::Kind::WATCardOfficeCourier, id, 'T', w->sid, w->amount);
@@ -61,10 +60,6 @@ WATCard::FWATCard WATCardOffice::transfer( unsigned int sid, unsigned int amount
 
 WATCardOffice::Job * WATCardOffice::requestWork(){
     if(workQueue.empty()) return nullptr;
-    /*if(workQueue.empty()){
-        waiting.wait();
-        
-    }*/
     Job *w = workQueue.front();
     workQueue.pop_front();
     prt.print(Printer::Kind::WATCardOffice, 'W');
@@ -79,9 +74,6 @@ void WATCardOffice::main(){
     }
     for(;;){
         _Accept(~WATCardOffice){
-            /*while(!waiting.empty()){
-                waiting.signalBlock();
-            }*/
             workQueue.clear();
             for (unsigned int i=0; i<numCouriers; ++i){ //wait for courier to terminate
                 _Accept(requestWork); 
@@ -94,9 +86,6 @@ void WATCardOffice::main(){
         or _When(!workQueue.empty()) _Accept(requestWork){
         }
         or _Accept(create, transfer){
-            /*if(!waiting.empty()){
-                waiting.signalBlock();
-            }*/
         }
     }
 }
