@@ -50,7 +50,7 @@ TrainStop* Train::embark( unsigned int studentId, unsigned int destStop, WATCard
 void Train::scanPassengers(){
     if(active){
         for(unsigned int i=0; i< numStops; ++i){
-            unsigned int p = counts[i];
+            unsigned int p = counts[i]; // num needed to check
             for(unsigned int j=0; j<p; ++j){
                 stops[i].signalBlock(); //check ticket
             }

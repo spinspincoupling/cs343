@@ -45,16 +45,17 @@ void Student::main(){
                 distance = end-start;
             }
             prt.print(Printer::Kind::Student, id, 'T', start, end, dir ==  Train::Direction::Clockwise? '<':'>');
-
             stop = nameServer.getStop(id, start);
+
             if(distance == 1){ //decide whether to pay
                 buyTicket = mprng(1) == 0? false:true;
             } else {
                 buyTicket = mprng(9) < 3? false:true;
             }
-            cost = distance*stopCost;
+            if(!buyTicket) prt.print(Printer::Kind::Student, id, 'f');
 
-            for(;;){ //obtain watcard to giftcard
+            cost = distance*stopCost;
+            for(;;){ //obtain watcard or giftcard
                 try{
                     _Select(giftcard){ //giftcard over watcard
                         cardUsing = giftcard;
@@ -68,8 +69,6 @@ void Student::main(){
                         if(buyTicket) {
                             stop->buy(distance, *cardUsing);
                             prt.print(Printer::Kind::Student, id, 'B', cost, cardUsing->getBalance());
-                        } else {
-                            prt.print(Printer::Kind::Student, id, 'f');
                         }
                         break;
                     }
