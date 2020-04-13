@@ -20,13 +20,13 @@ Groupoff::Groupoff(Printer & prt, unsigned int numStudents, unsigned int maxTrip
 
 
 Groupoff::~Groupoff(){
-    /*for(unsigned int i=0; i<numStudents; ++i){
-        futures[i]();
-    }*/
     delete[] list;
-    /*for(unsigned int i=0; i<numStudents; ++i){
-        futures[i]();
-    }*/
+    for(unsigned int i=0; i<numStudents; ++i){
+        if(!futures[i].available()) futures[i].delivery(nullptr);
+    }
+    for(unsigned int i=0; i<numStudents; ++i){
+        delete futures[i];
+    }
     delete[] futures;
     
 }

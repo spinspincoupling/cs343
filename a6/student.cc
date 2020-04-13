@@ -61,7 +61,6 @@ void Student::main(){
                         stop->buy(distance, *cardUsing);
                         prt.print(Printer::Kind::Student, id, 'G', cost, cardUsing->getBalance());
                         giftcard.reset();
-                        delete giftcard;
                         break;
                     }
                     or _Select(watcard){
