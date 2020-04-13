@@ -102,6 +102,7 @@ void Student::main(){
     else {
         try{
             watcard();
+            delete watcard;
         } catch(...){
         }
     }
