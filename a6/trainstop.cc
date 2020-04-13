@@ -22,13 +22,13 @@ void TrainStop::buy( unsigned int numStops, WATCard & card ){
     unsigned int cost = stopCost*numStops;
     unsigned int balance = card.getBalance();
     if(balance < cost){
+        uRendezvousAcceptor();
         throw Funds(cost - balance);
     } else {
         card.withdraw(cost);
         card.markPaid();
         prt.print(Printer::Kind::TrainStop, id, 'B', cost);
     }
-    //uRendezvousAcceptor();
 }
 
 Train* TrainStop::wait( unsigned int studentId, Train::Direction direction ){
@@ -90,24 +90,20 @@ unsigned int TrainStop::arrive( unsigned int trainId, Train::Direction direction
 void TrainStop::main(){
     nameServer.registerStop(id);
     for(;;) {
-        try{
-            _Accept(~TrainStop){
-                break;
-            }
-            or _Accept(buy){
-            }
-            or _Accept(wait){
-            }
-            or _Accept(disembark){
-            }
-            or _Accept(arrive){ 
-            }
-            or _Accept(tick){
-                if(!train0.empty()) train0.signalBlock();
-                if(!train1.empty()) train1.signalBlock();
-            }
-        } catch (uMutexFailure::RendezvousFailure &){
+        _Accept(~TrainStop){
+            break;
         }
-        
+        or _Accept(buy){
+        }
+        or _Accept(wait){
+        }
+        or _Accept(disembark){
+        }
+        or _Accept(arrive){ 
+        }
+        or _Accept(tick){
+            if(!train0.empty()) train0.signalBlock();
+            if(!train1.empty()) train1.signalBlock();
+        }
     }
 }

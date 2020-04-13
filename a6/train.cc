@@ -71,30 +71,26 @@ void Train::main(){
         dir = Direction::CounterClockwise;
     }
     for(;;){
-        //try{
-            _Accept(~Train){
-                active = false;
-                _Accept(scanPassengers){
-                    delete conductor;
-                }
-                break;
+        _Accept(~Train){
+            active = false;
+            _Accept(scanPassengers){
+                delete conductor;
             }
-            or _Accept(embark){
+            break;
+        }
+        or _Accept(embark){
+        }
+        or _Accept(scanPassengers){
+        }
+        _Else{
+            current = trainStops[stopId];
+            canTake = maxNumStudents-numStudents;
+            prt.print(Printer::Kind::Train, id, 'A', stopId, canTake, numStudents);
+            current->arrive(id, dir, canTake);
+            while(!stops[stopId].empty()){ //wake student to disembark
+                stops[stopId].signalBlock();
             }
-            or _Accept(scanPassengers){
-            }
-            _Else{
-                current = trainStops[stopId];
-                canTake = maxNumStudents-numStudents;
-                prt.print(Printer::Kind::Train, id, 'A', stopId, canTake, numStudents);
-                current->arrive(id, dir, canTake);
-                while(!stops[stopId].empty()){ //wake student to disembark
-                    stops[stopId].signalBlock();
-                }
-                stopId = (stopId+adder)%numStops;
-            }
-        //}catch (uMutexFailure::RendezvousFailure &){ // in case throw ejected
-        //}
-        
+            stopId = (stopId+adder)%numStops;
+        } 
     }
 }
