@@ -64,7 +64,8 @@ void Train::scanPassengers(){
 
 void Train::main(){
     TrainStop** trainStops = nameServer.getStopList(id);
-    unsigned int adder, canTake, release = 8;
+    unsigned int adder, canTake;
+    //, release = 8;
     Direction dir;
     if(clockwise){
         adder = 1;
@@ -81,10 +82,10 @@ void Train::main(){
             }
             break;
         }
-        or _Accept(embark){ 
+        or _Accept(embark, scanPassengers){ 
         }
-        or _When(mprng(release) > 0) _Accept(scanPassengers){ //if conductor delay is too short, would have starvation, so set release
-        }
+        //or _When(mprng(release) > 0) _Accept(scanPassengers){ //if conductor delay is too short, would have starvation, so set release
+        //}
         _Else{ //arrive
             current = trainStops[stopId];
             canTake = maxNumStudents-numStudents;

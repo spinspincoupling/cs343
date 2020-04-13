@@ -88,9 +88,6 @@ void Student::main(){
             prt.print(Printer::Kind::Student, id, 'D', stop->getId());
         }
     }
-    /*catch (WATCardOffice::Lost &){
-        watcard = cardOffice.create(id, maxTripCost);
-    }*/
     catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }
