@@ -14,7 +14,7 @@ Timer::~Timer(){
 
 void Timer::main(){
     unsigned int counter = 0, numStops = nameServer.getNumStops();
-    TrainStop* stops[numStops] = nameServer.getStopList();
+    TrainStop** stops = nameServer.getStopList();
     for(;;){
         _Accept(~Timer){
             break;
