@@ -38,7 +38,7 @@ unsigned int NameServer::getNumStops(){
 
 void NameServer::main(){
     prt.print(Printer::Kind::NameServer, 'S');
-    for(unsigned int i=0; i<numStops; ++i){
+    for(unsigned int i=0; i<numStops; ++i){ //wait for all stops to be registered before processing requests
         _Accept(registerStop);
     }
     for(;;){

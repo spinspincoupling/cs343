@@ -18,7 +18,7 @@ _Monitor Printer;
 _Monitor Bank;
 _Monitor MPRNG;
 extern MPRNG mprng;					// random-number generator
-extern unsigned int maxTripCost;
+extern unsigned int maxTripCost;    //reused by student
 
 
 // Local Variables: //

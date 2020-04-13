@@ -26,6 +26,7 @@ void Student::main(){
     try{
         for(unsigned int i=0; i< numTrips; ++i){
             yield(mprng(maxStudentDelay));
+            //determine start, end, direction
             start = end;
             end = (start + mprng(1,numStops-1))%numStops; 
             if(start > end){
@@ -44,20 +45,22 @@ void Student::main(){
                 distance = end-start;
             }
             prt.print(Printer::Kind::Student, id, 'T', start, end, dir ==  Train::Direction::Clockwise? '<':'>');
+
             stop = nameServer.getStop(id, start);
-            if(distance == 1){
+            if(distance == 1){ //decide whether to pay
                 buyTicket = mprng(1) == 0? false:true;
             } else {
                 buyTicket = mprng(9) < 3? false:true;
             }
             cost = distance*stopCost;
-            for(;;){
+
+            for(;;){ //obtain watcard to giftcard
                 try{
                     _Select(giftcard){ //giftcard over watcard
                         cardUsing = giftcard;
                         stop->buy(distance, *cardUsing);
                         prt.print(Printer::Kind::Student, id, 'G', cost, cardUsing->getBalance());
-                        giftcard.reset();
+                        giftcard.reset(); //deactivate after one use
                         break;
                     }
                     or _Select(watcard){
@@ -70,7 +73,7 @@ void Student::main(){
                         }
                         break;
                     }
-                }catch (TrainStop::Funds &e){
+                }catch (TrainStop::Funds &e){ //not enough fund, need transfer
                     watcard = cardOffice.transfer(id, maxTripCost+e.amount, cardUsing); //can throw
                 } catch (WATCardOffice::Lost &){
                     prt.print(Printer::Kind::Student, id, 'L');
@@ -82,12 +85,12 @@ void Student::main(){
             prt.print(Printer::Kind::Student, id, 'E', train->getId());
             stop = train->embark(id, end, *cardUsing);
             stop->disembark(id);
-            prt.print(Printer::Kind::Student, id, 'D', end);
+            prt.print(Printer::Kind::Student, id, 'D', stop->getId());
         }
     }
-    catch (WATCardOffice::Lost &){
+    /*catch (WATCardOffice::Lost &){
         watcard = cardOffice.create(id, maxTripCost);
-    }
+    }*/
     catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }

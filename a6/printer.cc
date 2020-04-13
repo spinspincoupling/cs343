@@ -7,6 +7,7 @@ Printer::Printer( unsigned int numStudents, unsigned int numTrains, unsigned int
     :numStudents{numStudents}, numTrains{numTrains}, numStops{numStops}, numCouriers{numCouriers},d{0},
     offset1{5}, offset2{offset1+numTrains}, offset3{offset2+numTrains}, offset4{offset3+numStops}, offset5{offset4+numStudents},
     total{offset5+numCouriers}, cnt{0}, written{new bool[total] {0}}, columns{new Item[total]}{
+    //print first line
     cout << "Parent" << '\t' << "Gropoff" << '\t' << "WATOff" << '\t' << "Names" << '\t' << "Timer" << '\t';
     for(unsigned int i=0; i<numTrains; ++i){
         cout << "Train" << i << '\t';
@@ -24,6 +25,8 @@ Printer::Printer( unsigned int numStudents, unsigned int numTrains, unsigned int
         cout << "WCour" << i << '\t';
     }
     cout << "WCour" << numCouriers-1 << '\n';
+
+    //print second line
     for(unsigned int i=0; i<total-1; ++i){
         cout << "*******" << '\t';
     }
@@ -34,7 +37,7 @@ Printer::~Printer(){
     if(cnt > 0){
         flushBuffer();
     }
-    cout << "***********************" << endl;
+    cout << "***********************" << endl; //flush io buffer
     delete written;
     delete columns;
 }
@@ -71,7 +74,7 @@ void Printer::flushBuffer(){
             printItem(columns[i]);
             --cnt;
             written[i] = false;
-            if(cnt == 0) {
+            if(cnt == 0) { //last item
                 cout << '\n';
                 break;
             } else {
@@ -93,7 +96,7 @@ unsigned int Printer::getOffset(Kind kind){
             return offset4;
         case Kind::WATCardOfficeCourier:
             return offset5;
-        case Kind::Timer:
+        case Kind::Timer: //if only one instance, return index
             return 4;
         case Kind::NameServer:
             return 3;
@@ -108,7 +111,7 @@ unsigned int Printer::getOffset(Kind kind){
     }
 }
 
-void Printer::insert(unsigned int index){
+void Printer::insert(unsigned int index){ //try to write to buffer
     if(written[index]){
         flushBuffer();
     }

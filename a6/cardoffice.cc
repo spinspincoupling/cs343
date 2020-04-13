@@ -19,7 +19,7 @@ WATCardOffice::Courier::~Courier(){
 void WATCardOffice::Courier::main(){
     for(;;){
             Job *w = office->requestWork();
-            if(w == nullptr) break;
+            if(w == nullptr) break; // invalid job, communicate termination
             prt.print(Printer::Kind::WATCardOfficeCourier, id, 't', w->sid, w->amount);
             bank.withdraw(w->sid, w->amount);
             WATCard *watcard = w->card == nullptr? new WATCard():w->card;
@@ -27,10 +27,10 @@ void WATCardOffice::Courier::main(){
             if(mprng(5) == 0){
                 prt.print(Printer::Kind::WATCardOfficeCourier, id, 'L', w->sid);
                 w->result.exception(new WATCardOffice::Lost());
-                delete watcard;
+                delete watcard; // if lost clean up heap allocated watcard
             } else {
                 prt.print(Printer::Kind::WATCardOfficeCourier, id, 'T', w->sid, w->amount);
-                w->result.delivery(watcard);
+                w->result.delivery(watcard); //user is responsible for the cleanup
             }
             delete w;
     }
@@ -58,7 +58,7 @@ WATCard::FWATCard WATCardOffice::transfer( unsigned int sid, unsigned int amount
 }
 
 WATCardOffice::Job * WATCardOffice::requestWork(){
-    if(workQueue.empty()) return nullptr;
+    if(workQueue.empty()) return nullptr; //indicating termination
     Job *w = workQueue.front();
     workQueue.pop_front();
     prt.print(Printer::Kind::WATCardOffice, 'W');
@@ -74,7 +74,7 @@ void WATCardOffice::main(){
     for(;;){
         _Accept(~WATCardOffice){
             workQueue.clear();
-            for (unsigned int i=0; i<numCouriers; ++i){ //wait for courier to terminate
+            for (unsigned int i=0; i<numCouriers; ++i){ //wait for couriers to terminate
                 _Accept(requestWork); 
             }
             for (unsigned int i=0; i<numCouriers; ++i){

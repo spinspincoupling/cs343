@@ -30,21 +30,21 @@ unsigned int Train::getId() const {
 TrainStop* Train::embark( unsigned int studentId, unsigned int destStop, WATCard& card ){
     prt.print(Printer::Kind::Train, id, 'E', studentId, destStop);
     ++numStudents;
-    ++counts[destStop];
+    ++counts[destStop]; //increase counter waiting for destStop
     for(;;){
         stops[destStop].wait();
-        if(current->getId() == destStop) break;
-        if(!card.paidForTicket()){
-            --numStudents;
-            --counts[destStop];
+        if(current->getId() == destStop) break; //wake up because of arrival
+        if(!card.paidForTicket()){ //wake up because of conductor
+            --numStudents; //removed from people in train
+            --counts[destStop]; 
             prt.print(Printer::Kind::Conductor, id, 'e', studentId);
-            uRendezvousAcceptor();
+            uRendezvousAcceptor(); //disable Rendezvous failure
             throw Ejected();
             break;
         }
     }
     --numStudents;
-    --counts[destStop];
+    --counts[destStop]; //get off the train
     card.resetPOP();
     return current;
 }
@@ -53,18 +53,18 @@ void Train::scanPassengers(){
     if(active){
         for(unsigned int i=0; i< numStops; ++i){
             for(int j=0; j<counts[i]; ++j){
-                stops[i].signalBlock();
+                stops[i].signalBlock(); //check ticket
             }
         }
     } else {
         uRendezvousAcceptor();
-        throw Ejected();
+        throw Ejected(); //indicate termination
     } 
 }
 
 void Train::main(){
     TrainStop** trainStops = nameServer.getStopList(id);
-    unsigned int adder, canTake;
+    unsigned int adder, canTake, release = 8;
     Direction dir;
     if(clockwise){
         adder = 1;
@@ -76,16 +76,16 @@ void Train::main(){
     for(;;){
         _Accept(~Train){
             active = false;
-            _Accept(scanPassengers){
+            _Accept(scanPassengers){ //let it throw exception
                 delete conductor;
             }
             break;
         }
-        or _Accept(embark){
+        or _Accept(embark){ 
         }
-        or _Accept(scanPassengers){
+        or _When(mprng(release) > 0) _Accept(scanPassengers){ //if conductor delay is too short, would have starvation, so set release
         }
-        _Else{
+        _Else{ //arrive
             current = trainStops[stopId];
             canTake = maxNumStudents-numStudents;
             prt.print(Printer::Kind::Train, id, 'A', stopId, canTake, numStudents);

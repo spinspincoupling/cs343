@@ -8,10 +8,10 @@ _Task Groupoff {
 	unsigned int numStudents;
 	unsigned int maxTripCost;
 	unsigned int groupoffDelay;
-	int counter;
+	int counter; // number of giftcard needs to be deliver
 	WATCard::FWATCard *futures;
-	WATCard** cards;
-	unsigned int *remaining;
+	WATCard** cards; //actual watcards
+	unsigned int *remaining; //indexes of unfilled futures
 
 	void main();
   public:

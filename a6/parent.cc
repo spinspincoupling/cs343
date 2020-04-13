@@ -21,9 +21,9 @@ void Parent::main(){
             break;
         }
         _Else{
-            student = mprng(numStudents-1);
-            amount =  maxTripCost*mprng(1, 3)/3;
-            amount = amount == 0? 1:amount;
+            student = mprng(numStudents-1); //randomize student
+            amount =  maxTripCost*mprng(1, 3)/3; //randomize amount
+            amount = amount == 0? 1:amount; //run up if less than 1
             yield(parentalDelay);
             prt.print(Printer::Kind::Parent, 'D', student, amount);
             bank.deposit(student, amount);

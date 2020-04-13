@@ -5,8 +5,8 @@ _Monitor Printer {
 	enum Kind { Parent, Groupoff, WATCardOffice, NameServer, Timer, Train, Conductor, TrainStop, Student, WATCardOfficeCourier };
 
   private:
-  	const unsigned int numStudents, numTrains, numStops, numCouriers, d;
-	const unsigned int offset1, offset2, offset3, offset4, offset5, total;
+  	const unsigned int numStudents, numTrains, numStops, numCouriers, d; // d for deafult value 0
+	const unsigned int offset1, offset2, offset3, offset4, offset5, total; //offsets for multi-instance type
     unsigned int cnt;					// number of filled buffer elements
     bool *written;
 

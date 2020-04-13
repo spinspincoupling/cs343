@@ -20,10 +20,10 @@ unsigned int TrainStop::getId() const {
 void TrainStop::buy( unsigned int numStops, WATCard & card ){
     unsigned int cost = stopCost*numStops;
     unsigned int balance = card.getBalance();
-    if(balance < cost){
-        uRendezvousAcceptor();
+    if(balance < cost){ //not enough fund
+        uRendezvousAcceptor(); //disable Rendezvous failure
         throw Funds(cost - balance);
-    } else {
+    } else { // debit the card
         card.withdraw(cost);
         card.markPaid();
         prt.print(Printer::Kind::TrainStop, id, 'B', cost);
@@ -33,10 +33,10 @@ void TrainStop::buy( unsigned int numStops, WATCard & card ){
 Train* TrainStop::wait( unsigned int studentId, Train::Direction direction ){
     if(direction == Train::Direction::Clockwise){
         prt.print(Printer::Kind::TrainStop, id, 'W', studentId, '<');
-        if(!train0.empty() && signalled0 < limit0) {
-            ++signalled0;  
-        } else {
-            ++wait0;
+        if(!train0.empty() && signalled0 < limit0) { //if the train blocked and have capacity
+            ++signalled0;  //increase number getting on train 0
+        } else { //need to wait
+            ++wait0; //increase number waiting for train 0
             clockwise.wait();
             --wait0;
         }
@@ -66,12 +66,12 @@ unsigned int TrainStop::arrive( unsigned int trainId, Train::Direction direction
     if(direction == Train::Direction::Clockwise){
         limit0 = maxNumStudents;
         prt.print(Printer::Kind::TrainStop, id, 'A', trainId, maxNumStudents, wait0);
-        signalled0 = maxNumStudents > wait0 ? wait0:maxNumStudents;
-        for(unsigned int i=0; i<signalled0; ++i){
+        signalled0 = maxNumStudents > wait0 ? wait0:maxNumStudents; //take min of waiting and capacity
+        for(unsigned int i=0; i<signalled0; ++i){ //wake up appropriate number of passengers
             clockwise.signal();
         }
         arrived0 = (Train*) &(uThisTask()); //should be caller instance
-        train0.wait();
+        train0.wait(); //make the train wait for tick
         return signalled0;
     } else {
         limit1 = maxNumStudents;
@@ -80,7 +80,7 @@ unsigned int TrainStop::arrive( unsigned int trainId, Train::Direction direction
         for(unsigned int i=0; i<signalled1; ++i){
             anticlockwise.signal();
         }
-        arrived1 = (Train*) &(uThisTask()); //should be caller instance
+        arrived1 = (Train*) &(uThisTask());
         train1.wait();
         return signalled1;
     }
@@ -92,15 +92,9 @@ void TrainStop::main(){
         _Accept(~TrainStop){
             break;
         }
-        or _Accept(buy){
+        or _Accept(buy, wait, disembark, arrive ){
         }
-        or _Accept(wait){
-        }
-        or _Accept(disembark){
-        }
-        or _Accept(arrive){ 
-        }
-        or _Accept(tick){
+        or _Accept(tick){ //wake trains
             if(!train0.empty()) train0.signalBlock();
             if(!train1.empty()) train1.signalBlock();
         }

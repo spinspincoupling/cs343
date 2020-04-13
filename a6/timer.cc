@@ -22,7 +22,7 @@ void Timer::main(){
         _Else {
             yield(timerDelay);
             prt.print(Printer::Kind::Timer, 't', counter);
-            for(unsigned int i=0; i<numStops; ++i){
+            for(unsigned int i=0; i<numStops; ++i){ //tick all stops
                 stops[i]->tick();
             }
             ++counter;

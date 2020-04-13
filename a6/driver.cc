@@ -36,11 +36,17 @@ int main( int argc, char * argv[] ) {
     } // try
     cout << "The seed is " << seed << endl;
     mprng.set_seed(seed);
-    const unsigned int numTrains = 2;
+
+    //read file
     ConfigParms config;
     processConfigFile(argc>1? argv[1]:defaultFile, config);
+
+    //initialize constants
     maxTripCost = config.stopCost * (config.numStops/2);
     conductorDelay = config.conductorDelay;
+    const unsigned int numTrains = 2;
+
+    //construct objects
     Printer printer(config.numStudents, numTrains, config.numStops, config.numCouriers);
     Bank bank(config.numStudents);
     WATCardOffice office(printer, bank, config.numCouriers);
@@ -60,16 +66,17 @@ int main( int argc, char * argv[] ) {
     for (unsigned int i=0; i<config.numStudents; ++i){
         students[i] = new Student(printer, nameServer, office, groupoff, i, config.numStops, config.stopCost, config.maxStudentDelay, config.maxStudentTrips);
     }
-    for(unsigned int i=0; i<config.numStudents; ++i){
+
+    for(unsigned int i=0; i<config.numStudents; ++i){ // wait for students to finish trip
         delete students[i];
     }
     for(unsigned int i=0; i<numTrains; ++i){
         delete trains[i];
     }
-    delete parent;
-    delete timer;
+    delete timer; // need to terminate before trainstop
     for (unsigned int i=0; i<config.numStops; ++i){
         delete stops[i];
     }
+    delete parent; //need to terminate before bank
 
 }
