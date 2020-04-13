@@ -53,6 +53,7 @@ void Train::scanPassengers(){
             }
         }
     } else {
+        uRendezvousAcceptor();
         throw Ejected();
     } 
 }
@@ -72,13 +73,12 @@ void Train::main(){
         try{
             _Accept(~Train){
                 active = false;
-                //try{
+                try{
                     _Accept(scanPassengers){
-                        uRendezvousAcceptor();
                         delete conductor;
                     }
-                //} catch (...){ //notify conductor
-                //} 
+                } catch (...){ //notify conductor
+                } 
                 break;
             }
             or _Accept(embark){
