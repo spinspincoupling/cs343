@@ -5,8 +5,8 @@
 class WATCard {
     friend class TrainStop;
     
-    class PImpl; // *** Replace these two lines with your own implementation.
-    PImpl * pimpl;
+    unsigned int balance;
+    bool hasPaid;
 
     WATCard( const WATCard & ) = delete;				// prevent copying
     WATCard & operator=( const WATCard & ) = delete;
