@@ -53,9 +53,8 @@ void Train::scanPassengers(){
             }
         }
     } else {
-        conductor->active = false;
-    }
-    
+        throw 1;
+    } 
 }
 
 void Train::main(){
@@ -73,9 +72,12 @@ void Train::main(){
         try{
             _Accept(~Train){
                 active = false;
-                _Accept(scanPassengers){
-                    delete conductor;
-                }
+                try{
+                    _Accept(scanPassengers){
+                        delete conductor;
+                    }
+                } catch (uMutexFailure::RendezvousFailure &){ //notify conductor
+                } 
                 break;
             }
             or _Accept(embark){

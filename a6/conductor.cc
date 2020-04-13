@@ -13,9 +13,12 @@ Conductor::~Conductor(){
 }
 
 void Conductor::main(){
-    while(active){
-        yield(delay);
-        prt.print(Printer::Kind::Conductor, id, 'c');
-        train->scanPassengers();
-    } 
+    try{
+        while(active){
+            yield(delay);
+            prt.print(Printer::Kind::Conductor, id, 'c');
+            train->scanPassengers();
+        } 
+    } catch (...){
+    }   
 }
