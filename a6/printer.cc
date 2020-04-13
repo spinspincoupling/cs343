@@ -42,25 +42,25 @@ Printer::~Printer(){
 void Printer::printItem(const Item& item){
     switch(item.type){
         case 0:
-            cout<< item.type;
+            cout<< item.state;
             break;
         case 1:
-            cout<< item.type << item.v1;
+            cout<< item.state << item.v1;
             break;
         case 2:
-            cout<< item.type << item.v1 << ',' << item.v2;
+            cout<< item.state << item.v1 << ',' << item.v2;
             break;
         case 3:
-            cout<< item.type << item.v1 << ',' << item.v2 << ',' << item.v3;
+            cout<< item.state << item.v1 << ',' << item.v2 << ',' << item.v3;
             break;
         case 4:
-            cout<< item.type << item.c;
+            cout<< item.state << item.c;
             break;
         case 5:
-            cout<< item.type << item.v1 << ',' << item.c;
+            cout<< item.state << item.v1 << ',' << item.c;
             break;
         case 6:
-            cout<< item.type << item.v1 << ',' << item.v2 << ',' << item.c; 
+            cout<< item.state << item.v1 << ',' << item.v2 << ',' << item.c; 
             break;
     }
 }
