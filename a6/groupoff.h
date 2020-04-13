@@ -2,7 +2,6 @@
 
 #include "watcard.h"
 #include "printer.h"
-#include <list>
 
 _Task Groupoff {
 	Printer & prt;
@@ -11,8 +10,8 @@ _Task Groupoff {
 	unsigned int groupoffDelay;
 	int counter;
 	WATCard::FWATCard *futures;
-	unsigned int *list;
-	WATCard** cards; 
+	WATCard** cards;
+	unsigned int *remaining;
 
 	void main();
   public:
