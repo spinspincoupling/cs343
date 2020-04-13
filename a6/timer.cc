@@ -4,7 +4,7 @@
 #include "trainstop.h"
 
 Timer::Timer( Printer & prt, NameServer & nameServer, unsigned int timerDelay )
-    :prt{prt}, nameSever{nameServer}, timerDelay{timerDelay} {
+    :prt{prt}, nameServer{nameServer}, timerDelay{timerDelay} {
     prt.print(Printer::Kind::Timer, 'S');
 }
 
@@ -13,7 +13,7 @@ Timer::~Timer(){
 }
 
 void Timer::main(){
-    unsigned int counter = 0, numStops = getNumStops();
+    unsigned int counter = 0, numStops = nameServer.getNumStops();
     TrainStop* stops[numStops] = nameServer.getStopList();
     for(;;){
         _Accept(~Timer){
