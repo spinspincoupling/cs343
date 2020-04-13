@@ -12,6 +12,7 @@ _Task Student {
     unsigned int stopCost;
     unsigned int maxStudentDelay;
     unsigned int maxStudentTrips;
+    unsigned int numTrips;
     void main();
   public:
     Student( Printer & prt, NameServer & nameServer, WATCardOffice & cardOffice, Groupoff & groupoff, 

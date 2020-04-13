@@ -11,13 +11,12 @@
 
 Student::Student( Printer & prt, NameServer & nameServer, WATCardOffice & cardOffice, Groupoff & groupoff, 
     unsigned int id, unsigned int numStops, unsigned int stopCost, unsigned int maxStudentDelay, unsigned int maxStudentTrips )
-    :prt{prt}, nameServer{nameServer}, cardOffice{cardOffice}, groupoff{groupoff}, id{id},
-    numStops{numStops}, stopCost{stopCost}, maxStudentDelay{maxStudentDelay}, maxStudentTrips{maxStudentTrips}{
+    :prt{prt}, nameServer{nameServer}, cardOffice{cardOffice}, groupoff{groupoff}, id{id}, numStops{numStops}, 
+    stopCost{stopCost}, maxStudentDelay{maxStudentDelay}, maxStudentTrips{maxStudentTrips}, numTrips{mprng(1, maxStudentTrips)} {
+    prt.print( Printer::Kind::Student, id, 'S', numTrips);
 }
 
 void Student::main(){
-    unsigned int numTrips = mprng(1, maxStudentTrips);
-    prt.print( Printer::Kind::Student, id, 'S', numTrips);
     unsigned int end = mprng(numStops-1), start, distance, cost;
     Train::Direction dir;
     bool buyTicket;
@@ -30,7 +29,6 @@ void Student::main(){
             yield(mprng(maxStudentDelay));
             start = end;
             end = (start + mprng(1,numStops-1))%numStops; 
-            //std::cout << "begin cycle" << '\n';
             if(start > end){
                 if(start - end < numStops-start+end){ // anti-clockwise
                     dir = Train::Direction::CounterClockwise;
@@ -74,11 +72,8 @@ void Student::main(){
                         break;
                     }
                 }catch (TrainStop::Funds &e){
-                    //std::cout << "enter not enough fund handler" << '\n';
-                    //watcard.reset();
                     watcard = cardOffice.transfer(id, maxTripCost+e.amount, cardUsing); //can throw
                 } catch (WATCardOffice::Lost &){
-                    //watcard.reset();
                     prt.print(Printer::Kind::Student, id, 'L');
                     watcard = cardOffice.create(id, maxTripCost);
                 } 
@@ -92,7 +87,6 @@ void Student::main(){
         }
     }
     catch (WATCardOffice::Lost &){
-        //watcard.reset();
         watcard = cardOffice.create(id, maxTripCost);
     }
     catch(Train::Ejected &){ //terminate
