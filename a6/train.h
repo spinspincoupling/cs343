@@ -15,6 +15,8 @@ _Task Train {
 	unsigned int numStops;
 	unsigned int numStudents;
 	bool active;
+	const bool clockwise;
+	unsigned int stopId;
 	uCondition *stops;
 	int *counts;
 	TrainStop *current;

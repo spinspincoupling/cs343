@@ -12,16 +12,6 @@ _Task Student {
     unsigned int stopCost;
     unsigned int maxStudentDelay;
     unsigned int maxStudentTrips;
-    //_Task CreateWatcard {
-    //  Printer &prt;
-    //  WATCardOffice &cardOffice;
-    //  uCondition avail;
-    //  Watcard* watcard;
-    //  void main();
-    //  public:
-    //  Watcard* getWatcard();
-    //  CreateWatcard(Printer & prt, WATCardOffice & cardOffice);
-    //}
     void main();
   public:
     Student( Printer & prt, NameServer & nameServer, WATCardOffice & cardOffice, Groupoff & groupoff, 
