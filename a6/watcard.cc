@@ -1,4 +1,5 @@
 #include "watcard.h"
+#include <iostream>
 
 WATCard::WATCard()
     :balance{0}, hasPaid{false} {
@@ -25,8 +26,10 @@ bool WATCard::paidForTicket(){
 
 void WATCard::resetPOP(){
     hasPaid = false;
+    std::cout << "reset" << '\n';
 }
 
 void WATCard::markPaid(){
     hasPaid = true;
+    std::cout << "mark paid" << '\n';
 }
