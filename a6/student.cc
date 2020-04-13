@@ -94,8 +94,8 @@ void Student::main(){
     }
     try{
         watcard();
-        delete watcard;
-    } catch(...){
+        delete watcard; //wait for watcard. if succeed, delete heap allocated watcard
+    } catch(...){ //in case lost
     }
     prt.print(Printer::Kind::Student, id, 'F'); //terminate
     

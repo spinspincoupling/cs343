@@ -5,8 +5,26 @@ _Monitor Printer {
 	enum Kind { Parent, Groupoff, WATCardOffice, NameServer, Timer, Train, Conductor, TrainStop, Student, WATCardOfficeCourier };
 
   private:
-  	class PImpl;
-  	PImpl * pimpl;
+  	const unsigned int numStudents, numTrains, numStops, numCouriers, d;
+	const unsigned int offset1, offset2, offset3, offset4, offset5, total;
+    unsigned int cnt;					// number of filled buffer elements
+    bool *written;
+
+    // Defines information that needs to be tracked.
+    struct Item { //minimize size
+	  unsigned int type;
+	  char state;
+	  unsigned int v1,v2;
+	  union {
+	    unsigned int v3;
+	    char c;
+	  };
+    } curr, *columns;
+
+	void printItem(const Item& item);
+	void flushBuffer();
+	unsigned int getOffset(Kind kind);
+	void insert(unsigned int index);
 
   public:
 	Printer( unsigned int numStudents, unsigned int numTrains, unsigned int numStops, unsigned int numCouriers );
