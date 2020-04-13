@@ -76,7 +76,7 @@ void Train::main(){
                     _Accept(scanPassengers){
                         delete conductor;
                     }
-                } catch (uMutexFailure::RendezvousFailure &){ //notify conductor
+                } catch (...){ //notify conductor
                 } 
                 break;
             }
