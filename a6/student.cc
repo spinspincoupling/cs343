@@ -57,7 +57,7 @@ void Student::main(){
             cost = distance*stopCost;
             for(;;){ //obtain watcard or giftcard
                 try{
-                    _Select(giftcard){ //giftcard over watcard
+                    _When(buyTicket) _Select(giftcard){ //giftcard over watcard
                         cardUsing = giftcard;
                         stop->buy(distance, *cardUsing);
                         prt.print(Printer::Kind::Student, id, 'G', cost, cardUsing->getBalance());
