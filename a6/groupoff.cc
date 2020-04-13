@@ -24,9 +24,9 @@ Groupoff::~Groupoff(){
         futures[i]();
     }*/
     delete[] list;
-    /*for(unsigned int i=0; i<numStudents; ++i){
-        futures[i].cancel();
-    }*/
+    for(unsigned int i=0; i<numStudents; ++i){
+        delete futures[i];
+    }
     delete[] futures;
     
 }
