@@ -3,7 +3,7 @@
 #include "MPRNG.h"
 #include "watcard.h"
 #include <algorithm>
-#include "iostream"
+#include <iostream>
 
 extern MPRNG mprng;
 
@@ -11,6 +11,11 @@ Groupoff::Groupoff(Printer & prt, unsigned int numStudents, unsigned int maxTrip
     :prt{prt}, numStudents{numStudents}, maxTripCost{maxTripCost}, groupoffDelay{groupoffDelay}, counter{-1} {
         prt.print(Printer::Kind::Groupoff, 'S');
         futures = new WATCard::FWATCard[numStudents];
+        list = new unsigned int[numStudents];
+        for (unsigned int i=0; i<numStudents; ++i){
+            list[i]=i;
+        }
+
 }
 
 
@@ -18,11 +23,12 @@ Groupoff::~Groupoff(){
     /*for(unsigned int i=0; i<numStudents; ++i){
         futures[i]();
     }*/
-    for(unsigned int i=0; i<numStudents; ++i){
+    delete[] list;
+    /*for(unsigned int i=0; i<numStudents; ++i){
         futures[i].cancel();
-    }
+    }*/
     delete[] futures;
-    prt.print(Printer::Kind::Groupoff, 'F');
+    
 }
 
 WATCard::FWATCard Groupoff::giftCard(){
@@ -44,10 +50,11 @@ void Groupoff::main(){
             WATCard* card = new WATCard();
             card->deposit(maxTripCost);
             lucky = mprng(counter); //random select
-            std::swap(futures[lucky], futures[counter]); //cannot because copy!!
-            futures[counter].delivery(card);
+            std::swap(list[lucky], list[counter]); //cannot because copy!!
+            futures[list[counter]].delivery(card);
             prt.print(Printer::Kind::Groupoff, 'D', maxTripCost);
             --counter;
         }
     }
+    prt.print(Printer::Kind::Groupoff, 'F');
 }

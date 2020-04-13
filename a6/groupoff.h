@@ -11,6 +11,7 @@ _Task Groupoff {
 	unsigned int groupoffDelay;
 	int counter;
 	WATCard::FWATCard *futures;
+	unsigned int *list;
 
 	void main();
   public:
