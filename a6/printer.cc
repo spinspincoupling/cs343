@@ -24,7 +24,7 @@ Printer::Printer( unsigned int numStudents, unsigned int numTrains, unsigned int
         cout << "WCour" << i << '\t';
     }
     cout << "WCour" << numCouriers-1 << '\n';
-    for(unsigned int =0; i<total-1; ++i){
+    for(unsigned int i=0; i<total-1; ++i){
         cout << "*******" << '\t';
     }
     cout << "*******" << '\n';
@@ -102,6 +102,8 @@ unsigned int Printer::getOffset(Kind kind){
         case Kind::Groupoff:
             return 1;
         case Kind::Parent:
+            return 0;
+        default:
             return 0;
     }
 }
