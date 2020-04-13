@@ -12,21 +12,22 @@ Groupoff::Groupoff(Printer & prt, unsigned int numStudents, unsigned int maxTrip
         prt.print(Printer::Kind::Groupoff, 'S');
         futures = new WATCard::FWATCard[numStudents];
         list = new unsigned int[numStudents];
+        cards = new WATCard*[numStudents];
         for (unsigned int i=0; i<numStudents; ++i){
             list[i]=i;
+            cards[i] = new WATCard();
         }
-
 }
 
 
 Groupoff::~Groupoff(){
     delete[] list;
-    for(unsigned int i=0; i<numStudents; ++i){
+    /*for(unsigned int i=0; i<numStudents; ++i){
         if(!futures[i].available()) futures[i].delivery(new WATCard());
     }
     for(unsigned int i=0; i<numStudents; ++i){
         delete futures[i];
-    }
+    }*/
     delete[] futures;
     
 }
@@ -47,11 +48,10 @@ void Groupoff::main(){
         }
         _Else{
             yield(groupoffDelay);
-            WATCard* card = new WATCard();
-            card->deposit(maxTripCost);
+            cards[counter]->deposit(maxTripCost);
             lucky = mprng(counter); //random select
-            std::swap(list[lucky], list[counter]); //cannot because copy!!
-            futures[list[counter]].delivery(card);
+            std::swap(list[lucky], list[counter]);
+            futures[list[counter]].delivery(cards[counter]);
             prt.print(Printer::Kind::Groupoff, 'D', maxTripCost);
             --counter;
         }

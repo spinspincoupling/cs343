@@ -12,6 +12,7 @@ _Task Groupoff {
 	int counter;
 	WATCard::FWATCard *futures;
 	unsigned int *list;
+	WATCard** cards; 
 
 	void main();
   public:
