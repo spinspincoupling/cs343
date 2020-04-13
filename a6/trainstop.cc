@@ -6,7 +6,9 @@
 #include <iostream>
 
 TrainStop::TrainStop( Printer & prt, NameServer & nameServer, unsigned int id, unsigned int stopCost )
-    :prt{prt}, nameServer{nameServer}, id{id}, stopCost{stopCost}, wait0{0}, wait1{0} {}
+    :prt{prt}, nameServer{nameServer}, id{id}, stopCost{stopCost}, wait0{0}, wait1{0} {
+        prt.print(Printer::Kind::TrainStop, id, 'S');
+    }
 
 TrainStop::~TrainStop(){
     prt.print(Printer::Kind::TrainStop, id, 'F');
@@ -87,7 +89,6 @@ unsigned int TrainStop::arrive( unsigned int trainId, Train::Direction direction
 }
 
 void TrainStop::main(){
-    prt.print(Printer::Kind::TrainStop, id, 'S');
     nameServer.registerStop(id);
     for(;;) {
         try{
