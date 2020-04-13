@@ -3,8 +3,9 @@
 #include "global.h"
 
 _Task Timer {
-	class PImpl;
-	PImpl * pimpl;
+	Printer & prt;
+	NameServer & nameServer;
+  unsigned int timerDelay;
 
     void main();
   public:
