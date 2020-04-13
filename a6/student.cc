@@ -98,13 +98,10 @@ void Student::main(){
     catch(Train::Ejected &){ //terminate
         prt.print(Printer::Kind::Student, id, 'e');
     }
-    if(watcard.available()) delete watcard;
-    else {
-        try{
-            watcard();
-            delete watcard;
-        } catch(...){
-        }
+    try{
+        watcard();
+        delete watcard;
+    } catch(...){
     }
     prt.print(Printer::Kind::Student, id, 'F'); //terminate
     
