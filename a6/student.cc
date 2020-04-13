@@ -99,6 +99,12 @@ void Student::main(){
         prt.print(Printer::Kind::Student, id, 'e');
     }
     if(watcard.available()) delete watcard;
+    else {
+        try{
+            watcard();
+        } catch(...){
+        }
+    }
     prt.print(Printer::Kind::Student, id, 'F'); //terminate
     
 }
