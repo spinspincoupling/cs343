@@ -8,7 +8,7 @@
 #include <iostream>
 
 Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned int maxNumStudents, unsigned int numStops )
-    :prt{prt}, nameServer{nameServer}, id{id}, maxNumStudents{maxNumStudents}, numStops{numStops}, numStudents{0}, active{true}{
+    :prt{prt}, nameServer{nameServer}, id{id}, maxNumStudents{maxNumStudents}, numStops{numStops}, numStudents{0}, active{true} {
         stops = new uCondition[numStops];
         counts = new int[numStops] {0};
         conductor = new Conductor(prt, id, this, conductorDelay);
@@ -65,11 +65,9 @@ void Train::main(){
     unsigned int adder, canTake;
     Direction dir;
     if(clockwise){
-        current = trainStops[0];
         adder = 1;
         dir = Direction::Clockwise;
     } else {
-        current = trainStops[stopId];
         adder = numStops-1;
         dir = Direction::CounterClockwise;
     }
@@ -87,6 +85,7 @@ void Train::main(){
             or _Accept(scanPassengers){
             }
             _Else{
+                current = trainStops[stopId];
                 canTake = maxNumStudents-numStudents;
                 prt.print(Printer::Kind::Train, id, 'A', stopId, canTake, numStudents);
                 current->arrive(id, dir, canTake);
@@ -94,7 +93,6 @@ void Train::main(){
                     stops[stopId].signalBlock();
                 }
                 stopId = (stopId+adder)%numStops;
-                current = trainStops[stopId];
             }
         }catch (uMutexFailure::RendezvousFailure &){ // in case throw ejected
         }
