@@ -35,6 +35,8 @@ TrainStop* Train::embark( unsigned int studentId, unsigned int destStop, WATCard
         stops[destStop].wait();
         if(current->getId() == destStop) break;
         if(!card.paidForTicket()){
+            --numStudents;
+            --counts[destStop];
             prt.print(Printer::Kind::Conductor, id, 'e', studentId);
             uRendezvousAcceptor();
             throw Ejected();
