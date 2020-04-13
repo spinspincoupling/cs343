@@ -53,7 +53,7 @@ void Train::scanPassengers(){
             }
         }
     } else {
-        ((Conductor*) &uThisTask())->active = false;
+        conductor->active = false;
     }
     
 }

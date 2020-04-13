@@ -4,6 +4,7 @@
 _Task Train;
 
 _Task Conductor {
+	friend _Task Train;
 	Printer & prt;
 	unsigned int id;
 	Train * train;
