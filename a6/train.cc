@@ -11,7 +11,6 @@ Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned 
     :prt{prt}, nameServer{nameServer}, id{id}, maxNumStudents{maxNumStudents}, numStops{numStops}, numStudents{0}, 
     active{true}, clockwise{id==0}, stopId{clockwise? 0:(numStops+1)/2} {
         conductor = new Conductor(prt, id, this, conductorDelay);
-        //stopId = clockwise? 0:(numStops+1)/2;
         prt.print(Printer::Kind::Train, id, 'S', stopId, clockwise? '<':'>');
         stops = new uCondition[numStops];
         counts = new int[numStops] {0};
@@ -20,7 +19,6 @@ Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned 
 Train::~Train(){
     delete[] stops;
     delete[] counts;
-    //delete conductor;
     prt.print(Printer::Kind::Train, id, 'F');
 }
 
@@ -55,7 +53,7 @@ void Train::scanPassengers(){
             }
         }
     } else {
-        conductor->active = false;
+        ((Conductor) uBaseTask()).active = false;
     }
     
 }
