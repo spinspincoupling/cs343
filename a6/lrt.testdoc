@@ -113,63 +113,11 @@ FUNCTIONAL TESTS
 +------------+------------------------------------------------------------------------------------------------------
 | 6          | seed given, one student with multiple stops to test whether the route is calculated correctly
 +------------+------------------------------------------------------------------------------------------------------
-| INPUT: ./vote 3 1 1 3 2
-+-------------------+-----------------------------------------------------------------------
-CONFIG:             |   Parent	Gropoff	WATOff	Names	Timer	Train0	Train1	Cond0	Cond1	Stop0	Stop1	Stop2	Stop3	Stop4	Stop5	Stud0	WCour0
-StopCost		1   |   *******	*******	*******	*******	*******	*******	*******	*******	*******	*******	*******	*******	*******	*******	*******	*******	*******
-NumStudents		2   |   S	S	S	S	S	S0,<	S3,>	S	S	S	S	S	S	S	S	S2	S
-NumStops		6   |   		C0,3	R0
-MaxNumStudents 	5   |   		W	R1													t0,3
-TimerDelay 		2   |   D0,1			R2				c	c							T1,2,<
-MaxStudentDelay	10  |   			R3
-MaxStudentTrips 3   |   D0,3			R4
-GroupoffDelay	10  |   	D3		R5													T0,3
-ConductorDelay	5   |   	F		T0,1							B1					G1,2
-ParentalDelay	5   |   D0,2			L0							W0,<					W1
-NumCouriers		1   |   D0,1			L1		A0,2,0	A3,2,0			A0,2,0			A1,2,0
-                    |   			L	t0			c	c	t	t	t	t	t	t
-                    |   D0,2				t1	A1,2,0	A2,2,0			t	t	t	t	t	t
-                    |   D0,2				t2			c	c	t	A0,2,1	A1,2,0				E0
-                    |   D0,2				t3	E0,2				t	t	t	t	t	t
-                    |   						A1,2,0				t	t	t	t	t
-                    |   				t4					t	A1,2,0
-                    |   D0,3					A2,1,1			c		t	t	t	t	t
-                    |   				t5					t	t	A0,1,0
-                    |   D0,3				t6		A0,2,0	c		A1,2,0		t	t	t	t
-                    |   						A5,2,0		c	t	t	t	t	t	t
-                    |   D0,2				t7	A3,2,0				t	t	D0	A0,2,0		A1,2,0	D2
-                    |   			T0,2								t	t	t	t	T2,0,>
-                    |   											B2				B2,1
-                    |   D0,1				t8	A4,2,0	A4,2,0	c		t	t	W0,>		A0,2,0		W2
-                    |   											t	t	A1,2,0
-                    |   D0,1				t9	A5,2,0			c	t	t	t	t	t	t
-                    |   													t	A0,2,0
-                    |   D0,1				t10	A0,2,0	A3,2,0	c		A0,2,0			A1,2,0		t
-                    |   D0,3				t11				c	t	t	t	t	t	t
-                    |   					A1,2,0	A2,2,0			t	t	t	t	t	t
-                    |   D0,2				t12					t	A0,2,0	A1,2,1				E1
-                    |   				t13			c	c	t	t	t	t	t	t
-                    |   D0,1					A2,2,0	E0,0				t	A0,2,0
-                    |   D0,3				t14		A1,1,1	c		t	t	t	t	t	t
-                    |   					A3,2,0					A1,1,0	t	t	t	t
-                    |   D0,3				t15				c	t	t	t	A0,2,0
-                    |   				t16			c		t	t	t	t	t	t
-                    |   D0,2					A4,2,0	A0,1,1			A1,1,0			t	t	t
-                    |   				t17					t	t	t	t	A0,2,0
-                    |   							c	c	D0				t	t	D0
-                    |   D0,3				t18		A5,2,0			t	t	t	t	t	t	F
-                    |   D0,3				t19					t	t	t	t	t	A1,2,0
-                    |   							c	c						t
-                    |   D0,3				t20	F		F		t	t	t	t	t	t
-                    |   				t21					t	t	t	t	t	t
-                    |   				t22				c	t	t	t	t	t	t
-                    |   D0,2				t23		F		F	t	t	t	t	t	t
-                    |   D0,2				t24					t	t	t	t	t	t
-                    |   D0,2				F					F	F	F	F
-                    |   D0,2													F	F
-                    |   D0,2
-                    |   F		F	F													F
-                    |   ***********************
+| INPUT: ./lrt lrt.config 32467
++-------------------+---------------------------------------------------------------------------------
+| CONFIG:               |   StopCost	    1   |   NumStudents	    2   |   NumStops        6   |
+|   MaxNumStudents 	5   |   TimerDelay 		2   |   MaxStudentDelay	10  |   MaxStudentTrips 3   |
+|   GroupoffDelay	10  |   ConductorDelay	5   |   ParentalDelay	5   |   NumCouriers		1   |
 +------------+------------+----------------------------------------------------------------------------
 | 10         | General    | test 7 voters group size 4, vote 1, would have quorum failure 
 |            |            | and need to wake more than 1 blocked tasks and some terminates immediately 
