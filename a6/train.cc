@@ -35,6 +35,7 @@ TrainStop* Train::embark( unsigned int studentId, unsigned int destStop, WATCard
         if(current->getId() == destStop) break;
         if(!card.paidForTicket()){
             prt.print(Printer::Kind::Conductor, id, 'e', studentId);
+            uRendezvousAcceptor();
             throw Ejected();
             break;
         }
@@ -70,15 +71,12 @@ void Train::main(){
         dir = Direction::CounterClockwise;
     }
     for(;;){
-        try{
+        //try{
             _Accept(~Train){
                 active = false;
-                //try{
-                    _Accept(scanPassengers){
-                        delete conductor;
-                    }
-                //} catch (uMutexFailure::RendezvousFailure &){ //notify conductor
-                //} 
+                _Accept(scanPassengers){
+                    delete conductor;
+                }
                 break;
             }
             or _Accept(embark){
@@ -95,8 +93,8 @@ void Train::main(){
                 }
                 stopId = (stopId+adder)%numStops;
             }
-        }catch (uMutexFailure::RendezvousFailure &){ // in case throw ejected
-        }
+        //}catch (uMutexFailure::RendezvousFailure &){ // in case throw ejected
+        //}
         
     }
 }
