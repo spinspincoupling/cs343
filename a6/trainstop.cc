@@ -3,7 +3,6 @@
 #include "printer.h"
 #include "nameserver.h"
 #include "watcard.h"
-#include <iostream>
 
 TrainStop::TrainStop( Printer & prt, NameServer & nameServer, unsigned int id, unsigned int stopCost )
     :prt{prt}, nameServer{nameServer}, id{id}, stopCost{stopCost}, wait0{0}, wait1{0} {

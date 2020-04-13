@@ -7,7 +7,6 @@
 #include "MPRNG.h"
 #include "trainstop.h"
 #include <uFuture.h>
-#include <iostream>
 
 Student::Student( Printer & prt, NameServer & nameServer, WATCardOffice & cardOffice, Groupoff & groupoff, 
     unsigned int id, unsigned int numStops, unsigned int stopCost, unsigned int maxStudentDelay, unsigned int maxStudentTrips )

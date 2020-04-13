@@ -36,6 +36,7 @@ int main( int argc, char * argv[] ) {
     } // try
     cout << "The seed is " << seed << endl;
     mprng.set_seed(seed);
+    const unsigned int numTrains = 2;
     ConfigParms config;
     processConfigFile(argc>1? argv[1]:defaultFile, config);
     maxTripCost = config.stopCost * (config.numStops/2);

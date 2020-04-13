@@ -3,7 +3,6 @@
 #include "MPRNG.h"
 #include "watcard.h"
 #include <algorithm>
-#include <iostream>
 
 extern MPRNG mprng;
 

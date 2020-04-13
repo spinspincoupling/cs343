@@ -2,11 +2,10 @@
 #include "printer.h"
 #include "watcard.h"
 #include "bank.h"
-#include "global.h"
 #include "MPRNG.h"
 #include <uFuture.h>
-#include <iostream>
-#include <cstring>
+
+extern MPRNG mprng;	
 
 WATCardOffice::Courier::Courier(Printer &prt, Bank &bank, WATCardOffice *office, unsigned int id)
     :prt{prt}, bank{bank}, office{office}, id{id} {

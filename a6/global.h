@@ -18,9 +18,7 @@ _Monitor Printer;
 _Monitor Bank;
 _Monitor MPRNG;
 extern MPRNG mprng;					// random-number generator
-const unsigned int numTrains = 2;
 extern unsigned int maxTripCost;
-extern unsigned int conductorDelay;
 
 
 // Local Variables: //

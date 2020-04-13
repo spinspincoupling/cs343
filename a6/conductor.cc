@@ -1,7 +1,6 @@
 #include "conductor.h"
 #include "train.h"
 #include "printer.h"
-#include <iostream>
 
 Conductor::Conductor( Printer & prt, unsigned int id, Train * train, unsigned int delay )
     :prt{prt}, id{id}, train{train}, delay{delay}, active{active} {
