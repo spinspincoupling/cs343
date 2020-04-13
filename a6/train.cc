@@ -40,6 +40,7 @@ TrainStop* Train::embark( unsigned int studentId, unsigned int destStop, WATCard
     }
     --numStudents;
     --counts[destStop];
+    card.resetPOP();
     return current;
 }
 

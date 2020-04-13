@@ -24,6 +24,7 @@ void TrainStop::buy( unsigned int numStops, WATCard & card ){
         throw Funds(cost - balance);
     } else {
         card.withdraw(cost);
+        card.markPaid();
         prt.print(Printer::Kind::TrainStop, id, 'B', cost);
     }
     //uRendezvousAcceptor();
