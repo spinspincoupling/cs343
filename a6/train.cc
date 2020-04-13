@@ -12,7 +12,7 @@ Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned 
         conductor = new Conductor(prt, id, this, conductorDelay);
         prt.print(Printer::Kind::Train, id, 'S', stopId, clockwise? '<':'>');
         stops = new uCondition[numStops];
-        counts = new int[numStops] {0};
+        counts = new unsigned int[numStops] {0};
 }
 	
 Train::~Train(){
@@ -51,7 +51,7 @@ void Train::scanPassengers(){
     if(active){
         for(unsigned int i=0; i< numStops; ++i){
             unsigned int p = counts[i];
-            for(int j=0; j<p; ++j){
+            for(unsigned int j=0; j<p; ++j){
                 stops[i].signalBlock(); //check ticket
             }
         }

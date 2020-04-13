@@ -16,10 +16,10 @@ _Task Train {
 	unsigned int numStudents;
 	bool active;
 	const bool clockwise;
-	unsigned int stopId;
+	unsigned int stopId; //next stop
 	uCondition *stops;
-	int *counts;
-	TrainStop *current;
+	unsigned int *counts; // number of ppl blocked for each stop
+	TrainStop *current; //last stop visited
 	Conductor *conductor;
 
 	void main();
