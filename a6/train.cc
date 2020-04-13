@@ -9,7 +9,7 @@
 
 Train::Train( Printer & prt, NameServer & nameServer, unsigned int id, unsigned int maxNumStudents, unsigned int numStops )
     :prt{prt}, nameServer{nameServer}, id{id}, maxNumStudents{maxNumStudents}, numStops{numStops}, numStudents{0}, 
-    active{true}, clockwise{id==0?}, stopId{clockwise? 0:(numStops+1)/2} {
+    active{true}, clockwise{id==0}, stopId{clockwise? 0:(numStops+1)/2} {
         conductor = new Conductor(prt, id, this, conductorDelay);
         //stopId = clockwise? 0:(numStops+1)/2;
         prt.print(Printer::Kind::Train, id, 'S', stopId, clockwise? '<':'>');
