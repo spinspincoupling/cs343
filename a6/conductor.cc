@@ -19,6 +19,6 @@ void Conductor::main(){
             prt.print(Printer::Kind::Conductor, id, 'c');
             train->scanPassengers();
         } 
-    } catch (...){
+    } catch (Train::Ejected &){
     }   
 }
