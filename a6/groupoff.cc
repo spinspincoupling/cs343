@@ -22,7 +22,7 @@ Groupoff::Groupoff(Printer & prt, unsigned int numStudents, unsigned int maxTrip
 Groupoff::~Groupoff(){
     delete[] list;
     for(unsigned int i=0; i<numStudents; ++i){
-        if(!futures[i].available()) futures[i].delivery(nullptr);
+        if(!futures[i].available()) futures[i].delivery(new WATCard());
     }
     for(unsigned int i=0; i<numStudents; ++i){
         delete futures[i];
