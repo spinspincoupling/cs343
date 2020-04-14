@@ -5,7 +5,6 @@ MAKEFLAGS = --no-print-directory
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 
 OBJECTS = watcard.o printer.o timer.o nameserver.o trainstop.o train.o conductor.o student.o global.o parent.o groupoff.o cardoffice.o bank.o config.o driver.o
-CLEANOBJECTS = watcard.o printer.o timer.o nameserver.o trainstop.o train.o conductor.o student.o global.o parent.o groupoff.o cardoffice.o bank.o config.o driver.o
 EXEC = lrt
 
 DEPENDS = ${OBJECTS:.o=.d}			# substitute ".o" with ".d"
@@ -21,7 +20,7 @@ ${OBJECTS} : ${MAKEFILE_NAME}			# OPTIONAL : changes to this file => recompile
 -include ${DEPENDS}
 
 clean :						# remove files that can be regenerated
-	rm -f ${DEPENDS} ${CLEANOBJECTS} ${EXEC} ${EXEC}.out
+	rm -f ${DEPENDS} ${OBJECTS} ${EXEC} ${EXEC}.out
 
 test :
 	${MAKE} ${EXEC}
