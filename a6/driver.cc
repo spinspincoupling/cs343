@@ -34,7 +34,7 @@ int main( int argc, char * argv[] ) {
         cerr << "Usage: " << argv[0] << " [ config-file [ Seed > 0] ]" << endl;
         exit( EXIT_FAILURE );
     } // try
-    cout << "The seed is " << seed << endl;
+    //cout << "The seed is " << seed << endl;
     mprng.set_seed(seed);
 
     //read file
