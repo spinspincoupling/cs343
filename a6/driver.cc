@@ -21,7 +21,7 @@ unsigned int maxTripCost;
 unsigned int conductorDelay;
 
 int main( int argc, char * argv[] ) {
-    unsigned int seed = getpid();
+    int seed = getpid();
     char defaultFile[] = "lrt.config";
     try {        
         if(argc > 3) throw 1;                               // process command-line arguments
