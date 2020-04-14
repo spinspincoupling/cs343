@@ -119,10 +119,11 @@ FUNCTIONAL TESTS
 +---+--------------------------------------------------------------------------------------------
 | 7 | seed given;  direction: 0->1 clockwise, 2->1 anticlockwise, 1->3 equal choose clockwise
 |   | purchase: free, use giftcard, use watcard ; lost: multiple lost in create
+|   | each stops registered, each train calls nameserver for list of stops
 +---+--------------------------------------------------------------------------------------------
 |   INPUT: ./lrt lrt.config 159757
 +-----------------------------------------------------------------------------------------------------------+
-|   CONFIG:	 		|	StopCost	1   |   NumStudents	2   |   NumStops        4   |
+|   CONFIG:	 		|	StopCost	2   |   NumStudents	2   |   NumStops        4   |
 |   MaxNumStudents	5	|	TimerDelay	2   |   MaxStudentDelay	10  |   MaxStudentTrips 3   |
 |   GroupoffDelay	10	|	ConductorDelay	5   |   ParentalDelay	5   |   NumCouriers	1   |
 +-----------------------------------------------------------------------------------------------------------+-------------------------
