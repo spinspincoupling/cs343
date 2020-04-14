@@ -17,9 +17,6 @@
 #include "config.h"
 using namespace std;
 
-unsigned int maxTripCost;
-unsigned int conductorDelay;
-
 int main( int argc, char * argv[] ) {
     int seed = getpid();
     char defaultFile[] = "lrt.config";
